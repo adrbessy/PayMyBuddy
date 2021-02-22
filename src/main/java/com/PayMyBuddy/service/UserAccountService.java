@@ -2,11 +2,14 @@ package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.UserAccount;
 
-public class UserAccountService {
+public interface UserAccountService {
 
-  public static UserAccount saveUserAccount(UserAccount userAccount) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  /**
+   * Save a UserAccount
+   * 
+   * @param userAccount A UserAccount to save
+   * @return the saved userAccount
+   */
+  public UserAccount saveUserAccount(UserAccount userAccount);
 
 }

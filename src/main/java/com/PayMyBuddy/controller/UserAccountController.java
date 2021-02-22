@@ -4,6 +4,7 @@ import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.service.UserAccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserAccountController {
 
   private static final Logger logger = LogManager.getLogger(UserAccountController.class);
+
+  @Autowired
+  private UserAccountService userAccountService;
 
   /**
    * Add a new user account
@@ -23,7 +27,7 @@ public class UserAccountController {
   public UserAccount createPerson(@RequestBody UserAccount userAccount) {
     UserAccount newUserAccount = null;
     try {
-      newUserAccount = UserAccountService.saveUserAccount(userAccount);
+      newUserAccount = userAccountService.saveUserAccount(userAccount);
       logger.info(
           "response following the Post on the endpoint 'userAccount' with the given userAccount : {"
               + userAccount.toString() + "}");

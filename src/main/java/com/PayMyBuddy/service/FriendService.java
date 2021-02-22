@@ -2,11 +2,14 @@ package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Friend;
 
-public class FriendService {
+public interface FriendService {
 
-  public static Friend saveFriend(Friend friend) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  /**
+   * Save a friend relationship
+   * 
+   * @param friend A friend relationship to save
+   * @return the saved friend relationship
+   */
+  public Friend saveFriend(Friend friend);
 
 }
