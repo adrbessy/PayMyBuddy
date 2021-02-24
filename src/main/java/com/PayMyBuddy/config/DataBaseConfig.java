@@ -22,7 +22,7 @@ public class DataBaseConfig {
     String port = rb.getString("port");
     System.out.println("");
     logger.info("Create DB connection");
-    Class.forName("com.postgresql.Driver");
+    Class.forName("org.postgresql.Driver");
     return DriverManager.getConnection(
         "jdbc:postgresql://localhost:" + port + "/prod", user, pass);
   }
