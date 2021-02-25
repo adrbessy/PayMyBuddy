@@ -21,7 +21,7 @@ public class UserAccountController {
   /**
    * Read - Get all user accounts
    * 
-   * @return - An Iterable object of Employee full filled
+   * @return - An Iterable object of userAccounts full filled
    */
   @GetMapping("/userAccounts")
   public Iterable<UserAccount> getUserAccounts() {

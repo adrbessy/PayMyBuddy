@@ -15,6 +15,12 @@ public class FriendServiceImpl implements FriendService {
   @Autowired
   private FriendRepository friendRepository;
 
+  /**
+   * Save a friend relationship
+   * 
+   * @param friend A friend relationship to save
+   * @return the saved friend relationship
+   */
   @Override
   public Friend saveFriend(Friend friend) {
     logger.debug("in the method saveFriend in the class FriendServiceImpl");
@@ -25,6 +31,16 @@ public class FriendServiceImpl implements FriendService {
       logger.error("Error when we try to save a friend relationship :" + exception.getMessage());
     }
     return savedFriend;
+  }
+
+  /**
+   * Get all friend relationships
+   * 
+   * @return all friend relationships
+   */
+  @Override
+  public Iterable<Friend> getFriends() {
+    return friendRepository.findAll();
   }
 
 }

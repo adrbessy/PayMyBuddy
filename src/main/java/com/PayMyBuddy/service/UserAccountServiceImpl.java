@@ -15,6 +15,12 @@ public class UserAccountServiceImpl implements UserAccountService {
   @Autowired
   private UserAccountRepository userAccountRepository;
 
+  /**
+   * Save a UserAccount
+   * 
+   * @param userAccount A UserAccount to save
+   * @return the saved userAccount
+   */
   @Override
   public UserAccount saveUserAccount(UserAccount userAccount) {
     logger.debug("in the method saveUserAccount in the class UserAccountServiceImpl");
@@ -27,6 +33,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     return savedUserAccount;
   }
 
+  /**
+   * Get all user accounts
+   * 
+   * @return all user accounts
+   */
   @Override
   public Iterable<UserAccount> getUserAccounts() {
     return userAccountRepository.findAll();

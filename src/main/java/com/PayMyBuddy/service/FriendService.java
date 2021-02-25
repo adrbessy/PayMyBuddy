@@ -12,4 +12,11 @@ public interface FriendService {
    */
   public Friend saveFriend(Friend friend);
 
+  /**
+   * Get all friend relationships
+   * 
+   * @return all friend relationships
+   */
+  public Iterable<Friend> getFriends();
+
 }

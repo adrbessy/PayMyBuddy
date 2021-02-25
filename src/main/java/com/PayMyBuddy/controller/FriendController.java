@@ -5,6 +5,7 @@ import com.PayMyBuddy.service.FriendService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,16 @@ public class FriendController {
 
   @Autowired
   private FriendService friendService;
+
+  /**
+   * Read - Get all friend relationships
+   * 
+   * @return - An Iterable object of friend raltionships full filled
+   */
+  @GetMapping("/friends")
+  public Iterable<Friend> getFriends() {
+    return friendService.getFriends();
+  }
 
   /**
    * Add a new friend relationship
