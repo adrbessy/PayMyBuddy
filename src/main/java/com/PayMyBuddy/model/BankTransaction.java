@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "banktransaction")
+@Table(name = "bank_transaction")
 public class BankTransaction extends Transaction {
 
   public String iban;

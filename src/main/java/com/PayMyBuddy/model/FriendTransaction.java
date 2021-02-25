@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "friendtransaction")
+@Table(name = "friend_transaction")
 public class FriendTransaction extends Transaction {
 
   public String emailAddress;

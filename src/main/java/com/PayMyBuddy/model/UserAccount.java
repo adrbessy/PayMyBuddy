@@ -1,7 +1,5 @@
 package com.PayMyBuddy.model;
 
-import java.util.List;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,13 +9,13 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "useraccount")
+@Table(name = "user_account")
 public class UserAccount {
 
   private static final Logger logger = LogManager.getLogger(UserAccount.class);
 
   @Id
-  private String emailaddress;
+  private String emailAddress;
 
   private String password;
 
@@ -26,8 +24,7 @@ public class UserAccount {
   private String name;
 
   private double amount;
-
-  @ElementCollection
-  private List<String> bankAccount;
-
+  /*
+   * @ElementCollection private List<String> bankAccount;
+   */
 }

@@ -27,4 +27,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     return savedUserAccount;
   }
 
+  @Override
+  public Iterable<UserAccount> getUserAccounts() {
+    return userAccountRepository.findAll();
+  }
+
 }

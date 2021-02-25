@@ -12,4 +12,11 @@ public interface UserAccountService {
    */
   public UserAccount saveUserAccount(UserAccount userAccount);
 
+  /**
+   * Get all user accounts
+   * 
+   * @return all user accounts
+   */
+  public Iterable<UserAccount> getUserAccounts();
+
 }
