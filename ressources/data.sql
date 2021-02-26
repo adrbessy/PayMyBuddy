@@ -146,7 +146,7 @@ VALUES
 INSERT INTO public.bank_account
 (iban, email_address) 
 VALUES 
-(1000, 'adrien@mail.fr')
+('NL06ABNA1869773616', 'adrien@mail.fr')
 ;
 
 

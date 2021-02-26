@@ -50,7 +50,6 @@ http://localhost:9003/userAccount
 http://localhost:9003/friend
 
 
-
 ### Testing
 The app has unit tests written.
 
@@ -60,4 +59,8 @@ mvn test
 
 
 ### UML class diagram
-![Alt text](ressources/class_diagram.png?raw=true "diagramme de classe UML de PayMyBuddy")
+![Alt text](ressources/class_diagram.png?raw=true "UML class diagram of PayMyBuddy")
+
+
+### Physical data model
+![Alt text](ressources/MPD.png?raw=true "Physical data model of PayMyBuddy")
