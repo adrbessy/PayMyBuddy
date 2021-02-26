@@ -1,5 +1,6 @@
 package com.PayMyBuddy.controller;
 
+import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.service.FriendService;
 import org.apache.logging.log4j.LogManager;
@@ -37,14 +38,24 @@ public class FriendController {
   @PostMapping("/friend")
   public Friend createFriend(@RequestBody Friend friend) {
     Friend newFriend = null;
+    boolean existingFriends = false;
     try {
-      newFriend = friendService.saveFriend(friend);
-      logger.info(
-          "response following the Post on the endpoint 'friend' with the given friend : {"
-              + friend.toString() + "}");
+      logger.info("Post request with the endpoint 'friend'");
+      existingFriends = friendService.friendsExist(friend.getEmailAddress_user1(), friend.getEmailAddress_user2());
+      if (existingFriends) {
+        newFriend = friendService.saveFriend(friend);
+        logger.info(
+            "response following the Post on the endpoint 'friend' with the given friend : {"
+                + friend.toString() + "}");
+      }
     } catch (Exception exception) {
       logger.error("Error in the FriendController in the method createFriend :"
           + exception.getMessage());
+    }
+    if (!existingFriends) {
+      logger.error("At least an email doesn't exist.");
+      throw new NonexistentException(
+          "At least an email doesn't exist.");
     }
     return newFriend;
   }

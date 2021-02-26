@@ -2,6 +2,7 @@ package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.repository.FriendRepository;
+import com.PayMyBuddy.repository.UserAccountRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class FriendServiceImpl implements FriendService {
 
   @Autowired
   private FriendRepository friendRepository;
+
+  @Autowired
+  private UserAccountRepository userAccountRepository;
 
   /**
    * Save a friend relationship
@@ -41,6 +45,25 @@ public class FriendServiceImpl implements FriendService {
   @Override
   public Iterable<Friend> getFriends() {
     return friendRepository.findAll();
+  }
+
+  /**
+   * Check if the emails exist.
+   * 
+   * @param emailAddress_user1 The given email
+   * @param emailAddress_user2 The given email
+   * @return true if they exist, otherwise returns false
+   */
+  @Override
+  public boolean friendsExist(String emailAddress_user1, String emailAddress_user2) {
+    logger.debug("in the method friendsExist in the class FriendServiceImpl");
+    boolean existingEmail1 = userAccountRepository.existsByEmailAddress(emailAddress_user1);
+    boolean existingEmail2 = userAccountRepository.existsByEmailAddress(emailAddress_user2);
+    if (existingEmail1 && existingEmail2) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
