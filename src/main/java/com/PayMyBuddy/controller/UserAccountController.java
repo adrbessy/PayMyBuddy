@@ -35,7 +35,7 @@ public class UserAccountController {
    * @return The userAccount object saved
    */
   @PostMapping("/userAccount")
-  public UserAccount createPerson(@RequestBody UserAccount userAccount) {
+  public UserAccount createUserAccount(@RequestBody UserAccount userAccount) {
     UserAccount newUserAccount = null;
     try {
       newUserAccount = userAccountService.saveUserAccount(userAccount);
@@ -43,7 +43,7 @@ public class UserAccountController {
           "response following the Post on the endpoint 'userAccount' with the given userAccount : {"
               + userAccount.toString() + "}");
     } catch (Exception exception) {
-      logger.error("Error in the UserAccountController in the method createuserAccount :"
+      logger.error("Error in the UserAccountController in the method createUserAccount :"
           + exception.getMessage());
     }
     return newUserAccount;

@@ -38,11 +38,11 @@ public class FriendController {
   @PostMapping("/friend")
   public Friend createFriend(@RequestBody Friend friend) {
     Friend newFriend = null;
-    boolean existingFriends = false;
+    String existingFriends = null;
     try {
       logger.info("Post request with the endpoint 'friend'");
       existingFriends = friendService.friendsExist(friend.getEmailAddress_user1(), friend.getEmailAddress_user2());
-      if (existingFriends) {
+      if (existingFriends == "yes") {
         newFriend = friendService.saveFriend(friend);
         logger.info(
             "response following the Post on the endpoint 'friend' with the given friend : {"
@@ -52,10 +52,9 @@ public class FriendController {
       logger.error("Error in the FriendController in the method createFriend :"
           + exception.getMessage());
     }
-    if (!existingFriends) {
-      logger.error("At least an email doesn't exist.");
-      throw new NonexistentException(
-          "At least an email doesn't exist.");
+    if (existingFriends != "yes") {
+      logger.error(existingFriends);
+      throw new NonexistentException(existingFriends);
     }
     return newFriend;
   }

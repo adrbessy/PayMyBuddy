@@ -26,6 +26,6 @@ public interface FriendService {
    * @param emailAddress_user2 The given email
    * @return true if they exist, otherwise returns false
    */
-  public boolean friendsExist(String emailAddress_user1, String emailAddress_user2);
+  public String friendsExist(String emailAddress_user1, String emailAddress_user2);
 
 }
