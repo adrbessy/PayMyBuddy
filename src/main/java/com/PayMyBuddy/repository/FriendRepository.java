@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FriendRepository extends CrudRepository<Friend, Long> {
 
+  boolean existsByEmailAddressUser1AndEmailAddressUser2(String emailAddress_user1, String emailAddress_user2);
+
 }

@@ -39,10 +39,13 @@ public class FriendController {
   public Friend createFriend(@RequestBody Friend friend) {
     Friend newFriend = null;
     String existingFriends = null;
+    boolean existingFriendRelationship = false;
     try {
       logger.info("Post request with the endpoint 'friend'");
-      existingFriends = friendService.friendsExist(friend.getEmailAddress_user1(), friend.getEmailAddress_user2());
-      if (existingFriends == "yes") {
+      existingFriends = friendService.friendsExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2());
+      existingFriendRelationship = friendService.friendRelationshipExist(friend.getEmailAddressUser1(),
+          friend.getEmailAddressUser2());
+      if (existingFriends == "yes" && existingFriendRelationship == false) {
         newFriend = friendService.saveFriend(friend);
         logger.info(
             "response following the Post on the endpoint 'friend' with the given friend : {"
@@ -55,6 +58,12 @@ public class FriendController {
     if (existingFriends != "yes") {
       logger.error(existingFriends);
       throw new NonexistentException(existingFriends);
+    }
+    if (existingFriendRelationship) {
+      logger.error("The friend relationship between " + friend.getEmailAddressUser1() + " and "
+          + friend.getEmailAddressUser2() + " already exist.");
+      throw new IllegalArgumentException("The friend relationship between " + friend.getEmailAddressUser1() + " and "
+          + friend.getEmailAddressUser2() + " already exist.");
     }
     return newFriend;
   }

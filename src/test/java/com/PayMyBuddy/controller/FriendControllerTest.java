@@ -35,8 +35,8 @@ public class FriendControllerTest {
   @Test
   public void testCreateUserAccount() throws Exception {
     friend = new Friend();
-    friend.setEmailAddress_user1("someone@mail.fr");
-    friend.setEmailAddress_user2("someoneElse@mail.fr");
+    friend.setEmailAddressUser1("someone@mail.fr");
+    friend.setEmailAddressUser2("someoneElse@mail.fr");
 
     when(friendService.saveFriend(friend)).thenReturn(friend);
 

@@ -28,4 +28,13 @@ public interface FriendService {
    */
   public String friendsExist(String emailAddress_user1, String emailAddress_user2);
 
+  /**
+   * Check if the friend relationship exist.
+   * 
+   * @param emailAddress_user1 The given email
+   * @param emailAddress_user2 The given email
+   * @return true if it exists, otherwise returns false
+   */
+  public boolean friendRelationshipExist(String emailAddress_user1, String emailAddress_user2);
+
 }

@@ -72,4 +72,20 @@ public class FriendServiceImpl implements FriendService {
     }
   }
 
+  @Override
+  public boolean friendRelationshipExist(String emailAddress_user1, String emailAddress_user2) {
+    logger.debug("in the method friendRelationshipExist in the class FriendServiceImpl");
+    boolean existingRelationshipSens1 = friendRepository.existsByEmailAddressUser1AndEmailAddressUser2(
+        emailAddress_user1,
+        emailAddress_user2);
+    boolean existingRelationshipSens2 = friendRepository.existsByEmailAddressUser1AndEmailAddressUser2(
+        emailAddress_user2,
+        emailAddress_user1);
+    if (existingRelationshipSens1 || existingRelationshipSens2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

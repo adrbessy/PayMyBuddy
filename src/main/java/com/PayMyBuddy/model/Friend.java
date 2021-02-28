@@ -18,9 +18,9 @@ public class Friend implements Serializable {
   private static final Logger logger = LogManager.getLogger(Friend.class);
 
   @Id
-  private String emailAddress_user1;
+  private String emailAddressUser1;
 
   @Id
-  private String emailAddress_user2;
+  private String emailAddressUser2;
 
 }
