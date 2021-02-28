@@ -17,21 +17,19 @@ CREATE SEQUENCE public.transaction_id_seq;
 
 CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
-                email_address_emitter VARCHAR(100) DEFAULT 'test@mail.fr' NOT NULL,
+                email_address_emitter VARCHAR(100) DEFAULT 'adrien@mail.fr' NOT NULL,
                 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 description VARCHAR DEFAULT 'This is a description',
                 amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
+                transaction_type INTEGER DEFAULT 1 NOT NULL,
+                email_address_receiver VARCHAR(100) DEFAULT 'isabelle@mail.fr',
+                iban VARCHAR(34),
+                payment_platform_id INTEGER,
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
 );
 
 
 ALTER SEQUENCE public.transaction_id_seq OWNED BY public.Transaction.id;
-
-CREATE TABLE public.Friend_transaction (
-                id INTEGER NOT NULL,
-                email_address VARCHAR(100) DEFAULT 'test@mail.fr' NOT NULL,
-                CONSTRAINT friend_transaction_pk PRIMARY KEY (id)
-);
 
 
 CREATE TABLE public.Friend (
@@ -47,13 +45,6 @@ CREATE TABLE public.Bank_account (
                 iban VARCHAR(34) NOT NULL,
                 email_address VARCHAR(100) DEFAULT 'test@mail.fr' NOT NULL,
                 CONSTRAINT bank_account_pk PRIMARY KEY (iban)
-);
-
-
-CREATE TABLE public.Bank_transaction (
-                id INTEGER NOT NULL,
-                iban VARCHAR(34) NOT NULL,
-                CONSTRAINT bank_transaction_pk PRIMARY KEY (id)
 );
 
 
@@ -78,13 +69,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Friend_transaction ADD CONSTRAINT user_account_friend_transaction_fk
-FOREIGN KEY (email_address)
-REFERENCES public.User_account (email_address)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
 ALTER TABLE public.Friend ADD CONSTRAINT user_account_friend_fk2
 FOREIGN KEY (email_address_user2)
 REFERENCES public.User_account (email_address)
@@ -92,35 +76,14 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Friend_transaction ADD CONSTRAINT transaction_friend_transaction_fk
-FOREIGN KEY (id)
-REFERENCES public.Transaction (id)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.Bank_transaction ADD CONSTRAINT transaction_bank_transaction_fk
-FOREIGN KEY (id)
-REFERENCES public.Transaction (id)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.Bank_transaction ADD CONSTRAINT bank_account_bank_transaction_fk
-FOREIGN KEY (iban)
-REFERENCES public.Bank_account (iban)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
 
 INSERT INTO public.user_account 
-(email_address, password, first_name, name) 
+(email_address, password, first_name, name, amount) 
 VALUES 
-('adrien@mail.fr','test','Adrien','Bessy'),
-('isabelle@mail.fr','test','Isabelle','Bessy'),
-('marie@mail.fr','test','Marie','Regnier'),
-('Jacky@mail.fr','test','Jacky','Bernardin')
+('adrien@mail.fr','test','Adrien','Bessy', 450),
+('isabelle@mail.fr','test','Isabelle','Bessy', 500),
+('marie@mail.fr','test','Marie','Regnier', 500),
+('helene@mail.fr','test','Hélène','Pina', 650)
 ;
 
 INSERT INTO public.friend 
@@ -128,25 +91,13 @@ INSERT INTO public.friend
 VALUES 
 ('adrien@mail.fr','isabelle@mail.fr'),
 ('adrien@mail.fr','marie@mail.fr'),
-('Jacky@mail.fr','adrien@mail.fr')
+('helene@mail.fr','marie@mail.fr')
 ;
 
 INSERT INTO public.transaction 
 (email_address_emitter, description, amount) 
 VALUES 
 ('adrien@mail.fr','pour le loyer',300)
-;
-
-INSERT INTO public.friend_transaction
-(id, email_address) 
-VALUES 
-(1, 'isabelle@mail.fr')
-;
-
-INSERT INTO public.bank_account
-(iban, email_address) 
-VALUES 
-('NL06ABNA1869773616', 'adrien@mail.fr')
 ;
 
 
@@ -170,21 +121,19 @@ CREATE SEQUENCE public.transaction_id_seq;
 
 CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
-                email_address_emitter VARCHAR(100) DEFAULT 'test@mail.fr' NOT NULL,
+                email_address_emitter VARCHAR(100) DEFAULT 'adrien@mail.fr' NOT NULL,
                 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 description VARCHAR DEFAULT 'This is a description',
                 amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
+                transaction_type INTEGER DEFAULT 1 NOT NULL,
+                email_address_receiver VARCHAR(100) DEFAULT 'isabelle@mail.fr',
+                iban VARCHAR(34),
+                payment_platform_id INTEGER,
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
 );
 
 
 ALTER SEQUENCE public.transaction_id_seq OWNED BY public.Transaction.id;
-
-CREATE TABLE public.Friend_transaction (
-                id INTEGER NOT NULL,
-                email_address VARCHAR(100) DEFAULT 'test@mail.fr' NOT NULL,
-                CONSTRAINT friend_transaction_pk PRIMARY KEY (id)
-);
 
 
 CREATE TABLE public.Friend (
@@ -200,13 +149,6 @@ CREATE TABLE public.Bank_account (
                 iban VARCHAR(34) NOT NULL,
                 email_address VARCHAR(100) DEFAULT 'test@mail.fr' NOT NULL,
                 CONSTRAINT bank_account_pk PRIMARY KEY (iban)
-);
-
-
-CREATE TABLE public.Bank_transaction (
-                id INTEGER NOT NULL,
-                iban VARCHAR(34) NOT NULL,
-                CONSTRAINT bank_transaction_pk PRIMARY KEY (id)
 );
 
 
@@ -231,13 +173,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Friend_transaction ADD CONSTRAINT user_account_friend_transaction_fk
-FOREIGN KEY (email_address)
-REFERENCES public.User_account (email_address)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
 ALTER TABLE public.Friend ADD CONSTRAINT user_account_friend_fk2
 FOREIGN KEY (email_address_user2)
 REFERENCES public.User_account (email_address)
@@ -245,35 +180,14 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Friend_transaction ADD CONSTRAINT transaction_friend_transaction_fk
-FOREIGN KEY (id)
-REFERENCES public.Transaction (id)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.Bank_transaction ADD CONSTRAINT transaction_bank_transaction_fk
-FOREIGN KEY (id)
-REFERENCES public.Transaction (id)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.Bank_transaction ADD CONSTRAINT bank_account_bank_transaction_fk
-FOREIGN KEY (iban)
-REFERENCES public.Bank_account (iban)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
 
 INSERT INTO public.user_account 
-(email_address, password, first_name, name) 
+(email_address, password, first_name, name, amount) 
 VALUES 
-('adrien@mail.fr','test','Adrien','Bessy'),
-('isabelle@mail.fr','test','Isabelle','Bessy'),
-('marie@mail.fr','test','Marie','Regnier'),
-('Jacky@mail.fr','test','Jacky','Bernardin')
+('adrien@mail.fr','test','Adrien','Bessy', 450),
+('isabelle@mail.fr','test','Isabelle','Bessy', 500),
+('marie@mail.fr','test','Marie','Regnier', 500),
+('helene@mail.fr','test','Hélène','Pina', 650)
 ;
 
 INSERT INTO public.friend 
@@ -281,23 +195,11 @@ INSERT INTO public.friend
 VALUES 
 ('adrien@mail.fr','isabelle@mail.fr'),
 ('adrien@mail.fr','marie@mail.fr'),
-('Jacky@mail.fr','adrien@mail.fr')
+('helene@mail.fr','marie@mail.fr')
 ;
 
 INSERT INTO public.transaction 
 (email_address_emitter, description, amount) 
 VALUES 
 ('adrien@mail.fr','pour le loyer',300)
-;
-
-INSERT INTO public.friend_transaction
-(id, email_address) 
-VALUES 
-(1, 'isabelle@mail.fr')
-;
-
-INSERT INTO public.bank_account
-(iban, email_address) 
-VALUES 
-(1000, 'adrien@mail.fr')
 ;
