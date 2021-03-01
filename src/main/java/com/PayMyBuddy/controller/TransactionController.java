@@ -1,6 +1,7 @@
 package com.PayMyBuddy.controller;
 
-import com.PayMyBuddy.model.FriendTransaction;
+import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,8 @@ public class TransactionController {
 
   @Autowired
   private TransactionService transactionService;
+  @Autowired
+  private FriendService friendService;
 
   /**
    * Create a friend transaction
@@ -24,16 +27,28 @@ public class TransactionController {
    * @return The friendTransaction object saved
    */
   @PostMapping("/friendTransaction")
-  public FriendTransaction createFriendTransaction(@RequestBody FriendTransaction friendTransaction) {
-    FriendTransaction newFriendTransaction = null;
+  public Transaction createFriendTransaction(@RequestBody Transaction friendTransaction) {
+    Transaction newFriendTransaction = null;
+    boolean existingFriendRelationship = false;
     try {
-      newFriendTransaction = transactionService.saveFriendTransaction(friendTransaction);
-      logger.info(
-          "response following the Post on the endpoint 'friendTransaction' with the given friendTransaction : {"
-              + friendTransaction.toString() + "}");
+      existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddress_emitter(),
+          friendTransaction.getEmailAddress_receiver());
+      if (existingFriendRelationship == false) {
+        newFriendTransaction = transactionService.makeFriendTransaction(friendTransaction);
+        logger.info(
+            "response following the Post on the endpoint 'friendTransaction' with the given friendTransaction : {"
+                + friendTransaction.toString() + "}");
+      }
     } catch (Exception exception) {
       logger.error("Error in the TransactionController in the method createFriendTransaction :"
           + exception.getMessage());
+    }
+    if (existingFriendRelationship) {
+      logger.error("The friend relationship between " + friendTransaction.getEmailAddress_emitter() + " and "
+          + friendTransaction.getEmailAddress_receiver() + " already exist.");
+      throw new IllegalArgumentException(
+          "The friend relationship between " + friendTransaction.getEmailAddress_emitter() + " and "
+              + friendTransaction.getEmailAddress_receiver() + " already exist.");
     }
     return newFriendTransaction;
   }

@@ -9,4 +9,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Long>
 
   boolean existsByEmailAddress(String emailAddress_user1);
 
+  UserAccount findByEmailAddress(String emailAddress_emitter);
+
 }

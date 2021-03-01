@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "transaction")
-public abstract class Transaction {
+public class Transaction {
 
   private static final Logger logger = LogManager.getLogger(Transaction.class);
 
@@ -23,12 +23,16 @@ public abstract class Transaction {
   @JsonIgnore
   private Long id;
 
-  private String emailaddress_emitter;
+  private String emailAddress_emitter;
 
   private Date date;
 
   private String description;
 
   private double amount;
+
+  private String emailAddress_receiver;
+
+  public String iban;
 
 }

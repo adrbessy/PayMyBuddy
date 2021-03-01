@@ -1,14 +1,15 @@
 package com.PayMyBuddy.service;
 
-import com.PayMyBuddy.model.FriendTransaction;
-import org.springframework.stereotype.Service;
+import com.PayMyBuddy.model.Transaction;
 
-@Service
-public class TransactionService {
+public interface TransactionService {
 
-  public FriendTransaction saveFriendTransaction(FriendTransaction friendTransaction) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  /**
+   * Make a transaction from a user to one of his friend
+   * 
+   * @param friendTransaction A transaction to make
+   * @return the transaction made
+   */
+  Transaction makeFriendTransaction(Transaction friendTransaction);
 
 }
