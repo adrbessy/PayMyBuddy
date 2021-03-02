@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TransactionServiceImpl {
+public class TransactionServiceImpl implements TransactionService {
 
   private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
 
@@ -25,18 +25,22 @@ public class TransactionServiceImpl {
    * @param friendTransaction A transaction to make
    * @return the transaction made
    */
+  @Override
   public Transaction makeFriendTransaction(Transaction friendTransaction) {
-    UserAccount emitter = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_emitter());
-    double emitter_amount = emitter.getAmount();
-    double final_emitter_amount = emitter_amount - friendTransaction.getAmount();
-    if (final_emitter_amount >= 0.0) {
+    logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
+    try {
+      UserAccount emitter = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_emitter());
+      double emitter_amount = emitter.getAmount();
+      double final_emitter_amount = emitter_amount - friendTransaction.getAmount();
       emitter.setAmount(final_emitter_amount);
       userAccountService.saveUserAccount(emitter);
       UserAccount receiver = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_receiver());
       receiver.setAmount(receiver.getAmount() + friendTransaction.getAmount());
       userAccountService.saveUserAccount(receiver);
+    } catch (Exception exception) {
+      logger.error("Error when we try to make the transaction :" + exception.getMessage());
     }
-    return null;
+    return friendTransaction;
   }
 
 }

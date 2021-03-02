@@ -43,4 +43,30 @@ public class UserAccountServiceImpl implements UserAccountService {
     return userAccountRepository.findAll();
   }
 
+  /**
+   * Check if an user has enough money on his account when he makes a transaction.
+   * 
+   * @param emailAddress_emitter The User that makes the transaction
+   * @param amount               The amount that he transfers
+   * @return true if he has enough money
+   */
+  @Override
+  public boolean checkEnoughMoney(String emailAddress_emitter, double amount) {
+    logger.debug("in the method checkEnoughMoney in the class UserAccountServiceImpl");
+    UserAccount emitter = null;
+    double final_emitter_amount = 0;
+    try {
+      emitter = userAccountRepository.findByEmailAddress(emailAddress_emitter);
+      double emitter_amount = emitter.getAmount();
+      final_emitter_amount = emitter_amount - amount;
+    } catch (Exception exception) {
+      logger.error("Error when we try to check if the user has enough money :" + exception.getMessage());
+    }
+    if (final_emitter_amount >= 0.0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

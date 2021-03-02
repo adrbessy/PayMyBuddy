@@ -19,4 +19,13 @@ public interface UserAccountService {
    */
   public Iterable<UserAccount> getUserAccounts();
 
+  /**
+   * Check if an user has enough money on his account when he makes a transaction.
+   * 
+   * @param emailAddress_emitter The User that makes the transaction
+   * @param amount               The amount that he transfers
+   * @return true if he has enough money
+   */
+  public boolean checkEnoughMoney(String emailAddress_emitter, double amount);
+
 }
