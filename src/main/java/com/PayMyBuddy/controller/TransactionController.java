@@ -1,5 +1,7 @@
 package com.PayMyBuddy.controller;
 
+import com.PayMyBuddy.exceptions.IsForbiddenException;
+import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
@@ -54,13 +56,13 @@ public class TransactionController {
     if (existingFriendRelationship == false) {
       logger.error("The friend relationship between " + friendTransaction.getEmailAddress_emitter() + " and "
           + friendTransaction.getEmailAddress_receiver() + " doesn't exist.");
-      throw new IllegalArgumentException(
+      throw new NonexistentException(
           "The friend relationship between " + friendTransaction.getEmailAddress_emitter() + " and "
               + friendTransaction.getEmailAddress_receiver() + " doesn't exist.");
     }
     if (!checkIfEnoughMoney) {
       logger.error("The emitter has not enough money on his account to make a transaction.");
-      throw new IllegalArgumentException(
+      throw new IsForbiddenException(
           "The emitter has not enough money on his account to make a transaction.");
     }
     return newFriendTransaction;
