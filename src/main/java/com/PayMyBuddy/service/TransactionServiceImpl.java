@@ -1,5 +1,6 @@
 package com.PayMyBuddy.service;
 
+import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
@@ -31,7 +32,8 @@ public class TransactionServiceImpl implements TransactionService {
     try {
       UserAccount emitter = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_emitter());
       double emitter_amount = emitter.getAmount();
-      double final_emitter_amount = emitter_amount - friendTransaction.getAmount();
+      double tax_amount = friendTransaction.getAmount() * Tax.TAX100 / 100;
+      double final_emitter_amount = emitter_amount - (friendTransaction.getAmount() + tax_amount);
       emitter.setAmount(final_emitter_amount);
       userAccountService.saveUserAccount(emitter);
       UserAccount receiver = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_receiver());

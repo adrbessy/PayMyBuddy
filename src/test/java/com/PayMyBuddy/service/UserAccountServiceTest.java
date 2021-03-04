@@ -1,6 +1,8 @@
 package com.PayMyBuddy.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
@@ -53,6 +55,42 @@ public class UserAccountServiceTest {
 
     Iterable<UserAccount> result = userAccountService.getUserAccounts();
     assertThat(result).isEqualTo(it);
+  }
+
+  /**
+   * test to check if the user has enough money when he makes a transaction.
+   * 
+   */
+  @Test
+  public void testCheckEnoughMoney() {
+    String emailAddress_emitter = "adrien@mail.fr";
+    double amount = 100;
+    userAccount.setEmailAddress("adrien@mail.fr");
+    userAccount.setAmount(100.5);
+
+    when(userAccountRepositoryMock.findByEmailAddress("adrien@mail.fr"))
+        .thenReturn(userAccount);
+
+    boolean result = userAccountService.checkEnoughMoney(emailAddress_emitter, amount);
+    assertTrue(result);
+  }
+
+  /**
+   * test to check if the user has enough money when he makes a transaction.
+   * 
+   */
+  @Test
+  public void testCheckNOTEnoughMoney() {
+    String emailAddress_emitter = "adrien@mail.fr";
+    double amount = 100;
+    userAccount.setEmailAddress("adrien@mail.fr");
+    userAccount.setAmount(100.4);
+
+    when(userAccountRepositoryMock.findByEmailAddress("adrien@mail.fr"))
+        .thenReturn(userAccount);
+
+    boolean result = userAccountService.checkEnoughMoney(emailAddress_emitter, amount);
+    assertFalse(result);
   }
 
 }

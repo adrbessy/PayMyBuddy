@@ -1,5 +1,6 @@
 package com.PayMyBuddy.service;
 
+import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import org.apache.logging.log4j.LogManager;
@@ -58,7 +59,8 @@ public class UserAccountServiceImpl implements UserAccountService {
     try {
       emitter = userAccountRepository.findByEmailAddress(emailAddress_emitter);
       double emitter_amount = emitter.getAmount();
-      final_emitter_amount = emitter_amount - amount;
+      double tax_amount = amount * Tax.TAX100 / 100;
+      final_emitter_amount = emitter_amount - (amount + tax_amount);
     } catch (Exception exception) {
       logger.error("Error when we try to check if the user has enough money :" + exception.getMessage());
     }
