@@ -4,12 +4,14 @@ import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
+import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional(rollbackOn = { Exception.class })
 public class TransactionServiceImpl implements TransactionService {
 
   private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
@@ -33,6 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
       UserAccount emitter = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_emitter());
       double emitter_amount = emitter.getAmount();
       double tax_amount = friendTransaction.getAmount() * Tax.TAX100 / 100;
+      // add here the transaction of tax_amount towards the account of the app
       double final_emitter_amount = emitter_amount - (friendTransaction.getAmount() + tax_amount);
       emitter.setAmount(final_emitter_amount);
       userAccountService.saveUserAccount(emitter);

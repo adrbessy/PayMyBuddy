@@ -33,7 +33,7 @@ public class TransactionServiceTest {
   }
 
   /**
-   * test to save an user account.
+   * test to make a friend transaction.
    * 
    */
   @Test

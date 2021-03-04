@@ -71,4 +71,27 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
   }
 
+  /**
+   * Check if an email address exist in the userAccount DB.
+   * 
+   * @param emailAddress The email address to look for
+   * @return true if it exists
+   */
+  @Override
+  public boolean userAccountEmailExist(String emailAddress) {
+    return userAccountRepository.existsByEmailAddress(emailAddress);
+  }
+
+  /**
+   * Get a Person from an id
+   * 
+   * @param id The id of the person in the Persons table
+   * @return The person
+   */
+  @Override
+  public UserAccount getUserAccount(final String emailAddress) {
+    logger.debug("in the method getUserAccount in the class UserAccountServiceImpl");
+    return userAccountRepository.findByEmailAddress(emailAddress);
+  }
+
 }

@@ -28,4 +28,21 @@ public interface UserAccountService {
    */
   public boolean checkEnoughMoney(String emailAddress_emitter, double amount);
 
+  /**
+   * Check if an email address exist in the userAccount DB.
+   * 
+   * @param emailAddress The email address to look for
+   * @return true if it exists
+   */
+  public boolean userAccountEmailExist(String emailAddress);
+
+  /**
+   * Get a UserAccount from an email address
+   * 
+   * @param emailAddress The email address of the user account in the UserAccount
+   *                     table
+   * @return The userAccount
+   */
+  UserAccount getUserAccount(String emailAddress);
+
 }
