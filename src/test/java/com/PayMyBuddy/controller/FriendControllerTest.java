@@ -38,6 +38,9 @@ public class FriendControllerTest {
     friend.setEmailAddressUser1("someone@mail.fr");
     friend.setEmailAddressUser2("someoneElse@mail.fr");
 
+    when(friendService.friendsExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2())).thenReturn("yes");
+    when(friendService.friendRelationshipExist(friend.getEmailAddressUser1(),
+        friend.getEmailAddressUser2())).thenReturn(false);
     when(friendService.saveFriend(friend)).thenReturn(friend);
 
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/friend")
