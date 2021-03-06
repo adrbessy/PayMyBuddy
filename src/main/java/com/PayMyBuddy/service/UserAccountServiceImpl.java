@@ -94,4 +94,16 @@ public class UserAccountServiceImpl implements UserAccountService {
     return userAccountRepository.findByEmailAddress(emailAddress);
   }
 
+  /**
+   * Delete a user account
+   * 
+   * @param emailAddress The email address of the user account
+   * 
+   */
+  @Override
+  public void deleteUserAccount(String emailAddress) {
+    logger.debug("in the method deleteUserAccount in the class UserAccountServiceImpl");
+    userAccountRepository.deleteUserAccountByEmailAddress(emailAddress);
+  }
+
 }

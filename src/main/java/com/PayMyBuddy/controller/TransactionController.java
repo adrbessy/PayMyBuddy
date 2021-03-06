@@ -9,6 +9,7 @@ import com.PayMyBuddy.service.UserAccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,16 @@ public class TransactionController {
   private FriendService friendService;
   @Autowired
   private UserAccountService userAccountService;
+
+  /**
+   * Read - Get all transactions
+   * 
+   * @return - An Iterable object of userAccounts full filled
+   */
+  @GetMapping("/transactions")
+  public Iterable<Transaction> getTransactions() {
+    return transactionService.getTransactions();
+  }
 
   /**
    * Create a friend transaction

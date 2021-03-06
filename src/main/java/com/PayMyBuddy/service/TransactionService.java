@@ -12,4 +12,11 @@ public interface TransactionService {
    */
   Transaction makeFriendTransaction(Transaction friendTransaction);
 
+  /**
+   * Get all transactions
+   * 
+   * @return all transactions
+   */
+  Iterable<Transaction> getTransactions();
+
 }

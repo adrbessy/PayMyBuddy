@@ -11,4 +11,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Long>
 
   UserAccount findByEmailAddress(String emailAddress_emitter);
 
+  void deleteUserAccountByEmailAddress(String emailAddress);
+
 }

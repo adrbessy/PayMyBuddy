@@ -3,6 +3,7 @@ package com.PayMyBuddy.service;
 import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
+import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +21,11 @@ public class TransactionServiceImpl implements TransactionService {
   private UserAccountRepository userAccountRepository;
 
   @Autowired
+  private TransactionRepository transactionRepository;
+
+  @Autowired
   private UserAccountService userAccountService;
+
 
   /**
    * Make a transaction from a user to one of his friend
@@ -42,10 +47,27 @@ public class TransactionServiceImpl implements TransactionService {
       UserAccount receiver = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_receiver());
       receiver.setAmount(receiver.getAmount() + friendTransaction.getAmount());
       userAccountService.saveUserAccount(receiver);
+      saveTransaction(friendTransaction);
     } catch (Exception exception) {
       logger.error("Error when we try to make the transaction :" + exception.getMessage());
     }
     return friendTransaction;
+  }
+
+  private Transaction saveTransaction(Transaction friendTransaction) {
+    logger.debug("in the method saveTransaction in the class TransactionServiceImpl");
+    Transaction savedTransaction = null;
+    try {
+      savedTransaction = transactionRepository.save(friendTransaction);
+    } catch (Exception exception) {
+      logger.error("Error when we try to save a friend transaction :" + exception.getMessage());
+    }
+    return savedTransaction;
+  }
+
+  @Override
+  public Iterable<Transaction> getTransactions() {
+    return transactionRepository.findAll();
   }
 
 }

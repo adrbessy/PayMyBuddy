@@ -88,4 +88,15 @@ public class FriendServiceImpl implements FriendService {
     }
   }
 
+  /**
+   * Delete all friend relationships of an user account.
+   * 
+   * @param emailAddress The given email of the user account
+   */
+  @Override
+  public void deleteFriendRelationships(String emailAddress) {
+    friendRepository.deleteFriendByEmailAddressUser1(emailAddress);
+    friendRepository.deleteFriendByEmailAddressUser2(emailAddress);
+  }
+
 }

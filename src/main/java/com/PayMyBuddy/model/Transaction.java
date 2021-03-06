@@ -7,16 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "transaction")
 public class Transaction {
-
-  private static final Logger logger = LogManager.getLogger(Transaction.class);
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +21,7 @@ public class Transaction {
 
   private String emailAddress_emitter;
 
-  private Date date;
+  private Date my_date;
 
   private String description;
 

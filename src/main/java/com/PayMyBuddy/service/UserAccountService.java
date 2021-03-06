@@ -45,4 +45,12 @@ public interface UserAccountService {
    */
   UserAccount getUserAccount(String emailAddress);
 
+  /**
+   * Delete a user account
+   * 
+   * @param emailAddress The email address of the user account
+   * 
+   */
+  public void deleteUserAccount(String emailAddress);
+
 }

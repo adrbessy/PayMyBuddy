@@ -22,6 +22,10 @@ public class UserAccountController {
   @Autowired
   private UserAccountService userAccountService;
 
+  /*
+   * @Autowired private FriendService friendService;
+   */
+
   /**
    * Read - Get all user accounts
    * 
@@ -110,5 +114,32 @@ public class UserAccountController {
     }
     return userAccountToUpdate;
   }
+
+
+  /**
+   * Delete a user account from a given email address
+   * 
+   * @param emailAddress The given email address
+   */
+  /*
+   * @Transactional
+   * 
+   * @DeleteMapping("/userAccount") public void deletePerson(@RequestParam String
+   * emailAddress) { boolean existingUserAccountEmail = false; try { logger
+   * .info("Delete request with the endpoint 'userAccount' received with parameter emailAddress :"
+   * + emailAddress); existingUserAccountEmail =
+   * userAccountService.userAccountEmailExist(emailAddress); if
+   * (existingUserAccountEmail) {
+   * friendService.deleteFriendRelationships(emailAddress);
+   * userAccountService.deleteUserAccount(emailAddress); logger.info(
+   * "response following the Delete on the endpoint 'userAccount' with the given emailAddress : {"
+   * + emailAddress + "}"); } } catch (Exception exception) { logger.
+   * error("Error in the UserAccountController in the method deleteUserAccount :"
+   * + exception.getMessage()); } if (!existingUserAccountEmail) {
+   * logger.error("The user account with the email address " + emailAddress +
+   * " doesn't exist."); throw new NonexistentException(
+   * "The user account with the email address \" + emailAddress + \" doesn't exist."
+   * ); } }
+   */
 
 }

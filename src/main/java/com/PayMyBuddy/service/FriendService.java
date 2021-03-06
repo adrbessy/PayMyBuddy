@@ -37,4 +37,11 @@ public interface FriendService {
    */
   public boolean friendRelationshipExist(String emailAddress_user1, String emailAddress_user2);
 
+  /**
+   * Delete all friend relationships of an user account.
+   * 
+   * @param emailAddress The given email of the user account
+   */
+  public void deleteFriendRelationships(String emailAddress);
+
 }
