@@ -5,6 +5,7 @@ import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
+import java.util.Date;
 import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
       UserAccount receiver = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_receiver());
       receiver.setAmount(receiver.getAmount() + friendTransaction.getAmount());
       userAccountService.saveUserAccount(receiver);
+      friendTransaction.setMy_date(new Date());
       saveTransaction(friendTransaction);
     } catch (Exception exception) {
       logger.error("Error when we try to make the transaction :" + exception.getMessage());

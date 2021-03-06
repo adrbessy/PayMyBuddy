@@ -18,7 +18,7 @@ CREATE SEQUENCE public.transaction_id_seq;
 CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
                 email_address_emitter VARCHAR(100) DEFAULT 'adrien@mail.fr' NOT NULL,
-                my_date TIMESTAMP DEFAULT CURRENT_DATE NOT NULL,
+                my_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 description VARCHAR DEFAULT 'This is a description',
                 amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
                 transaction_type INTEGER DEFAULT 1 NOT NULL,
@@ -122,7 +122,7 @@ CREATE SEQUENCE public.transaction_id_seq;
 CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
                 email_address_emitter VARCHAR(100) DEFAULT 'adrien@mail.fr' NOT NULL,
-                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                my_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 description VARCHAR DEFAULT 'This is a description',
                 amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
                 transaction_type INTEGER DEFAULT 1 NOT NULL,
