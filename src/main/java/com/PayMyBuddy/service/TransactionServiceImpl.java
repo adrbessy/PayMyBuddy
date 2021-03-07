@@ -38,17 +38,17 @@ public class TransactionServiceImpl implements TransactionService {
   public Transaction makeFriendTransaction(Transaction friendTransaction) {
     logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
     try {
-      UserAccount emitter = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_emitter());
-      double emitter_amount = emitter.getAmount();
-      double tax_amount = friendTransaction.getAmount() * Tax.TAX100 / 100;
+      UserAccount emitter = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddressEmitter());
+      double emitterAmount = emitter.getAmount();
+      double taxAmount = friendTransaction.getAmount() * Tax.TAX100 / 100;
       // add here the transaction of tax_amount towards the account of the app
-      double final_emitter_amount = emitter_amount - (friendTransaction.getAmount() + tax_amount);
-      emitter.setAmount(final_emitter_amount);
+      double finalEmitterAmount = emitterAmount - (friendTransaction.getAmount() + taxAmount);
+      emitter.setAmount(finalEmitterAmount);
       userAccountService.saveUserAccount(emitter);
-      UserAccount receiver = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddress_receiver());
+      UserAccount receiver = userAccountRepository.findByEmailAddress(friendTransaction.getEmailAddressReceiver());
       receiver.setAmount(receiver.getAmount() + friendTransaction.getAmount());
       userAccountService.saveUserAccount(receiver);
-      friendTransaction.setMy_date(new Date());
+      friendTransaction.setMyDate(new Date());
       saveTransaction(friendTransaction);
     } catch (Exception exception) {
       logger.error("Error when we try to make the transaction :" + exception.getMessage());

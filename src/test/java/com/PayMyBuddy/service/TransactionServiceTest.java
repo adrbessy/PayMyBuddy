@@ -38,9 +38,9 @@ public class TransactionServiceTest {
    */
   @Test
   public void testMakeFriendTransaction() {
-    friendTransaction.setEmailAddress_emitter("adrien@mail.fr");
+    friendTransaction.setEmailAddressEmitter("adrien@mail.fr");
     friendTransaction.setAmount(100);
-    friendTransaction.setEmailAddress_receiver("marie@mail.fr");
+    friendTransaction.setEmailAddressReceiver("marie@mail.fr");
     userAccount.setEmailAddress("adrien@mail.fr");
     userAccount.setAmount(500);
     userAccount2.setEmailAddress("marie@mail.fr");

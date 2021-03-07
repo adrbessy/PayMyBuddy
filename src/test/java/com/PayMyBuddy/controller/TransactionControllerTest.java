@@ -37,9 +37,9 @@ public class TransactionControllerTest {
   public void testCreateFriendTransaction() throws Exception {
     friendTransaction = new Transaction();
 
-    when(friendService.friendRelationshipExist(friendTransaction.getEmailAddress_emitter(),
-        friendTransaction.getEmailAddress_receiver())).thenReturn(true);
-    when(userAccountService.checkEnoughMoney(friendTransaction.getEmailAddress_emitter(),
+    when(friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
+        friendTransaction.getEmailAddressReceiver())).thenReturn(true);
+    when(userAccountService.checkEnoughMoney(friendTransaction.getEmailAddressEmitter(),
         friendTransaction.getAmount())).thenReturn(true);
     when(transactionService.makeFriendTransaction(friendTransaction)).thenReturn(friendTransaction);
 
@@ -53,8 +53,8 @@ public class TransactionControllerTest {
   public void testCreateFriendTransactionRelationshipNotExist() throws Exception {
     friendTransaction = new Transaction();
 
-    when(friendService.friendRelationshipExist(friendTransaction.getEmailAddress_emitter(),
-        friendTransaction.getEmailAddress_receiver())).thenReturn(false);
+    when(friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
+        friendTransaction.getEmailAddressReceiver())).thenReturn(false);
 
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/friendTransaction")
         .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
@@ -66,9 +66,9 @@ public class TransactionControllerTest {
   public void testCreateFriendTransactionNotEnoughMoney() throws Exception {
     friendTransaction = new Transaction();
 
-    when(friendService.friendRelationshipExist(friendTransaction.getEmailAddress_emitter(),
-        friendTransaction.getEmailAddress_receiver())).thenReturn(true);
-    when(userAccountService.checkEnoughMoney(friendTransaction.getEmailAddress_emitter(),
+    when(friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
+        friendTransaction.getEmailAddressReceiver())).thenReturn(true);
+    when(userAccountService.checkEnoughMoney(friendTransaction.getEmailAddressEmitter(),
         friendTransaction.getAmount())).thenReturn(false);
 
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/friendTransaction")

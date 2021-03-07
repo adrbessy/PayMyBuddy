@@ -19,15 +19,15 @@ public class Transaction {
   @JsonIgnore
   private Long id;
 
-  private String emailAddress_emitter;
+  private String emailAddressEmitter;
 
-  private Date my_date;
+  private Date myDate;
 
   private String description;
 
   private double amount;
 
-  private String emailAddress_receiver;
+  private String emailAddressReceiver;
 
   public String iban;
 

@@ -49,10 +49,10 @@ public class TransactionController {
     boolean checkIfEnoughMoney = false;
     try {
       logger.info("Post request with the endpoint 'friendTransaction'");
-      existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddress_emitter(),
-          friendTransaction.getEmailAddress_receiver());
+      existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
+          friendTransaction.getEmailAddressReceiver());
       if (existingFriendRelationship) {
-        checkIfEnoughMoney = userAccountService.checkEnoughMoney(friendTransaction.getEmailAddress_emitter(),
+        checkIfEnoughMoney = userAccountService.checkEnoughMoney(friendTransaction.getEmailAddressEmitter(),
             friendTransaction.getAmount());
         if (checkIfEnoughMoney) {
           newFriendTransaction = transactionService.makeFriendTransaction(friendTransaction);
@@ -66,11 +66,11 @@ public class TransactionController {
           + exception.getMessage());
     }
     if (existingFriendRelationship == false) {
-      logger.error("The friend relationship between " + friendTransaction.getEmailAddress_emitter() + " and "
-          + friendTransaction.getEmailAddress_receiver() + " doesn't exist.");
+      logger.error("The friend relationship between " + friendTransaction.getEmailAddressEmitter() + " and "
+          + friendTransaction.getEmailAddressReceiver() + " doesn't exist.");
       throw new NonexistentException(
-          "The friend relationship between " + friendTransaction.getEmailAddress_emitter() + " and "
-              + friendTransaction.getEmailAddress_receiver() + " doesn't exist.");
+          "The friend relationship between " + friendTransaction.getEmailAddressEmitter() + " and "
+              + friendTransaction.getEmailAddressReceiver() + " doesn't exist.");
     }
     if (!checkIfEnoughMoney) {
       logger.error("The emitter has not enough money on his account to make a transaction.");
