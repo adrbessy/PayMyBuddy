@@ -48,6 +48,7 @@ public class TransactionController {
     boolean existingFriendRelationship = false;
     boolean checkIfEnoughMoney = false;
     try {
+      logger.info("Post request with the endpoint 'friendTransaction'");
       existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddress_emitter(),
           friendTransaction.getEmailAddress_receiver());
       if (existingFriendRelationship) {

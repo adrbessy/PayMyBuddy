@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional(rollbackOn = { Exception.class })
 public class TransactionServiceImpl implements TransactionService {
 
   private static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
@@ -35,6 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
    * @return the transaction made
    */
   @Override
+  @Transactional(rollbackOn = { Exception.class })
   public Transaction makeFriendTransaction(Transaction friendTransaction) {
     logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
     try {
