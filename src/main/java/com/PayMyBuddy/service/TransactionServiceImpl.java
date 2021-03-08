@@ -1,8 +1,10 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.constants.Tax;
+import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
+import com.PayMyBuddy.repository.BankAccountRepository;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.Date;
@@ -22,6 +24,9 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Autowired
   private TransactionRepository transactionRepository;
+
+  @Autowired
+  private BankAccountRepository bankAccountRepository;
 
   @Autowired
   private UserAccountService userAccountService;
@@ -70,6 +75,33 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   public Iterable<Transaction> getTransactions() {
     return transactionRepository.findAll();
+  }
+
+  /**
+   * Make a transaction from a bank account of an user to the count of the app of
+   * this user
+   * 
+   * @param moneyDeposit A transaction to make
+   * @return the transaction made
+   */
+  @Override
+  @Transactional(rollbackOn = { Exception.class })
+  public Transaction makeMoneyDeposit(Transaction moneyDeposit) {
+    logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
+    try {
+      BankAccount emitter = bankAccountRepository.findByIban(moneyDeposit.getIban());
+      double taxAmount = moneyDeposit.getAmount() * Tax.TAX100 / 100;
+      // add here the direct debit from the bank account
+      // add here the transaction of tax_amount towards the account of the app
+      UserAccount receiver = userAccountRepository.findByEmailAddress(moneyDeposit.getEmailAddressReceiver());
+      receiver.setAmount(receiver.getAmount() + moneyDeposit.getAmount());
+      userAccountService.saveUserAccount(receiver);
+      moneyDeposit.setMyDate(new Date());
+      saveTransaction(moneyDeposit);
+    } catch (Exception exception) {
+      logger.error("Error when we try to make the transaction :" + exception.getMessage());
+    }
+    return moneyDeposit;
   }
 
 }

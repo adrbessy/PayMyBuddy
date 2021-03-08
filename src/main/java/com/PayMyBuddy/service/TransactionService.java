@@ -19,4 +19,13 @@ public interface TransactionService {
    */
   Iterable<Transaction> getTransactions();
 
+  /**
+   * Make a transaction from a bank account of an user to the count of the app of
+   * this user
+   * 
+   * @param moneyDeposit A transaction to make
+   * @return the transaction made
+   */
+  Transaction makeMoneyDeposit(Transaction moneyDeposit);
+
 }

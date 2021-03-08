@@ -17,11 +17,10 @@ CREATE SEQUENCE public.transaction_id_seq;
 
 CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
-                email_address_emitter VARCHAR(50) DEFAULT 'adrien@mail.fr' NOT NULL,
+                email_address_emitter VARCHAR(50) DEFAULT 'adrien@mail.fr',
                 my_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 description VARCHAR DEFAULT 'This is a description',
                 amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
-                transaction_type INTEGER DEFAULT 1 NOT NULL,
                 email_address_receiver VARCHAR(50) DEFAULT 'isabelle@mail.fr',
                 iban VARCHAR(34),
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
@@ -115,4 +114,10 @@ INSERT INTO public.transaction
 (email_address_emitter, description, amount) 
 VALUES 
 ('adrien@mail.fr','pour le loyer',300)
+;
+
+INSERT INTO public.bank_account 
+(email_address, iban) 
+VALUES 
+('isabelle@mail.fr','FR3410096000501834597468E01')
 ;

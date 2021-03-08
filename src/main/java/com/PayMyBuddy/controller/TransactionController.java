@@ -3,6 +3,7 @@ package com.PayMyBuddy.controller;
 import com.PayMyBuddy.exceptions.IsForbiddenException;
 import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.service.BankAccountService;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
 import com.PayMyBuddy.service.UserAccountService;
@@ -25,6 +26,9 @@ public class TransactionController {
   private FriendService friendService;
   @Autowired
   private UserAccountService userAccountService;
+
+  @Autowired
+  private BankAccountService bankAccountService;
 
   /**
    * Read - Get all transactions
@@ -78,6 +82,49 @@ public class TransactionController {
           "The emitter has not enough money on his account to make a transaction.");
     }
     return newFriendTransaction;
+  }
+
+  /**
+   * Create a transaction from the bank account to the app account
+   * 
+   * @param moneyDeposit An Transaction object
+   * @return The moneyDeposit object saved
+   */
+  @PostMapping("/moneyDeposit")
+  public Transaction createMoneyDeposit(@RequestBody Transaction moneyDeposit) {
+    Transaction newMoneyDeposit = null;
+    boolean existingUserAccount = false;
+    boolean existingBankAccount = false;
+    try {
+      logger.info("Post request with the endpoint 'moneyDeposit'");
+      existingUserAccount = userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver());
+      if (existingUserAccount) {
+        existingBankAccount = bankAccountService.bankAccountExist(moneyDeposit.getEmailAddressReceiver(),
+            moneyDeposit.getIban());
+        if (existingBankAccount) {
+          newMoneyDeposit = transactionService.makeMoneyDeposit(moneyDeposit);
+          logger.info(
+              "response following the Post on the endpoint 'moneyDeposit' with the given moneyDeposit : {"
+                  + moneyDeposit.toString() + "}");
+        }
+      }
+    } catch (Exception exception) {
+      logger.error("Error in the TransactionController in the method createMoneyDeposit :"
+          + exception.getMessage());
+    }
+    if (existingUserAccount == false) {
+      logger.error("The user account "
+          + moneyDeposit.getEmailAddressReceiver() + " doesn't exist.");
+      throw new NonexistentException(
+          "The user account "
+              + moneyDeposit.getEmailAddressReceiver() + " doesn't exist.");
+    }
+    if (!existingBankAccount) {
+      logger.error("The emitter has not this bank account.");
+      throw new IsForbiddenException(
+          "The emitter has not this bank account.");
+    }
+    return newMoneyDeposit;
   }
 
 }
