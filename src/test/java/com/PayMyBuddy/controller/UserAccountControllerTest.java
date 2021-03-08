@@ -46,7 +46,6 @@ public class UserAccountControllerTest {
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/userAccount")
         .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
         .content(new ObjectMapper().writeValueAsString(userAccount));
-
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
   }
 

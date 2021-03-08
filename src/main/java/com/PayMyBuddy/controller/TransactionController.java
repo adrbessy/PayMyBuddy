@@ -121,7 +121,7 @@ public class TransactionController {
     }
     if (!existingBankAccount) {
       logger.error("The emitter has not this bank account.");
-      throw new IsForbiddenException(
+      throw new NonexistentException(
           "The emitter has not this bank account.");
     }
     return newMoneyDeposit;

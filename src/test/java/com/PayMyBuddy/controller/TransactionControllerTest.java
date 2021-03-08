@@ -1,7 +1,10 @@
 package com.PayMyBuddy.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.service.BankAccountService;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
 import com.PayMyBuddy.service.UserAccountService;
@@ -26,12 +29,21 @@ public class TransactionControllerTest {
   private UserAccountService userAccountService;
 
   @MockBean
+  private BankAccountService bankAccountService;
+
+  @MockBean
   private FriendService friendService;
 
   @MockBean
   private TransactionService transactionService;
 
   private Transaction friendTransaction;
+  private Transaction moneyDeposit;
+
+  @Test
+  public void testGetTransactions() throws Exception {
+    mockMvc.perform(get("/transactions")).andExpect(status().isOk());
+  }
 
   @Test
   public void testCreateFriendTransaction() throws Exception {
@@ -75,6 +87,50 @@ public class TransactionControllerTest {
         .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
         .content(new ObjectMapper().writeValueAsString(friendTransaction));
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
+  }
+
+  @Test
+  public void testCreateMoneyDeposit() throws Exception {
+    moneyDeposit = new Transaction();
+    moneyDeposit.setIban("NL46INGB6637543128");
+
+    when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(true);
+    when(bankAccountService.bankAccountExist(moneyDeposit.getEmailAddressReceiver(),
+        moneyDeposit.getIban())).thenReturn(true);
+    when(transactionService.makeMoneyDeposit(moneyDeposit)).thenReturn(moneyDeposit);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(moneyDeposit));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  public void testCreateMoneyDepositUserAccountDoesntExist() throws Exception {
+    moneyDeposit = new Transaction();
+    moneyDeposit.setIban("NL46INGB6637543128");
+
+    when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(false);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(moneyDeposit));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testCreateMoneyDepositBankAccountDoesntExist() throws Exception {
+    moneyDeposit = new Transaction();
+    moneyDeposit.setIban("NL46INGB6637543128");
+
+    when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(true);
+    when(bankAccountService.bankAccountExist(moneyDeposit.getEmailAddressReceiver(),
+        moneyDeposit.getIban())).thenReturn(false);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(moneyDeposit));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
 }
