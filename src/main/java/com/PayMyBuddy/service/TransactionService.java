@@ -28,4 +28,12 @@ public interface TransactionService {
    */
   Transaction makeMoneyDeposit(Transaction moneyDeposit);
 
+  /**
+   * Make a transaction from an user to one of his bank account
+   * 
+   * @param transactionToBankAccount A transaction to make
+   * @return the transaction made
+   */
+  Transaction makeTransactionToBankAccount(Transaction transactionToBankAccount);
+
 }

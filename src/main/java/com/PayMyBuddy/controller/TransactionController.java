@@ -127,4 +127,58 @@ public class TransactionController {
     return newMoneyDeposit;
   }
 
+  /**
+   * Create a transaction from the bank account to the app account
+   * 
+   * @param moneyDeposit An Transaction object
+   * @return The moneyDeposit object saved
+   */
+  @PostMapping("/transactionToBankAccount")
+  public Transaction createTransactionToBankAccount(@RequestBody Transaction transactionToBankAccount) {
+    Transaction newTransactionToBankAccount = null;
+    boolean existingUserAccount = false;
+    boolean existingBankAccount = false;
+    boolean checkIfEnoughMoney = false;
+    try {
+      logger.info("Post request with the endpoint 'TransactionToBankAccount'");
+      existingUserAccount = userAccountService
+          .userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter());
+      if (existingUserAccount) {
+        existingBankAccount = bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
+            transactionToBankAccount.getIban());
+        if (existingBankAccount) {
+          checkIfEnoughMoney = userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
+              transactionToBankAccount.getAmount());
+          if (checkIfEnoughMoney) {
+            newTransactionToBankAccount = transactionService.makeTransactionToBankAccount(transactionToBankAccount);
+            logger.info(
+                "response following the Post on the endpoint 'transactionToBankAccount' with the given transactionToBankAccount : {"
+                    + transactionToBankAccount.toString() + "}");
+          }
+        }
+      }
+    } catch (Exception exception) {
+      logger.error("Error in the TransactionController in the method createTransactionToBankAccount :"
+          + exception.getMessage());
+    }
+    if (existingUserAccount == false) {
+      logger.error("The user account "
+          + transactionToBankAccount.getEmailAddressEmitter() + " doesn't exist.");
+      throw new NonexistentException(
+          "The user account "
+              + transactionToBankAccount.getEmailAddressEmitter() + " doesn't exist.");
+    }
+    if (!existingBankAccount) {
+      logger.error("The emitter has not this bank account.");
+      throw new NonexistentException(
+          "The emitter has not this bank account.");
+    }
+    if (!checkIfEnoughMoney) {
+      logger.error("The emitter has not enough money on his account to make a transaction.");
+      throw new IsForbiddenException(
+          "The emitter has not enough money on his account to make a transaction.");
+    }
+    return newTransactionToBankAccount;
+  }
+
 }

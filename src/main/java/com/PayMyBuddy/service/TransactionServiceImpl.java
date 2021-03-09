@@ -104,4 +104,30 @@ public class TransactionServiceImpl implements TransactionService {
     return moneyDeposit;
   }
 
+  /**
+   * Make a transaction from an user to one of his bank account
+   * 
+   * @param transactionToBankAccount A transaction to make
+   * @return the transaction made
+   */
+  @Override
+  @Transactional(rollbackOn = { Exception.class })
+  public Transaction makeTransactionToBankAccount(Transaction transactionToBankAccount) {
+    logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
+    try {
+      double taxAmount = transactionToBankAccount.getAmount() * Tax.TAX100 / 100;
+      // add here the transaction of tax_amount towards the account of the app
+      UserAccount emitter = userAccountRepository.findByEmailAddress(transactionToBankAccount.getEmailAddressEmitter());
+      emitter.setAmount(emitter.getAmount() - (transactionToBankAccount.getAmount() + taxAmount));
+      userAccountService.saveUserAccount(emitter);
+      BankAccount receiver = bankAccountRepository.findByIban(transactionToBankAccount.getIban());
+      // add here the money deposit on the bank account
+      transactionToBankAccount.setMyDate(new Date());
+      saveTransaction(transactionToBankAccount);
+    } catch (Exception exception) {
+      logger.error("Error when we try to make the transaction :" + exception.getMessage());
+    }
+    return transactionToBankAccount;
+  }
+
 }

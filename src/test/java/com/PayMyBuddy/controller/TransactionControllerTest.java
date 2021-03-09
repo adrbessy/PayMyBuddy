@@ -39,6 +39,7 @@ public class TransactionControllerTest {
 
   private Transaction friendTransaction;
   private Transaction moneyDeposit;
+  private Transaction transactionToBankAccount;
 
   @Test
   public void testGetTransactions() throws Exception {
@@ -131,6 +132,26 @@ public class TransactionControllerTest {
         .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
         .content(new ObjectMapper().writeValueAsString(moneyDeposit));
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testCreateTransactionToBankAccount() throws Exception {
+    transactionToBankAccount = new Transaction();
+    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+
+    when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
+    when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
+        transactionToBankAccount.getIban())).thenReturn(true);
+    when(userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
+        transactionToBankAccount.getAmount())).thenReturn(true);
+    when(transactionService.makeTransactionToBankAccount(transactionToBankAccount))
+        .thenReturn(transactionToBankAccount);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/transactionToBankAccount")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(transactionToBankAccount));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
   }
 
 }
