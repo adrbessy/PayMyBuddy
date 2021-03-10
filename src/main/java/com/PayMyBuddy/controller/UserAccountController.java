@@ -52,6 +52,7 @@ public class UserAccountController {
           "The new user account has to get an email address with a password.");
     }
     try {
+      userAccount = userAccountService.encryptPassword(userAccount);
       newUserAccount = userAccountService.saveUserAccount(userAccount);
       logger.info(
           "response following the Post on the endpoint 'userAccount' with the given userAccount : {"

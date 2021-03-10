@@ -8,6 +8,7 @@ import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.Arrays;
 import java.util.List;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,20 @@ public class UserAccountServiceTest {
 
     boolean result = userAccountService.checkEnoughMoney(emailAddress_emitter, amount);
     assertFalse(result);
+  }
+
+  /**
+   * test to check the correspondence between the input password and the encrypted
+   * password.
+   * 
+   */
+  @Test
+  public void testCheckPassword() {
+    String inputPassword = "hell";
+    BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+    String encryptedPassword = passwordEncryptor.encryptPassword(inputPassword);
+    assertTrue(userAccountService.checkPassword(inputPassword, encryptedPassword));
+    assertFalse(userAccountService.checkPassword("hello", encryptedPassword));
   }
 
 }

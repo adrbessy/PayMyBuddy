@@ -53,4 +53,21 @@ public interface UserAccountService {
    */
   public void deleteUserAccount(String emailAddress);
 
+  /**
+   * Encrypt the password of the user before storing it in the database
+   * 
+   * @param userAccount The userAccount of the user
+   * @return The userAccount
+   */
+  public UserAccount encryptPassword(UserAccount userAccount);
+
+  /**
+   * Check the validity of the password
+   * 
+   * @param inputPassword     The password entered by the user
+   * @param encryptedPassword The password encrypted
+   * @return true if there is a correspondance between both
+   */
+  public boolean checkPassword(String inputPassword, String encryptedPassword);
+
 }

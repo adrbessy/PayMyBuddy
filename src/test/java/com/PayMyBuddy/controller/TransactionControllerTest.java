@@ -154,4 +154,52 @@ public class TransactionControllerTest {
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
   }
 
+  @Test
+  public void testCreateTransactionToBankAccountEmailDoesntExist() throws Exception {
+    transactionToBankAccount = new Transaction();
+    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+
+    when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(false);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/transactionToBankAccount")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(transactionToBankAccount));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testCreateTransactionToBankAccountBankAccountDoesntExist() throws Exception {
+    transactionToBankAccount = new Transaction();
+    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+
+    when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
+    when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
+        transactionToBankAccount.getIban())).thenReturn(false);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/transactionToBankAccount")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(transactionToBankAccount));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testCreateTransactionToBankAccountNotEnoughMoney() throws Exception {
+    transactionToBankAccount = new Transaction();
+    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+
+    when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
+    when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
+        transactionToBankAccount.getIban())).thenReturn(true);
+    when(userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
+        transactionToBankAccount.getAmount())).thenReturn(false);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/transactionToBankAccount")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(transactionToBankAccount));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
+  }
+
 }

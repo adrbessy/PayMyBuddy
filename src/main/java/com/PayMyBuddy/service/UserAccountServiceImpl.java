@@ -5,6 +5,7 @@ import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -104,6 +105,34 @@ public class UserAccountServiceImpl implements UserAccountService {
   public void deleteUserAccount(String emailAddress) {
     logger.debug("in the method deleteUserAccount in the class UserAccountServiceImpl");
     userAccountRepository.deleteUserAccountByEmailAddress(emailAddress);
+  }
+
+  /**
+   * Encrypt the password of the user before storing it in the database
+   * 
+   * @param userAccount The userAccount of the user
+   * @return The userAccount
+   */
+  @Override
+  public UserAccount encryptPassword(UserAccount userAccount) {
+    logger.debug("in the method encryptPassword in the class UserAccountServiceImpl");
+    BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+    String encryptedPassword = passwordEncryptor.encryptPassword(userAccount.getPassword());
+    userAccount.setPassword(encryptedPassword);
+    return userAccount;
+  }
+
+  /**
+   * Check the validity of the password
+   * 
+   * @param inputPassword     The password entered by the user
+   * @param encryptedPassword The password encrypted
+   * @return true if there is a correspondance between both
+   */
+  @Override
+  public boolean checkPassword(String inputPassword, String encryptedPassword) {
+    BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+    return passwordEncryptor.checkPassword(inputPassword, encryptedPassword);
   }
 
 }
