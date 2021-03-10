@@ -2,6 +2,7 @@ package com.PayMyBuddy.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.model.UserAccount;
@@ -106,6 +107,18 @@ public class UserAccountServiceTest {
     String encryptedPassword = passwordEncryptor.encryptPassword(inputPassword);
     assertTrue(userAccountService.checkPassword(inputPassword, encryptedPassword));
     assertFalse(userAccountService.checkPassword("hello", encryptedPassword));
+  }
+
+  /**
+   * test to encrypt password.
+   * 
+   */
+  @Test
+  public void testEncryptPassword() {
+    userAccount = new UserAccount();
+    userAccount.setPassword("tea");
+    UserAccount userAccount2 = userAccountService.encryptPassword(userAccount);
+    assertNotEquals(userAccount2.getPassword(), "tea");
   }
 
 }

@@ -22,10 +22,6 @@ public class UserAccountController {
   @Autowired
   private UserAccountService userAccountService;
 
-  /*
-   * @Autowired private FriendService friendService;
-   */
-
   /**
    * Read - Get all user accounts
    * 
