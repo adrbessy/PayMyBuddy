@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,11 +23,21 @@ public class FriendController {
   /**
    * Read - Get all friend relationships
    * 
-   * @return - An Iterable object of friend raltionships full filled
+   * @return - An Iterable object of friend relationships full filled
    */
   @GetMapping("/friends")
   public Iterable<Friend> getFriends() {
     return friendService.getFriends();
+  }
+
+  /**
+   * Read - Get friend relationships of one user
+   * 
+   * @return - An Iterable object of friend relationships full filled
+   */
+  @GetMapping("/myFriends")
+  public Iterable<Friend> getFriends(@RequestParam String emailAddress) {
+    return friendService.getFriendsOfOneUser(emailAddress);
   }
 
   /**

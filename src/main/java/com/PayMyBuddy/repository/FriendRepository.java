@@ -13,4 +13,8 @@ public interface FriendRepository extends CrudRepository<Friend, Long> {
 
   void deleteFriendByEmailAddressUser2(String emailAddress);
 
+  Iterable<Friend> findByEmailAddressUser1(String emailAddress);
+
+  Iterable<Friend> findByEmailAddressUser2(String emailAddress);
+
 }

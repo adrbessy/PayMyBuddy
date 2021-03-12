@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -115,10 +116,9 @@ public class UserAccountServiceImpl implements UserAccountService {
    */
   @Override
   public UserAccount encryptPassword(UserAccount userAccount) {
-    logger.debug("in the method encryptPassword in the class UserAccountServiceImpl");
-    BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-    String encryptedPassword = passwordEncryptor.encryptPassword(userAccount.getPassword());
-    userAccount.setPassword(encryptedPassword);
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    String encodedPassword = encoder.encode(userAccount.getPassword());
+    userAccount.setPassword(encodedPassword);
     return userAccount;
   }
 

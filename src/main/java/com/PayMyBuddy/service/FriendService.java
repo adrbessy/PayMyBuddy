@@ -44,4 +44,13 @@ public interface FriendService {
    */
   public void deleteFriendRelationships(String emailAddress);
 
+  /**
+   * Get all friend relationships of one user
+   * 
+   * @param emailAddress
+   * 
+   * @return all friend relationships of one user
+   */
+  public Iterable<Friend> getFriendsOfOneUser(String emailAddress);
+
 }

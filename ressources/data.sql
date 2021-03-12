@@ -92,14 +92,19 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-
+/* encoded passord: 
+ * pass1
+ * pass2
+ * pass3
+ * pass4
+ * */
 INSERT INTO public.user_account 
 (email_address, password, first_name, name, amount) 
 VALUES 
-('adrien@mail.fr','test','Adrien','Bessy', 450),
-('isabelle@mail.fr','test','Isabelle','Bessy', 500),
-('marie@mail.fr','test','Marie','Regnier', 500),
-('helene@mail.fr','test','Hélène','Pina', 650)
+('adrien@mail.fr','$2y$10$9MuT8nCO1EBm.x1ZouXZZuWv9CIn4.mMHY5g4nXDJ8WtX.xnMvDvG','Adrien','Bessy', 450),
+('isabelle@mail.fr','$2y$10$GL.6X5fogT.CBFNCDPpXGe/O7j99Qk1PphDWelBtPwlzjsIz3t/re','Isabelle','Bessy', 500),
+('marie@mail.fr','$2y$10$ISIdDPQj4V1vPywG7GvEFub1PmHUVWNAgSJp3VFexjmonmvg.pKOe','Marie','Regnier', 500),
+('helene@mail.fr','$2y$10$lNN56pTpDPLzvQfSfridH.ZIRCi44.hJse3d6D2ZMhN7aC/Whd8jm','Hélène','Pina', 650)
 ;
 
 INSERT INTO public.friend 

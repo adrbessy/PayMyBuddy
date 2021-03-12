@@ -99,4 +99,18 @@ public class FriendServiceImpl implements FriendService {
     friendRepository.deleteFriendByEmailAddressUser2(emailAddress);
   }
 
+  /**
+   * Get all friend relationships of one user
+   * 
+   * @param emailAddress
+   * 
+   * @return all friend relationships of one user
+   */
+  @Override
+  public Iterable<Friend> getFriendsOfOneUser(String emailAddress) {
+    Iterable<Friend> list1 = friendRepository.findByEmailAddressUser1(emailAddress);
+    Iterable<Friend> list2 = friendRepository.findByEmailAddressUser2(emailAddress);
+    return list1;
+  }
+
 }

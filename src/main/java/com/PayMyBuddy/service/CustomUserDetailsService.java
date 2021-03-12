@@ -1,5 +1,7 @@
 package com.PayMyBuddy.service;
 
+import com.PayMyBuddy.configuration.CustomUserDetails;
+import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +15,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
-    // TODO Auto-generated method stub
-    return null;
+    UserAccount userAccount = userAccountRepository.findByEmailAddress(emailAddress);
+    if (userAccount == null) {
+      throw new UsernameNotFoundException("User account not found");
+    }
+    return new CustomUserDetails(userAccount);
   }
 
 }

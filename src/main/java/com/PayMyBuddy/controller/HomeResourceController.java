@@ -1,19 +1,24 @@
 package com.PayMyBuddy.controller;
 
+import com.PayMyBuddy.service.FriendService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class HomeResourceController {
+
+  @Autowired
+  private FriendService friendService;
 
   @GetMapping("/")
   public String home() {
-    return "<h1>Welcome to Pay My Buddy</h1>";
+    return "index";
   }
 
   @GetMapping("/user")
   public String user() {
-    return "<h1>Welcome user</h1>";
+    return "user";
   }
 
   @GetMapping("/admin")

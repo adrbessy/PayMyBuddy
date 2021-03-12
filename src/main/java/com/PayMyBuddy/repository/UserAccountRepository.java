@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserAccountRepository extends CrudRepository<UserAccount, Long> {
 
-  boolean existsByEmailAddress(String emailAddress_user1);
+  boolean existsByEmailAddress(String emailAddress);
 
-  UserAccount findByEmailAddress(String emailAddress_emitter);
+  UserAccount findByEmailAddress(String emailAddress);
 
   void deleteUserAccountByEmailAddress(String emailAddress);
 
