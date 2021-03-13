@@ -19,10 +19,10 @@ CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
                 email_address_emitter VARCHAR(50) DEFAULT 'adrien@mail.fr',
                 my_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                id_bank_account INTEGER, 
                 description VARCHAR DEFAULT 'This is a description',
                 amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
                 email_address_receiver VARCHAR(50) DEFAULT 'isabelle@mail.fr',
-                iban VARCHAR(34),
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
 );
 
@@ -86,8 +86,8 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.Transaction ADD CONSTRAINT bank_account_transaction_fk
-FOREIGN KEY (iban)
-REFERENCES public.Bank_account (iban)
+FOREIGN KEY (id_bank_account)
+REFERENCES public.Bank_account (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;

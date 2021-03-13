@@ -93,11 +93,8 @@ public class TransactionControllerTest {
   @Test
   public void testCreateMoneyDeposit() throws Exception {
     moneyDeposit = new Transaction();
-    moneyDeposit.setIban("NL46INGB6637543128");
 
     when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(true);
-    when(bankAccountService.bankAccountExist(moneyDeposit.getEmailAddressReceiver(),
-        moneyDeposit.getIban())).thenReturn(true);
     when(transactionService.makeMoneyDeposit(moneyDeposit)).thenReturn(moneyDeposit);
 
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
@@ -109,7 +106,6 @@ public class TransactionControllerTest {
   @Test
   public void testCreateMoneyDepositUserAccountDoesntExist() throws Exception {
     moneyDeposit = new Transaction();
-    moneyDeposit.setIban("NL46INGB6637543128");
 
     when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(false);
 
@@ -120,29 +116,14 @@ public class TransactionControllerTest {
   }
 
   @Test
-  public void testCreateMoneyDepositBankAccountDoesntExist() throws Exception {
-    moneyDeposit = new Transaction();
-    moneyDeposit.setIban("NL46INGB6637543128");
-
-    when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(true);
-    when(bankAccountService.bankAccountExist(moneyDeposit.getEmailAddressReceiver(),
-        moneyDeposit.getIban())).thenReturn(false);
-
-    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
-        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
-        .content(new ObjectMapper().writeValueAsString(moneyDeposit));
-    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
-  }
-
-  @Test
   public void testCreateTransactionToBankAccount() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setIdBankAccount("1");
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
     when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
-        transactionToBankAccount.getIban())).thenReturn(true);
+        transactionToBankAccount.getIdBankAccount())).thenReturn(true);
     when(userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
         transactionToBankAccount.getAmount())).thenReturn(true);
     when(transactionService.makeTransactionToBankAccount(transactionToBankAccount))
@@ -157,7 +138,7 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccountEmailDoesntExist() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setIdBankAccount("1");
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(false);
@@ -171,12 +152,12 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccountBankAccountDoesntExist() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setIdBankAccount("1");
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
     when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
-        transactionToBankAccount.getIban())).thenReturn(false);
+        transactionToBankAccount.getIdBankAccount())).thenReturn(false);
 
     MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/transactionToBankAccount")
         .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
@@ -187,12 +168,12 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccountNotEnoughMoney() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setIdBankAccount("1");
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
     when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
-        transactionToBankAccount.getIban())).thenReturn(true);
+        transactionToBankAccount.getIdBankAccount())).thenReturn(true);
     when(userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
         transactionToBankAccount.getAmount())).thenReturn(false);
 

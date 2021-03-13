@@ -83,13 +83,13 @@ public class TransactionServiceTest {
    */
   @Test
   public void testMakeMoneyDeposit() {
-    moneyDeposit.setIban("NL46INGB6637543128");
+    moneyDeposit.setIdBankAccount("1");
     moneyDeposit.setAmount(100);
     moneyDeposit.setEmailAddressReceiver("marie@mail.fr");
     userAccount.setEmailAddress("marie@mail.fr");
     userAccount.setAmount(500);
 
-    when(bankAccountRepositoryMock.findByIban(moneyDeposit.getIban()))
+    when(bankAccountRepositoryMock.findById(moneyDeposit.getIdBankAccount()))
         .thenReturn(bankAccount);
     when(userAccountRepositoryMock.findByEmailAddress(moneyDeposit.getEmailAddressReceiver())).thenReturn(userAccount);
     when(userAccountService.saveUserAccount(userAccount))
@@ -102,7 +102,7 @@ public class TransactionServiceTest {
 
   @Test
   public void testMakeTransactionToBankAccount() {
-    transactionToBankAccount.setIban("NL46INGB6637543128");
+    transactionToBankAccount.setIdBankAccount("1");
     transactionToBankAccount.setAmount(100);
     transactionToBankAccount.setEmailAddressEmitter("marie@mail.fr");
     userAccount.setEmailAddress("marie@mail.fr");
@@ -111,7 +111,7 @@ public class TransactionServiceTest {
     when(userAccountRepositoryMock.findByEmailAddress(transactionToBankAccount.getEmailAddressEmitter()))
         .thenReturn(userAccount);
     when(userAccountService.saveUserAccount(userAccount)).thenReturn(userAccount);
-    when(bankAccountRepositoryMock.findByIban(transactionToBankAccount.getIban()))
+    when(bankAccountRepositoryMock.findById(transactionToBankAccount.getIdBankAccount()))
         .thenReturn(bankAccount);
 
     transactionService.makeTransactionToBankAccount(transactionToBankAccount);

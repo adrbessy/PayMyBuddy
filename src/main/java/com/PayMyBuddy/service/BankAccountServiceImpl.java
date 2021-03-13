@@ -23,11 +23,11 @@ public class BankAccountServiceImpl implements BankAccountService {
    * @return true if the association of both exist, otherwise returns false
    */
   @Override
-  public boolean bankAccountExist(String emailAddressReceiver, String iban) {
+  public boolean bankAccountExist(String emailAddressReceiver, String id) {
     logger.debug("in the method bankAccountExist in the class BankAccountServiceImpl");
-    return bankAccountRepository.existsByEmailAddressAndIban(
+    return bankAccountRepository.existsByEmailAddressAndId(
         emailAddressReceiver,
-        iban);
+        id);
   }
 
   /**

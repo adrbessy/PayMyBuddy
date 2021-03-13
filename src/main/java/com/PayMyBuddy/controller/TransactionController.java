@@ -99,14 +99,10 @@ public class TransactionController {
       logger.info("Post request with the endpoint 'moneyDeposit'");
       existingUserAccount = userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver());
       if (existingUserAccount) {
-        existingBankAccount = bankAccountService.bankAccountExist(moneyDeposit.getEmailAddressReceiver(),
-            moneyDeposit.getIban());
-        if (existingBankAccount) {
-          newMoneyDeposit = transactionService.makeMoneyDeposit(moneyDeposit);
-          logger.info(
-              "response following the Post on the endpoint 'moneyDeposit' with the given moneyDeposit : {"
-                  + moneyDeposit.toString() + "}");
-        }
+        newMoneyDeposit = transactionService.makeMoneyDeposit(moneyDeposit);
+        logger.info(
+            "response following the Post on the endpoint 'moneyDeposit' with the given moneyDeposit : {"
+                + moneyDeposit.toString() + "}");
       }
     } catch (Exception exception) {
       logger.error("Error in the TransactionController in the method createMoneyDeposit :"
@@ -118,11 +114,6 @@ public class TransactionController {
       throw new NonexistentException(
           "The user account "
               + moneyDeposit.getEmailAddressReceiver() + " doesn't exist.");
-    }
-    if (!existingBankAccount) {
-      logger.error("The emitter has not this bank account.");
-      throw new NonexistentException(
-          "The emitter has not this bank account.");
     }
     return newMoneyDeposit;
   }
@@ -145,7 +136,7 @@ public class TransactionController {
           .userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter());
       if (existingUserAccount) {
         existingBankAccount = bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
-            transactionToBankAccount.getIban());
+            transactionToBankAccount.getIdBankAccount());
         if (existingBankAccount) {
           checkIfEnoughMoney = userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
               transactionToBankAccount.getAmount());

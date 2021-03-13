@@ -1,7 +1,6 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.constants.Tax;
-import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
@@ -89,10 +88,6 @@ public class TransactionServiceImpl implements TransactionService {
   public Transaction makeMoneyDeposit(Transaction moneyDeposit) {
     logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
     try {
-      BankAccount emitter = bankAccountRepository.findByIban(moneyDeposit.getIban());
-      double taxAmount = moneyDeposit.getAmount() * Tax.TAX100 / 100;
-      // add here the direct debit from the bank account
-      // add here the transaction of tax_amount towards the account of the app
       UserAccount receiver = userAccountRepository.findByEmailAddress(moneyDeposit.getEmailAddressReceiver());
       receiver.setAmount(receiver.getAmount() + moneyDeposit.getAmount());
       userAccountService.saveUserAccount(receiver);
@@ -116,12 +111,11 @@ public class TransactionServiceImpl implements TransactionService {
     logger.debug("in the method makeFriendTransaction in the class TransactionServiceImpl");
     try {
       double taxAmount = transactionToBankAccount.getAmount() * Tax.TAX100 / 100;
-      // add here the transaction of tax_amount towards the account of the app
       UserAccount emitter = userAccountRepository.findByEmailAddress(transactionToBankAccount.getEmailAddressEmitter());
       emitter.setAmount(emitter.getAmount() - (transactionToBankAccount.getAmount() + taxAmount));
       userAccountService.saveUserAccount(emitter);
-      BankAccount receiver = bankAccountRepository.findByIban(transactionToBankAccount.getIban());
-      // add here the money deposit on the bank account
+      bankAccountRepository.findById(transactionToBankAccount.getIdBankAccount());
+      // add here the transaction to the bank account via the api of the bank
       transactionToBankAccount.setMyDate(new Date());
       saveTransaction(transactionToBankAccount);
     } catch (Exception exception) {

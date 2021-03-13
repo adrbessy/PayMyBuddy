@@ -29,6 +29,6 @@ public class Transaction {
 
   private String emailAddressReceiver;
 
-  public String iban;
+  public String idBankAccount;
 
 }

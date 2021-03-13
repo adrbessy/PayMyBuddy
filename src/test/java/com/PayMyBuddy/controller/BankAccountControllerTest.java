@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -28,11 +29,13 @@ public class BankAccountControllerTest {
   private BankAccount bankAccount;
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testGetBankAccounts() throws Exception {
     mockMvc.perform(get("/bankAccounts")).andExpect(status().isOk());
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateBankAccount() throws Exception {
     bankAccount = new BankAccount();
     bankAccount.setEmailAddress("adrien@mail.fr");
