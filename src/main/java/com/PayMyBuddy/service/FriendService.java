@@ -1,6 +1,7 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Friend;
+import java.util.List;
 
 public interface FriendService {
 
@@ -17,7 +18,7 @@ public interface FriendService {
    * 
    * @return all friend relationships
    */
-  public Iterable<Friend> getFriends();
+  public Iterable<Friend> getFriendRelationships();
 
   /**
    * Check if the emails exist.
@@ -51,6 +52,6 @@ public interface FriendService {
    * 
    * @return all friend relationships of one user
    */
-  public Iterable<Friend> getFriendsOfOneUser(String emailAddress);
+  public List<String> getFriendsOfOneUser(String emailAddress);
 
 }

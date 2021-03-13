@@ -1,6 +1,7 @@
 package com.PayMyBuddy.repository;
 
 import com.PayMyBuddy.model.Friend;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +14,8 @@ public interface FriendRepository extends CrudRepository<Friend, Long> {
 
   void deleteFriendByEmailAddressUser2(String emailAddress);
 
-  Iterable<Friend> findByEmailAddressUser1(String emailAddress);
+  List<Friend> findByEmailAddressUser1(String emailAddress);
 
-  Iterable<Friend> findByEmailAddressUser2(String emailAddress);
+  List<Friend> findByEmailAddressUser2(String emailAddress);
 
 }

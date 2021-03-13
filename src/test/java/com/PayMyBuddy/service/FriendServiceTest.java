@@ -56,7 +56,7 @@ public class FriendServiceTest {
     Iterable<Friend> it = friendList;
     when(friendRepositoryMock.findAll()).thenReturn(it);
 
-    Iterable<Friend> result = friendService.getFriends();
+    Iterable<Friend> result = friendService.getFriendRelationships();
     assertThat(result).isEqualTo(it);
   }
 

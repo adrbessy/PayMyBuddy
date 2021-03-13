@@ -3,6 +3,8 @@ package com.PayMyBuddy.service;
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.repository.FriendRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class FriendServiceImpl implements FriendService {
    * @return all friend relationships
    */
   @Override
-  public Iterable<Friend> getFriends() {
+  public Iterable<Friend> getFriendRelationships() {
     return friendRepository.findAll();
   }
 
@@ -107,10 +109,17 @@ public class FriendServiceImpl implements FriendService {
    * @return all friend relationships of one user
    */
   @Override
-  public Iterable<Friend> getFriendsOfOneUser(String emailAddress) {
-    Iterable<Friend> list1 = friendRepository.findByEmailAddressUser1(emailAddress);
-    Iterable<Friend> list2 = friendRepository.findByEmailAddressUser2(emailAddress);
-    return list1;
+  public List<String> getFriendsOfOneUser(String emailAddress) {
+    List<String> friendList = new ArrayList<>();
+    List<Friend> friendList1 = friendRepository.findByEmailAddressUser1(emailAddress);
+    friendList1.forEach(friendIterator -> {
+      friendList.add(friendIterator.getEmailAddressUser2());
+    });
+    List<Friend> friendList2 = friendRepository.findByEmailAddressUser2(emailAddress);
+    friendList2.forEach(friendIterator -> {
+      friendList.add(friendIterator.getEmailAddressUser1());
+    });
+    return friendList;
   }
 
 }

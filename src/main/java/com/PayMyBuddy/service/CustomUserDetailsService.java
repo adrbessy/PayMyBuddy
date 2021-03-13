@@ -1,16 +1,16 @@
 package com.PayMyBuddy.service;
 
-import com.PayMyBuddy.configuration.CustomUserDetails;
+import com.PayMyBuddy.model.CustomUserDetails;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-  @Autowired
   private UserAccountRepository userAccountRepository;
 
   @Override

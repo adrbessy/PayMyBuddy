@@ -1,6 +1,5 @@
-package com.PayMyBuddy.configuration;
+package com.PayMyBuddy.model;
 
-import com.PayMyBuddy.model.UserAccount;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
