@@ -11,7 +11,7 @@ public interface BankAccountService {
    * @param emailAddress_user2   The given email
    * @return true if the association of both exist, otherwise returns false
    */
-  boolean bankAccountExist(String emailAddressReceiver, String iban);
+  boolean bankAccountExist(String emailAddressReceiver, Long idBankAccount);
 
   /**
    * Get all bank accounts

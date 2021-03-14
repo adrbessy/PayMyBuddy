@@ -29,6 +29,7 @@ public class Transaction {
 
   private String emailAddressReceiver;
 
-  public String idBankAccount;
+  public Long idBankAccount;
+
 
 }

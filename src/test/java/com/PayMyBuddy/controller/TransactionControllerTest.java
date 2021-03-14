@@ -118,7 +118,7 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccount() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIdBankAccount("1");
+    transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
@@ -138,7 +138,7 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccountEmailDoesntExist() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIdBankAccount("1");
+    transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(false);
@@ -152,7 +152,7 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccountBankAccountDoesntExist() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIdBankAccount("1");
+    transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
@@ -168,7 +168,7 @@ public class TransactionControllerTest {
   @Test
   public void testCreateTransactionToBankAccountNotEnoughMoney() throws Exception {
     transactionToBankAccount = new Transaction();
-    transactionToBankAccount.setIdBankAccount("1");
+    transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);

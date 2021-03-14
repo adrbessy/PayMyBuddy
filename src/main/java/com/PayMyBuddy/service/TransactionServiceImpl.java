@@ -3,10 +3,12 @@ package com.PayMyBuddy.service;
 import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
-import com.PayMyBuddy.repository.BankAccountRepository;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +25,6 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Autowired
   private TransactionRepository transactionRepository;
-
-  @Autowired
-  private BankAccountRepository bankAccountRepository;
 
   @Autowired
   private UserAccountService userAccountService;
@@ -114,7 +113,6 @@ public class TransactionServiceImpl implements TransactionService {
       UserAccount emitter = userAccountRepository.findByEmailAddress(transactionToBankAccount.getEmailAddressEmitter());
       emitter.setAmount(emitter.getAmount() - (transactionToBankAccount.getAmount() + taxAmount));
       userAccountService.saveUserAccount(emitter);
-      bankAccountRepository.findById(transactionToBankAccount.getIdBankAccount());
       // add here the transaction to the bank account via the api of the bank
       transactionToBankAccount.setMyDate(new Date());
       saveTransaction(transactionToBankAccount);
@@ -122,6 +120,22 @@ public class TransactionServiceImpl implements TransactionService {
       logger.error("Error when we try to make the transaction :" + exception.getMessage());
     }
     return transactionToBankAccount;
+  }
+
+  /**
+   * Get all transactions of one user
+   * 
+   * @param emailAddress
+   * 
+   * @return a list of the transactions of one user
+   */
+  @Override
+  public List<Transaction> getTransactionsOfOneUser(String emailAddress) {
+    List<Transaction> transactionList1 = transactionRepository.findByEmailAddressEmitter(emailAddress);
+    List<Transaction> transactionList2 = transactionRepository.findByEmailAddressReceiver(emailAddress);
+    List<Transaction> transactionList = Stream.concat(transactionList1.stream(), transactionList2.stream())
+        .collect(Collectors.toList());
+    return transactionList;
   }
 
 }

@@ -111,7 +111,7 @@ public class FriendServiceImpl implements FriendService {
    * 
    * @param emailAddress
    * 
-   * @return all friend relationships of one user
+   * @return a list of the friend relationships of one user
    */
   @Override
   public List<UserAccountDto> getFriendsOfOneUser(String emailAddress) {

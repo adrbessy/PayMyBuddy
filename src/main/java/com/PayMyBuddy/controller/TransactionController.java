@@ -7,12 +7,14 @@ import com.PayMyBuddy.service.BankAccountService;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
 import com.PayMyBuddy.service.UserAccountService;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -170,6 +172,17 @@ public class TransactionController {
           "The emitter has not enough money on his account to make a transaction.");
     }
     return newTransactionToBankAccount;
+  }
+
+  /**
+   * Read - Get all transactions of one user
+   * 
+   * @param emailAddress The email address of the user
+   * @return - A List of transactions
+   */
+  @GetMapping("/myTransactions")
+  public List<Transaction> getMyTransactions(@RequestParam String emailAddress) {
+    return transactionService.getTransactionsOfOneUser(emailAddress);
   }
 
 }

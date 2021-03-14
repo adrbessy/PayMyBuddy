@@ -35,7 +35,8 @@ public class FriendController {
   /**
    * Read - Get friend relationships of one user
    * 
-   * @return - An Iterable object of friend relationships full filled
+   * @param emailAddress The email address of the user
+   * @return - A List of his friend relationships
    */
   @GetMapping("/myFriends")
   public List<UserAccountDto> getFriends(@RequestParam String emailAddress) {

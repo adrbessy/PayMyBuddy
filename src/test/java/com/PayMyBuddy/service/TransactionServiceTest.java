@@ -83,14 +83,11 @@ public class TransactionServiceTest {
    */
   @Test
   public void testMakeMoneyDeposit() {
-    moneyDeposit.setIdBankAccount("1");
     moneyDeposit.setAmount(100);
     moneyDeposit.setEmailAddressReceiver("marie@mail.fr");
     userAccount.setEmailAddress("marie@mail.fr");
     userAccount.setAmount(500);
 
-    when(bankAccountRepositoryMock.findById(moneyDeposit.getIdBankAccount()))
-        .thenReturn(bankAccount);
     when(userAccountRepositoryMock.findByEmailAddress(moneyDeposit.getEmailAddressReceiver())).thenReturn(userAccount);
     when(userAccountService.saveUserAccount(userAccount))
         .thenReturn(userAccount);
@@ -102,7 +99,6 @@ public class TransactionServiceTest {
 
   @Test
   public void testMakeTransactionToBankAccount() {
-    transactionToBankAccount.setIdBankAccount("1");
     transactionToBankAccount.setAmount(100);
     transactionToBankAccount.setEmailAddressEmitter("marie@mail.fr");
     userAccount.setEmailAddress("marie@mail.fr");
@@ -111,8 +107,6 @@ public class TransactionServiceTest {
     when(userAccountRepositoryMock.findByEmailAddress(transactionToBankAccount.getEmailAddressEmitter()))
         .thenReturn(userAccount);
     when(userAccountService.saveUserAccount(userAccount)).thenReturn(userAccount);
-    when(bankAccountRepositoryMock.findById(transactionToBankAccount.getIdBankAccount()))
-        .thenReturn(bankAccount);
 
     transactionService.makeTransactionToBankAccount(transactionToBankAccount);
     double final_emitter_account = 500 - (100 + 100 * Tax.TAX100 / 100);

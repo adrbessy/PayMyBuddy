@@ -1,6 +1,7 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Transaction;
+import java.util.List;
 
 public interface TransactionService {
 
@@ -35,5 +36,14 @@ public interface TransactionService {
    * @return the transaction made
    */
   Transaction makeTransactionToBankAccount(Transaction transactionToBankAccount);
+
+  /**
+   * Get all transactions of one user
+   * 
+   * @param emailAddress
+   * 
+   * @return a list of the transactions of one user
+   */
+  List<Transaction> getTransactionsOfOneUser(String emailAddress);
 
 }

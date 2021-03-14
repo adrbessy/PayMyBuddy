@@ -11,8 +11,6 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Long>
 
   BankAccount findByIban(String iban);
 
-  BankAccount findById(String idBankAccount);
-
-  boolean existsByEmailAddressAndId(String emailAddressReceiver, String id);
+  boolean existsByEmailAddressAndId(String emailAddressReceiver, Long idBankAccount);
 
 }

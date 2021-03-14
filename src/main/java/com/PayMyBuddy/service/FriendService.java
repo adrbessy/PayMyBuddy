@@ -51,7 +51,7 @@ public interface FriendService {
    * 
    * @param emailAddress
    * 
-   * @return all friend relationships of one user
+   * @return a list of the friend relationships of one user
    */
   public List<UserAccountDto> getFriendsOfOneUser(String emailAddress);
 
