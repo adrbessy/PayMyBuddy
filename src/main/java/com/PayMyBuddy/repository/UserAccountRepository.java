@@ -13,4 +13,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Long>
 
   void deleteUserAccountByEmailAddress(String emailAddress);
 
+  UserAccount findDistinctByEmailAddress(String stationIterator);
+
 }

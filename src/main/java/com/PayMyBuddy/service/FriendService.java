@@ -1,6 +1,7 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Friend;
+import com.PayMyBuddy.model.UserAccountDto;
 import java.util.List;
 
 public interface FriendService {
@@ -52,6 +53,6 @@ public interface FriendService {
    * 
    * @return all friend relationships of one user
    */
-  public List<String> getFriendsOfOneUser(String emailAddress);
+  public List<UserAccountDto> getFriendsOfOneUser(String emailAddress);
 
 }

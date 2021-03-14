@@ -1,6 +1,8 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Friend;
+import com.PayMyBuddy.model.UserAccount;
+import com.PayMyBuddy.model.UserAccountDto;
 import com.PayMyBuddy.repository.FriendRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.ArrayList;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 public class FriendServiceImpl implements FriendService {
 
   private static final Logger logger = LogManager.getLogger(FriendServiceImpl.class);
+
+  @Autowired
+  private MapService mapService;
 
   @Autowired
   private FriendRepository friendRepository;
@@ -109,17 +114,23 @@ public class FriendServiceImpl implements FriendService {
    * @return all friend relationships of one user
    */
   @Override
-  public List<String> getFriendsOfOneUser(String emailAddress) {
-    List<String> friendList = new ArrayList<>();
+  public List<UserAccountDto> getFriendsOfOneUser(String emailAddress) {
+    List<String> emailList = new ArrayList<>();
     List<Friend> friendList1 = friendRepository.findByEmailAddressUser1(emailAddress);
     friendList1.forEach(friendIterator -> {
-      friendList.add(friendIterator.getEmailAddressUser2());
+      emailList.add(friendIterator.getEmailAddressUser2());
     });
     List<Friend> friendList2 = friendRepository.findByEmailAddressUser2(emailAddress);
     friendList2.forEach(friendIterator -> {
-      friendList.add(friendIterator.getEmailAddressUser1());
+      emailList.add(friendIterator.getEmailAddressUser1());
     });
-    return friendList;
+    List<UserAccount> userList = new ArrayList<>();
+    emailList.forEach(stationIterator -> {
+      // we retrieve the list of stations corresponding to the stationNumber
+      userList.add(userAccountRepository.findDistinctByEmailAddress(stationIterator));
+    });
+    List<UserAccountDto> userAccountDtoList = mapService.convertToUserAccountDtoList(userList);
+    return userAccountDtoList;
   }
 
 }

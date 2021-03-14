@@ -2,6 +2,7 @@ package com.PayMyBuddy.controller;
 
 import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.Friend;
+import com.PayMyBuddy.model.UserAccountDto;
 import com.PayMyBuddy.service.FriendService;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +38,7 @@ public class FriendController {
    * @return - An Iterable object of friend relationships full filled
    */
   @GetMapping("/myFriends")
-  public List<String> getFriends(@RequestParam String emailAddress) {
+  public List<UserAccountDto> getFriends(@RequestParam String emailAddress) {
     return friendService.getFriendsOfOneUser(emailAddress);
   }
 
