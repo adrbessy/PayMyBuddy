@@ -43,6 +43,7 @@ public class UserAccountServiceImpl implements UserAccountService {
    */
   @Override
   public Iterable<UserAccount> getUserAccounts() {
+    logger.debug("in the method getUserAccounts in the class UserAccountServiceImpl");
     return userAccountRepository.findAll();
   }
 
@@ -81,6 +82,7 @@ public class UserAccountServiceImpl implements UserAccountService {
    */
   @Override
   public boolean userAccountEmailExist(String emailAddress) {
+    logger.debug("in the method userAccountEmailExist in the class UserAccountServiceImpl");
     return userAccountRepository.existsByEmailAddress(emailAddress);
   }
 

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
@@ -13,6 +15,7 @@ import java.util.List;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -127,21 +130,21 @@ public class UserAccountServiceTest {
    * 
    */
   @Test
-  public void testFriendsExist() {
+  public void testUsersExist() {
     when(userAccountRepositoryMock.existsByEmailAddress(anyString())).thenReturn(true);
     String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
     assertThat(result).isEqualTo("yes");
   }
 
   @Test
-  public void testFriendsDONTexist() {
+  public void testUsersDONTexist() {
     when(userAccountRepositoryMock.existsByEmailAddress(anyString())).thenReturn(false);
     String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
     assertThat(result).isEqualTo("abcde@mail.fr and wxyz@mail.fr don't exist");
   }
 
   @Test
-  public void testFriendsSecondDoesntExist() {
+  public void testUsersSecondDoesntExist() {
     when(userAccountRepositoryMock.existsByEmailAddress("abcde@mail.fr")).thenReturn(true);
     when(userAccountRepositoryMock.existsByEmailAddress("wxyz@mail.fr")).thenReturn(false);
     String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
@@ -149,12 +152,42 @@ public class UserAccountServiceTest {
   }
 
   @Test
-  public void testFriendsFirstDoesntExist() {
+  public void testUsersFirstDoesntExist() {
     when(userAccountRepositoryMock.existsByEmailAddress("abcde@mail.fr")).thenReturn(false);
     when(userAccountRepositoryMock.existsByEmailAddress("wxyz@mail.fr")).thenReturn(true);
 
     String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
     assertThat(result).isEqualTo("abcde@mail.fr doesn't exist");
+  }
+
+  @Test
+  public void testUserAccountEmailExist() {
+    String emailAddress = "adrien@mail.fr";
+
+    when(userAccountRepositoryMock.existsByEmailAddress(emailAddress)).thenReturn(true);
+
+    assertTrue(userAccountService.userAccountEmailExist(emailAddress));
+  }
+
+  @Test
+  public void testGetUserAccount() {
+    String emailAddress = "adrien@mail.fr";
+    userAccount = new UserAccount();
+
+    when(userAccountRepositoryMock.findByEmailAddress(emailAddress)).thenReturn(userAccount);
+
+    assertThat(userAccountService.getUserAccount(emailAddress)).isEqualTo(userAccount);
+  }
+
+  @Test
+  public void testDeleteUserAccount() {
+    String emailAddress = "adrien@mail.fr";
+
+    doNothing().when(userAccountRepositoryMock).deleteUserAccountByEmailAddress(emailAddress);
+
+    userAccountService.deleteUserAccount(emailAddress);
+    verify(userAccountRepositoryMock,
+        Mockito.times(1)).deleteUserAccountByEmailAddress(emailAddress);
   }
 
 }
