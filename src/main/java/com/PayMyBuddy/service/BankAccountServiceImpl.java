@@ -2,6 +2,7 @@ package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,9 @@ public class BankAccountServiceImpl implements BankAccountService {
    * @return all bank accounts
    */
   @Override
-  public Iterable<BankAccount> getBankAccounts() {
-    return bankAccountRepository.findAll();
+  public List<BankAccount> getBankAccounts() {
+    logger.debug("in the method getBankAccounts in the class BankAccountServiceImpl");
+    return (List<BankAccount>) bankAccountRepository.findAll();
   }
 
   /**

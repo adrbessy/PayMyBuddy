@@ -69,7 +69,7 @@ public class UserAccountServiceTest {
    */
   @Test
   public void testCheckEnoughMoney() {
-    String emailAddress_emitter = "adrien@mail.fr";
+    String emailAddressEmitter = "adrien@mail.fr";
     double amount = 100;
     userAccount.setEmailAddress("adrien@mail.fr");
     userAccount.setAmount(100.5);
@@ -77,7 +77,7 @@ public class UserAccountServiceTest {
     when(userAccountRepositoryMock.findByEmailAddress("adrien@mail.fr"))
         .thenReturn(userAccount);
 
-    boolean result = userAccountService.checkEnoughMoney(emailAddress_emitter, amount);
+    boolean result = userAccountService.checkEnoughMoney(emailAddressEmitter, amount);
     assertTrue(result);
   }
 

@@ -50,7 +50,7 @@ public class UserAccountControllerTest {
   }
 
   @Test
-  public void testEditUserAccount() throws Exception {
+  public void testUpdateUserAccount() throws Exception {
     userAccount = new UserAccount();
     userAccount.setEmailAddress("adrien@mail.fr");
     userAccount.setPassword("abcde");
@@ -59,6 +59,9 @@ public class UserAccountControllerTest {
     userAccount2 = new UserAccount();
     userAccount2.setEmailAddress("adrien@mail.fr");
     userAccount2.setPassword("xyz");
+    userAccount2.setFirstName("Isabelle");
+    userAccount2.setName("Bernardin");
+    userAccount2.setAmount(100);
 
     when(userAccountService.userAccountEmailExist("adrien@mail.fr")).thenReturn(true);
     when(userAccountService.getUserAccount("adrien@mail.fr")).thenReturn(userAccount);
@@ -69,6 +72,26 @@ public class UserAccountControllerTest {
         .content(new ObjectMapper().writeValueAsString(userAccount2));
 
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  public void testUpdateUserAccountIfUserDoesntExist() throws Exception {
+    userAccount = new UserAccount();
+    userAccount.setEmailAddress("adrien@mail.fr");
+    userAccount.setPassword("abcde");
+    userAccount.setFirstName("Adrien");
+    userAccount.setName("Bessy");
+    userAccount2 = new UserAccount();
+    userAccount2.setEmailAddress("adrien@mail.fr");
+    userAccount2.setPassword("xyz");
+
+    when(userAccountService.userAccountEmailExist("adrien@mail.fr")).thenReturn(false);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/userAccount/adrien@mail.fr")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(userAccount2));
+
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
 }
