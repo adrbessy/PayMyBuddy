@@ -22,15 +22,6 @@ public interface FriendService {
   public Iterable<Friend> getFriendRelationships();
 
   /**
-   * Check if the emails exist.
-   * 
-   * @param emailAddress_user1 The given email
-   * @param emailAddress_user2 The given email
-   * @return true if they exist, otherwise returns false
-   */
-  public String friendsExist(String emailAddress_user1, String emailAddress_user2);
-
-  /**
    * Check if the friend relationship exist.
    * 
    * @param emailAddress_user1 The given email

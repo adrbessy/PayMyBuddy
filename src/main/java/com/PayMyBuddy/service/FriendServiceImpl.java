@@ -56,30 +56,12 @@ public class FriendServiceImpl implements FriendService {
   }
 
   /**
-   * Check if the emails exist.
+   * Check if the friend relationship exist.
    * 
    * @param emailAddress_user1 The given email
    * @param emailAddress_user2 The given email
-   * @return true if they exist, otherwise returns false
+   * @return true if it exists, otherwise returns false
    */
-  @Override
-  public String friendsExist(String emailAddress_user1, String emailAddress_user2) {
-    logger.debug("in the method friendsExist in the class FriendServiceImpl");
-    boolean existingEmail1 = userAccountRepository.existsByEmailAddress(emailAddress_user1);
-    boolean existingEmail2 = userAccountRepository.existsByEmailAddress(emailAddress_user2);
-    if (existingEmail1 && existingEmail2) {
-      return "yes";
-    }
-    if (existingEmail1 == false && existingEmail2 == false) {
-      return emailAddress_user1 + " and " + emailAddress_user2 + " don't exist";
-    }
-    if (existingEmail1 == false && existingEmail2 == true) {
-      return emailAddress_user1 + " doesn't exist";
-    } else {
-      return emailAddress_user2 + " doesn't exist";
-    }
-  }
-
   @Override
   public boolean friendRelationshipExist(String emailAddress_user1, String emailAddress_user2) {
     logger.debug("in the method friendRelationshipExist in the class FriendServiceImpl");

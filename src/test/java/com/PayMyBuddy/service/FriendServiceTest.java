@@ -1,7 +1,9 @@
 package com.PayMyBuddy.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.model.UserAccount;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -59,47 +62,13 @@ public class FriendServiceTest {
    */
   @Test
   public void testGetAllFriends() {
-
     List<Friend> friendList = Arrays.asList(friendrelationship);
     Iterable<Friend> it = friendList;
+
     when(friendRepositoryMock.findAll()).thenReturn(it);
 
     Iterable<Friend> result = friendService.getFriendRelationships();
     assertThat(result).isEqualTo(it);
-  }
-
-  /**
-   * test to get all friend relationships.
-   * 
-   */
-  @Test
-  public void testFriendsExist() {
-    when(userAccountRepositoryMock.existsByEmailAddress(anyString())).thenReturn(true);
-    String result = friendService.friendsExist("abcde@mail.fr", "wxyz@mail.fr");
-    assertThat(result).isEqualTo("yes");
-  }
-
-  @Test
-  public void testFriendsDONTexist() {
-    when(userAccountRepositoryMock.existsByEmailAddress(anyString())).thenReturn(false);
-    String result = friendService.friendsExist("abcde@mail.fr", "wxyz@mail.fr");
-    assertThat(result).isEqualTo("abcde@mail.fr and wxyz@mail.fr don't exist");
-  }
-
-  @Test
-  public void testFriendsSecondDoesntExist() {
-    when(userAccountRepositoryMock.existsByEmailAddress("abcde@mail.fr")).thenReturn(true);
-    when(userAccountRepositoryMock.existsByEmailAddress("wxyz@mail.fr")).thenReturn(false);
-    String result = friendService.friendsExist("abcde@mail.fr", "wxyz@mail.fr");
-    assertThat(result).isEqualTo("wxyz@mail.fr doesn't exist");
-  }
-
-  @Test
-  public void testFriendsFirstDoesntExist() {
-    when(userAccountRepositoryMock.existsByEmailAddress("abcde@mail.fr")).thenReturn(false);
-    when(userAccountRepositoryMock.existsByEmailAddress("wxyz@mail.fr")).thenReturn(true);
-    String result = friendService.friendsExist("abcde@mail.fr", "wxyz@mail.fr");
-    assertThat(result).isEqualTo("abcde@mail.fr doesn't exist");
   }
 
   @Test
@@ -134,6 +103,36 @@ public class FriendServiceTest {
 
     List<UserAccountDto> result = friendService.getFriendsOfOneUser(emailAddress);
     assertThat(result).isEqualTo(userAccountDtoList);
+  }
+
+  @Test
+  public void testFriendRelationshipExist() {
+    String emailAddress_user1 = "adrien@mail.fr";
+    String emailAddress_user2 = "isabelle@mail.fr";
+
+    when(friendRepositoryMock.existsByEmailAddressUser1AndEmailAddressUser2(
+        emailAddress_user1,
+        emailAddress_user2)).thenReturn(true);
+    when(friendRepositoryMock.existsByEmailAddressUser1AndEmailAddressUser2(
+        emailAddress_user2,
+        emailAddress_user1)).thenReturn(false);
+
+    boolean result = friendService.friendRelationshipExist(emailAddress_user1, emailAddress_user2);
+    assertTrue(result);
+  }
+
+  @Test
+  public void testDeleteFriendRelationships() {
+    String emailAddress = "adrien@mail.fr";
+
+    doNothing().when(friendRepositoryMock).deleteFriendByEmailAddressUser1(emailAddress);
+    doNothing().when(friendRepositoryMock).deleteFriendByEmailAddressUser2(emailAddress);
+
+    friendService.deleteFriendRelationships(emailAddress);
+    verify(friendRepositoryMock,
+        Mockito.times(1)).deleteFriendByEmailAddressUser1(emailAddress);
+    verify(friendRepositoryMock,
+        Mockito.times(1)).deleteFriendByEmailAddressUser2(emailAddress);
   }
 
 }

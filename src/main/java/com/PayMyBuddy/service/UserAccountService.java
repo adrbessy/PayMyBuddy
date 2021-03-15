@@ -70,4 +70,13 @@ public interface UserAccountService {
    */
   public boolean checkPassword(String inputPassword, String encryptedPassword);
 
+  /**
+   * Check if the user accounts exist.
+   * 
+   * @param emailAddress_user1 The given email
+   * @param emailAddress_user2 The given email
+   * @return true if they exist, otherwise returns false
+   */
+  public String usersExist(String emailAddressUser1, String emailAddressUser2);
+
 }

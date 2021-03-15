@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
@@ -119,6 +120,41 @@ public class UserAccountServiceTest {
     userAccount.setPassword("tea");
     UserAccount userAccount2 = userAccountService.encryptPassword(userAccount);
     assertNotEquals(userAccount2.getPassword(), "tea");
+  }
+
+  /**
+   * test to get all friend relationships.
+   * 
+   */
+  @Test
+  public void testFriendsExist() {
+    when(userAccountRepositoryMock.existsByEmailAddress(anyString())).thenReturn(true);
+    String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
+    assertThat(result).isEqualTo("yes");
+  }
+
+  @Test
+  public void testFriendsDONTexist() {
+    when(userAccountRepositoryMock.existsByEmailAddress(anyString())).thenReturn(false);
+    String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
+    assertThat(result).isEqualTo("abcde@mail.fr and wxyz@mail.fr don't exist");
+  }
+
+  @Test
+  public void testFriendsSecondDoesntExist() {
+    when(userAccountRepositoryMock.existsByEmailAddress("abcde@mail.fr")).thenReturn(true);
+    when(userAccountRepositoryMock.existsByEmailAddress("wxyz@mail.fr")).thenReturn(false);
+    String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
+    assertThat(result).isEqualTo("wxyz@mail.fr doesn't exist");
+  }
+
+  @Test
+  public void testFriendsFirstDoesntExist() {
+    when(userAccountRepositoryMock.existsByEmailAddress("abcde@mail.fr")).thenReturn(false);
+    when(userAccountRepositoryMock.existsByEmailAddress("wxyz@mail.fr")).thenReturn(true);
+
+    String result = userAccountService.usersExist("abcde@mail.fr", "wxyz@mail.fr");
+    assertThat(result).isEqualTo("abcde@mail.fr doesn't exist");
   }
 
 }

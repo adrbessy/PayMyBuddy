@@ -1,9 +1,11 @@
 package com.PayMyBuddy.controller;
 
+import com.PayMyBuddy.exceptions.IsForbiddenException;
 import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.model.UserAccountDto;
 import com.PayMyBuddy.service.FriendService;
+import com.PayMyBuddy.service.UserAccountService;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +23,9 @@ public class FriendController {
 
   @Autowired
   private FriendService friendService;
+
+  @Autowired
+  private UserAccountService userAccountService;
 
   /**
    * Read - Get all friend relationships
@@ -54,31 +59,33 @@ public class FriendController {
   @PostMapping("/friend")
   public Friend createFriend(@RequestBody Friend friend) {
     Friend newFriend = null;
-    String existingFriends = null;
+    String existingUsers = null;
     boolean existingFriendRelationship = false;
     try {
       logger.info("Post request with the endpoint 'friend'");
-      existingFriends = friendService.friendsExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2());
-      existingFriendRelationship = friendService.friendRelationshipExist(friend.getEmailAddressUser1(),
-          friend.getEmailAddressUser2());
-      if (existingFriends == "yes" && existingFriendRelationship == false) {
-        newFriend = friendService.saveFriend(friend);
-        logger.info(
-            "response following the Post on the endpoint 'friend' with the given friend : {"
-                + friend.toString() + "}");
+      existingUsers = userAccountService.usersExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2());
+      if (existingUsers == "yes") {
+        existingFriendRelationship = friendService.friendRelationshipExist(friend.getEmailAddressUser1(),
+            friend.getEmailAddressUser2());
+        if (existingFriendRelationship == false) {
+          newFriend = friendService.saveFriend(friend);
+          logger.info(
+              "response following the Post on the endpoint 'friend' with the given friend : {"
+                  + friend.toString() + "}");
+        }
       }
     } catch (Exception exception) {
       logger.error("Error in the FriendController in the method createFriend :"
           + exception.getMessage());
     }
-    if (existingFriends != "yes") {
-      logger.error(existingFriends);
-      throw new NonexistentException(existingFriends);
+    if (existingUsers != "yes") {
+      logger.error(existingUsers);
+      throw new NonexistentException(existingUsers);
     }
     if (existingFriendRelationship) {
       logger.error("The friend relationship between " + friend.getEmailAddressUser1() + " and "
           + friend.getEmailAddressUser2() + " already exist.");
-      throw new IllegalArgumentException("The friend relationship between " + friend.getEmailAddressUser1() + " and "
+      throw new IsForbiddenException("The friend relationship between " + friend.getEmailAddressUser1() + " and "
           + friend.getEmailAddressUser2() + " already exist.");
     }
     return newFriend;

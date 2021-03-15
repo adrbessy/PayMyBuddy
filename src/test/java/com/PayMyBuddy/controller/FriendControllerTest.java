@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.service.FriendService;
+import com.PayMyBuddy.service.UserAccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class FriendControllerTest {
   @MockBean
   private FriendService friendService;
 
+  @MockBean
+  private UserAccountService userAccountServiceMock;
+
   private Friend friend;
 
   @Test
@@ -33,12 +37,18 @@ public class FriendControllerTest {
   }
 
   @Test
+  public void testGetMyFriends() throws Exception {
+    mockMvc.perform(get("/myFriends?emailAddress=adrien@mail.fr")).andExpect(status().isOk());
+  }
+
+  @Test
   public void testCreateUserAccount() throws Exception {
     friend = new Friend();
     friend.setEmailAddressUser1("someone@mail.fr");
     friend.setEmailAddressUser2("someoneElse@mail.fr");
 
-    when(friendService.friendsExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2())).thenReturn("yes");
+    when(userAccountServiceMock.usersExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2()))
+        .thenReturn("yes");
     when(friendService.friendRelationshipExist(friend.getEmailAddressUser1(),
         friend.getEmailAddressUser2())).thenReturn(false);
     when(friendService.saveFriend(friend)).thenReturn(friend);
@@ -48,6 +58,40 @@ public class FriendControllerTest {
         .content(new ObjectMapper().writeValueAsString(friend));
 
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  public void testCreateUserAccountIfUsersDontExist() throws Exception {
+    friend = new Friend();
+    friend.setEmailAddressUser1("someone@mail.fr");
+    friend.setEmailAddressUser2("someoneElse@mail.fr");
+
+    when(userAccountServiceMock.usersExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2()))
+        .thenReturn("no");
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/friend")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(friend));
+
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testCreateUserAccountIfRelationshipsAlreadyExist() throws Exception {
+    friend = new Friend();
+    friend.setEmailAddressUser1("someone@mail.fr");
+    friend.setEmailAddressUser2("someoneElse@mail.fr");
+
+    when(userAccountServiceMock.usersExist(friend.getEmailAddressUser1(), friend.getEmailAddressUser2()))
+        .thenReturn("yes");
+    when(friendService.friendRelationshipExist(friend.getEmailAddressUser1(),
+        friend.getEmailAddressUser2())).thenReturn(true);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/friend")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(friend));
+
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
   }
 
 }
