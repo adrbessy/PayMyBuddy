@@ -51,6 +51,7 @@ public class FriendServiceImpl implements FriendService {
    */
   @Override
   public Iterable<Friend> getFriendRelationships() {
+    logger.debug("in the method getFriendRelationships in the class FriendServiceImpl");
     return friendRepository.findAll();
   }
 
@@ -102,6 +103,7 @@ public class FriendServiceImpl implements FriendService {
    */
   @Override
   public void deleteFriendRelationships(String emailAddress) {
+    logger.debug("in the method deleteFriendRelationships in the class FriendServiceImpl");
     friendRepository.deleteFriendByEmailAddressUser1(emailAddress);
     friendRepository.deleteFriendByEmailAddressUser2(emailAddress);
   }
@@ -115,6 +117,7 @@ public class FriendServiceImpl implements FriendService {
    */
   @Override
   public List<UserAccountDto> getFriendsOfOneUser(String emailAddress) {
+    logger.debug("in the method getFriendsOfOneUser in the class FriendServiceImpl");
     List<String> emailList = new ArrayList<>();
     List<Friend> friendList1 = friendRepository.findByEmailAddressUser1(emailAddress);
     friendList1.forEach(friendIterator -> {

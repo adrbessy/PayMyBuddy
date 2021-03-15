@@ -1,8 +1,6 @@
 package com.PayMyBuddy.controller;
 
-import com.PayMyBuddy.exceptions.IsForbiddenException;
 import com.PayMyBuddy.model.UserAccount;
-import com.PayMyBuddy.service.UserAccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,7 @@ public class RegisterController {
   private static final Logger logger = LogManager.getLogger(RegisterController.class);
 
   @Autowired
-  private UserAccountService userAccountService;
+  private UserAccountController userAccountController;
 
   @GetMapping("/register")
   public String register(Model model) {
@@ -35,24 +33,12 @@ public class RegisterController {
    */
   @PostMapping("/saveUserAccount")
   public String createUserAccount(UserAccount userAccount) {
-    UserAccount newUserAccount = null;
-    if (userAccount.getEmailAddress() == null || userAccount.getPassword() == null || userAccount.getFirstName() == null
-        || userAccount.getName() == null) {
-      logger.error("The new user account has to get an email address with a password, a name and a first name.");
-      throw new IsForbiddenException(
-          "The new user account has to get an email address with a password.");
+    UserAccount newUserAccount = userAccountController.createUserAccount(userAccount);
+    if (newUserAccount != null) {
+      return "register_success";
+    } else {
+      return "register_fail";
     }
-    try {
-      userAccount = userAccountService.encryptPassword(userAccount);
-      newUserAccount = userAccountService.saveUserAccount(userAccount);
-      logger.info(
-          "response following the Post on the endpoint 'userAccount' with the given userAccount : {"
-              + userAccount.toString() + "}");
-    } catch (Exception exception) {
-      logger.error("Error in the UserAccountController in the method createUserAccount :"
-          + exception.getMessage());
-    }
-    return "register_success";
   }
 
 }

@@ -3,12 +3,15 @@ package com.PayMyBuddy.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.constants.Tax;
-import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +39,20 @@ public class TransactionServiceTest {
   private Transaction friendTransaction;
   private Transaction moneyDeposit;
   private Transaction transactionToBankAccount;
+  private Transaction transaction;
+  private Transaction transaction2;
   private UserAccount userAccount;
   private UserAccount userAccount2;
-  private BankAccount bankAccount;
 
   @BeforeEach
   private void setUp() {
     friendTransaction = new Transaction();
     moneyDeposit = new Transaction();
     transactionToBankAccount = new Transaction();
+    transaction = new Transaction();
+    transaction2 = new Transaction();
     userAccount = new UserAccount();
     userAccount2 = new UserAccount();
-    bankAccount = new BankAccount();
   }
 
   /**
@@ -111,6 +116,38 @@ public class TransactionServiceTest {
     transactionService.makeTransactionToBankAccount(transactionToBankAccount);
     double final_emitter_account = 500 - (100 + 100 * Tax.TAX100 / 100);
     assertThat(userAccount.getAmount()).isEqualTo(final_emitter_account);
+  }
+
+  @Test
+  public void testGetTransactionsOfOneUser() {
+    String emailAddress = "adrien@mail.fr";
+    transaction.setEmailAddressEmitter(emailAddress);
+    transaction.setEmailAddressReceiver("marie@mail.fr");
+    List<Transaction> transactionList1 = new ArrayList<>();
+    transactionList1.add(transaction);
+    transaction2.setEmailAddressReceiver(emailAddress);
+    List<Transaction> transactionList21 = new ArrayList<>();
+    transactionList21.add(transaction2);
+    List<Transaction> transactionListConcatenate = Stream.concat(transactionList1.stream(), transactionList21.stream())
+        .collect(Collectors.toList());
+
+    when(transactionRepositoryMock.findByEmailAddressEmitter(emailAddress)).thenReturn(transactionList1);
+    when(transactionRepositoryMock.findByEmailAddressReceiver(emailAddress)).thenReturn(transactionList21);
+
+    List<Transaction> result = transactionService.getTransactionsOfOneUser(emailAddress);
+    assertThat(result).isEqualTo(transactionListConcatenate);
+  }
+
+  @Test
+  public void testGetTransactions() {
+    List<Transaction> transactionList = new ArrayList<>();
+    transactionList.add(transaction);
+    transactionList.add(transaction2);
+
+    when(transactionRepositoryMock.findAll()).thenReturn(transactionList);
+
+    List<Transaction> result = transactionService.getTransactions();
+    assertThat(result).isEqualTo(transactionList);
   }
 
 

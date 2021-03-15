@@ -18,7 +18,7 @@ public interface TransactionService {
    * 
    * @return all transactions
    */
-  Iterable<Transaction> getTransactions();
+  List<Transaction> getTransactions();
 
   /**
    * Make a transaction from a bank account of an user to the count of the app of

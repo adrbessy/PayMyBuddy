@@ -1,8 +1,12 @@
 package com.PayMyBuddy.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@EqualsAndHashCode
+@Getter
+@Setter
 public class UserAccountDto {
 
   private String emailAddress;

@@ -71,8 +71,9 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public Iterable<Transaction> getTransactions() {
-    return transactionRepository.findAll();
+  public List<Transaction> getTransactions() {
+    logger.debug("in the method getTransactions in the class TransactionServiceImpl");
+    return (List<Transaction>) transactionRepository.findAll();
   }
 
   /**

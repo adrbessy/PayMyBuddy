@@ -41,6 +41,8 @@ public class UserAccountController {
   @PostMapping("/userAccount")
   public UserAccount createUserAccount(@RequestBody UserAccount userAccount) {
     UserAccount newUserAccount = null;
+    logger.info(
+        "POST request of the endpoint 'userAccount' with the user account : {" + userAccount + "}");
     if (userAccount.getEmailAddress() == null || userAccount.getPassword() == null || userAccount.getFirstName() == null
         || userAccount.getName() == null) {
       logger.error("The new user account has to get an email address with a password, a name and a first name.");

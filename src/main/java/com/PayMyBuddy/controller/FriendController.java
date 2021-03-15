@@ -29,6 +29,7 @@ public class FriendController {
    */
   @GetMapping("/friends")
   public Iterable<Friend> getFriends() {
+    logger.info("GET request with the endpoint 'friends'");
     return friendService.getFriendRelationships();
   }
 
@@ -40,6 +41,7 @@ public class FriendController {
    */
   @GetMapping("/myFriends")
   public List<UserAccountDto> getFriends(@RequestParam String emailAddress) {
+    logger.info("GET request with the endpoint 'myFriends' with the given email " + emailAddress);
     return friendService.getFriendsOfOneUser(emailAddress);
   }
 
