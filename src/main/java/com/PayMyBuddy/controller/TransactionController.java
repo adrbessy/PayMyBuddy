@@ -43,6 +43,17 @@ public class TransactionController {
   }
 
   /**
+   * Read - Get all transactions of one user
+   * 
+   * @param emailAddress The email address of the user
+   * @return - A List of transactions
+   */
+  @GetMapping("/myTransactions")
+  public List<Transaction> getMyTransactions(@RequestParam String emailAddress) {
+    return transactionService.getTransactionsOfOneUser(emailAddress);
+  }
+
+  /**
    * Create a friend transaction
    * 
    * @param friendTransaction An object friendTransaction
@@ -96,7 +107,6 @@ public class TransactionController {
   public Transaction createMoneyDeposit(@RequestBody Transaction moneyDeposit) {
     Transaction newMoneyDeposit = null;
     boolean existingUserAccount = false;
-    boolean existingBankAccount = false;
     try {
       logger.info("Post request with the endpoint 'moneyDeposit'");
       existingUserAccount = userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver());
@@ -172,17 +182,6 @@ public class TransactionController {
           "The emitter has not enough money on his account to make a transaction.");
     }
     return newTransactionToBankAccount;
-  }
-
-  /**
-   * Read - Get all transactions of one user
-   * 
-   * @param emailAddress The email address of the user
-   * @return - A List of transactions
-   */
-  @GetMapping("/myTransactions")
-  public List<Transaction> getMyTransactions(@RequestParam String emailAddress) {
-    return transactionService.getTransactionsOfOneUser(emailAddress);
   }
 
 }

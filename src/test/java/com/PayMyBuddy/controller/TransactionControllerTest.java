@@ -47,6 +47,11 @@ public class TransactionControllerTest {
   }
 
   @Test
+  public void testGetMyTransactions() throws Exception {
+    mockMvc.perform(get("/myTransactions?emailAddress=adrien@mail.fr")).andExpect(status().isOk());
+  }
+
+  @Test
   public void testCreateFriendTransaction() throws Exception {
     friendTransaction = new Transaction();
 

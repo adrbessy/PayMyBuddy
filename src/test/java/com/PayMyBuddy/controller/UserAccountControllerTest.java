@@ -50,6 +50,22 @@ public class UserAccountControllerTest {
   }
 
   @Test
+  public void testCreateUserAccountIfNameIsNull() throws Exception {
+    userAccount = new UserAccount();
+    userAccount.setEmailAddress("adrien@mail.fr");
+    userAccount.setPassword("abcde");
+    userAccount.setFirstName("Adrien");
+    userAccount.setName(null);
+
+    when(userAccountService.saveUserAccount(userAccount)).thenReturn(userAccount);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/userAccount")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(userAccount));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
+  }
+
+  @Test
   public void testUpdateUserAccount() throws Exception {
     userAccount = new UserAccount();
     userAccount.setEmailAddress("adrien@mail.fr");

@@ -20,6 +20,8 @@ public class RegisterController {
 
   @GetMapping("/register")
   public String register(Model model) {
+    logger.info(
+        "GET request of the endpoint 'register'");
     UserAccount user = new UserAccount();
     model.addAttribute("userAccount", user);
     return "signup_form";
@@ -33,12 +35,11 @@ public class RegisterController {
    */
   @PostMapping("/saveUserAccount")
   public String createUserAccount(UserAccount userAccount) {
+    logger.info(
+        "POST request of the endpoint 'saveUserAccount'");
     UserAccount newUserAccount = userAccountController.createUserAccount(userAccount);
-    if (newUserAccount != null) {
-      return "register_success";
-    } else {
-      return "register_fail";
-    }
+    return "register_success";
+
   }
 
 }
