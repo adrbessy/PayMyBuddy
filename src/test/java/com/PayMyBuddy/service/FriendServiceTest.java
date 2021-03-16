@@ -1,6 +1,7 @@
 package com.PayMyBuddy.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
@@ -119,6 +120,22 @@ public class FriendServiceTest {
 
     boolean result = friendService.friendRelationshipExist(emailAddress_user1, emailAddress_user2);
     assertTrue(result);
+  }
+
+  @Test
+  public void testFriendRelationshipDOESNTExist() {
+    String emailAddress_user1 = "adrien@mail.fr";
+    String emailAddress_user2 = "isabelle@mail.fr";
+
+    when(friendRepositoryMock.existsByEmailAddressUser1AndEmailAddressUser2(
+        emailAddress_user1,
+        emailAddress_user2)).thenReturn(false);
+    when(friendRepositoryMock.existsByEmailAddressUser1AndEmailAddressUser2(
+        emailAddress_user2,
+        emailAddress_user1)).thenReturn(false);
+
+    boolean result = friendService.friendRelationshipExist(emailAddress_user1, emailAddress_user2);
+    assertFalse(result);
   }
 
   @Test

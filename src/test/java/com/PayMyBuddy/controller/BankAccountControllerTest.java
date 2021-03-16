@@ -49,4 +49,18 @@ public class BankAccountControllerTest {
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
   }
 
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testCreateBankAccountIfNoIban() throws Exception {
+    bankAccount = new BankAccount();
+    bankAccount.setEmailAddress("adrien@mail.fr");
+
+    when(bankAccountService.saveBankAccount(bankAccount)).thenReturn(bankAccount);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/bankAccount")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(bankAccount));
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
+  }
+
 }
