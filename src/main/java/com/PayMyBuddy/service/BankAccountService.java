@@ -46,4 +46,13 @@ public interface BankAccountService {
    */
   BankAccount deleteMyBankAccount(String emailAddress, String iban);
 
+  /**
+   * Check if the bank account exists.
+   * 
+   * @param emailAddressReceiver The given email
+   * @param iban                 the given iban
+   * @return true if the association of both exist, otherwise returns false
+   */
+  boolean bankAccountEmailAddressIbanExist(String emailAddress, String iban);
+
 }

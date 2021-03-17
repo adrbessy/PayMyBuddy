@@ -1,6 +1,7 @@
 package com.PayMyBuddy.controller;
 
 import com.PayMyBuddy.exceptions.IsForbiddenException;
+import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.service.BankAccountService;
 import java.util.ArrayList;
@@ -74,14 +75,23 @@ public class BankAccountController {
   @DeleteMapping("/myBankAccount")
   public BankAccount deleteBankAccount(@RequestParam String emailAddress, @RequestParam String iban) {
     BankAccount bankAccount = null;
+    boolean existingBankAccount = false;
     try {
       logger.info("Delete request with the endpoint 'myBankAccount'");
-      bankAccount = bankAccountService.deleteMyBankAccount(emailAddress, iban);
-      logger.info(
-          "response following the DELETE on the endpoint 'myBankAccount'.");
+      existingBankAccount = bankAccountService.bankAccountEmailAddressIbanExist(emailAddress, iban);
+      if (existingBankAccount) {
+        bankAccount = bankAccountService.deleteMyBankAccount(emailAddress, iban);
+        logger.info(
+            "response following the DELETE on the endpoint 'myBankAccount'.");
+      }
     } catch (Exception exception) {
       logger.error("Error in the BankAccountController in the method deleteBankAccount :"
           + exception.getMessage());
+    }
+    if (!existingBankAccount) {
+      logger.error("The bank account with the email address " + emailAddress + " and iban " + iban + " doesn't exist.");
+      throw new NonexistentException(
+          "The bank account with the email address " + emailAddress + " and iban " + iban + " doesn't exist.");
     }
     return bankAccount;
   }

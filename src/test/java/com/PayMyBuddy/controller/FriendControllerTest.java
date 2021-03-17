@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.PayMyBuddy.model.Friend;
+import com.PayMyBuddy.model.UserAccountDto;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.UserAccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -92,6 +94,36 @@ public class FriendControllerTest {
         .content(new ObjectMapper().writeValueAsString(friend));
 
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
+  }
+
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testDeletefriendRealationship() throws Exception {
+    String emailAddress = "jean@mail.fr";
+    String emailAddress2 = "helene@mail.fr";
+    UserAccountDto userAccountDto = new UserAccountDto("helene@mail.fr", "Hélène", "Bessy");
+
+    when(friendService.friendRelationshipExist(emailAddress, emailAddress2)).thenReturn(true);
+    when(friendService.deleteFriendOfOneUser(emailAddress, emailAddress2)).thenReturn(userAccountDto);
+
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.delete("/myFriend?emailAddress=jean@mail.fr&emailAddressToDelete=helene@mail.fr"))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testDeleteBankAccountIfFriendRelationshipDoesntExist() throws Exception {
+    String emailAddress = "jean@mail.fr";
+    String emailAddress2 = "helene@mail.fr";
+
+    when(friendService.friendRelationshipExist(emailAddress, emailAddress2)).thenReturn(false);
+
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.delete("/myFriend?emailAddress=jean@mail.fr&emailAddressToDelete=helene@mail.fr"))
+        .andExpect(status().isNotFound());
   }
 
 }

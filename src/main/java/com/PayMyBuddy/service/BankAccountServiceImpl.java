@@ -113,4 +113,18 @@ public class BankAccountServiceImpl implements BankAccountService {
     return bankAccount;
   }
 
+  @Override
+  public boolean bankAccountEmailAddressIbanExist(String emailAddress, String iban) {
+    logger.debug("in the method bankAccountEmailAddressIbanExist in the class BankAccountServiceImpl");
+    boolean bankAccountExist = false;
+    try {
+      bankAccountExist = bankAccountRepository.existsByEmailAddressAndIban(
+          emailAddress,
+          iban);
+    } catch (Exception exception) {
+      logger.error("Error in the method bankAccountEmailAddressIbanExist :" + exception.getMessage());
+    }
+    return bankAccountExist;
+  }
+
 }

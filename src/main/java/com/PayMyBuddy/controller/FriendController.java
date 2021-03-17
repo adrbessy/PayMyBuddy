@@ -71,7 +71,7 @@ public class FriendController {
   }
 
   /**
-   * DELETE - Delete a friend relationship of one user
+   * Delete - Delete a friend relationship of one user
    * 
    * @param emailAddress The email address of the user
    * @param emailAddress The email address of the friend to delete
@@ -81,15 +81,26 @@ public class FriendController {
   public UserAccountDto deleteMyFriend(@RequestParam String emailAddress,
       @RequestParam String emailAddressToDelete) {
     UserAccountDto userAccountDto = null;
+    boolean existingFriendRelationship = false;
     try {
       logger.info("DELETE request with the endpoint 'myFriend' with the given email " + emailAddress
           + "and the email fo the friend to delete :" + emailAddressToDelete);
-      userAccountDto = friendService.deleteFriendOfOneUser(emailAddress, emailAddressToDelete);
-      logger.info(
-          "response following the DELETE on the endpoint 'myFriend'.");
+      existingFriendRelationship = friendService.friendRelationshipExist(emailAddress, emailAddressToDelete);
+      if (existingFriendRelationship) {
+        userAccountDto = friendService.deleteFriendOfOneUser(emailAddress, emailAddressToDelete);
+        logger.info(
+            "response following the DELETE on the endpoint 'myFriend'.");
+      }
     } catch (Exception exception) {
       logger.error("Error in the FriendController in the method deleteMyFriend :"
           + exception.getMessage());
+    }
+    if (!existingFriendRelationship) {
+      logger.error("The friend relationship with the email addresses " + emailAddress + " and " + emailAddressToDelete
+          + " don't exist.");
+      throw new NonexistentException(
+          "The friend relationship with the email addresses " + emailAddress + " and " + emailAddressToDelete
+              + " don't exist.");
     }
     return userAccountDto;
   }
