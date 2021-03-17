@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,6 +33,26 @@ public class BankAccountController {
     try {
       logger.info("Get request with the endpoint 'bankAccounts'");
       bankAccountsList = (List<BankAccount>) bankAccountService.getBankAccounts();
+      logger.info(
+          "response following the GET on the endpoint 'bankAccounts'.");
+    } catch (Exception exception) {
+      logger.error("Error in the BankAccountController in the method getBankAccounts :"
+          + exception.getMessage());
+    }
+    return bankAccountsList;
+  }
+
+  /**
+   * Read - Get all the bank accounts of one user
+   * 
+   * @return - A List of bank accounts
+   */
+  @GetMapping("/myBankAccounts")
+  public List<BankAccount> getMyBankAccounts(@RequestParam String emailAddress) {
+    List<BankAccount> bankAccountsList = new ArrayList<>();
+    try {
+      logger.info("Get request with the endpoint 'bankAccounts'");
+      bankAccountsList = (List<BankAccount>) bankAccountService.getMyBankAccounts(emailAddress);
       logger.info(
           "response following the GET on the endpoint 'bankAccounts'.");
     } catch (Exception exception) {

@@ -73,4 +73,22 @@ public class BankAccountServiceImpl implements BankAccountService {
     return savedBankAccount;
   }
 
+  /**
+   * Get the bank accounts of one user
+   * 
+   * @param emailAddress An email address
+   * @return the list of bank accounts
+   */
+  @Override
+  public List<BankAccount> getMyBankAccounts(String emailAddress) {
+    logger.debug("in the method getMyBankAccounts in the class BankAccountServiceImpl");
+    List<BankAccount> bankAccountList = null;
+    try {
+      bankAccountList = bankAccountRepository.findByEmailAddress(emailAddress);
+    } catch (Exception exception) {
+      logger.error("Error in th method getMyBankAccounts :" + exception.getMessage());
+    }
+    return bankAccountList;
+  }
+
 }

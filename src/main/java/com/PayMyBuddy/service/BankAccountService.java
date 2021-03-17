@@ -1,6 +1,7 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.BankAccount;
+import java.util.List;
 
 public interface BankAccountService {
 
@@ -18,7 +19,7 @@ public interface BankAccountService {
    * 
    * @return all bank accounts
    */
-  Iterable<BankAccount> getBankAccounts();
+  List<BankAccount> getBankAccounts();
 
   /**
    * Save a bank account
@@ -27,5 +28,13 @@ public interface BankAccountService {
    * @return the saved bankAccount
    */
   BankAccount saveBankAccount(BankAccount bankAccount);
+
+  /**
+   * Get the bank accounts of one user
+   * 
+   * @param emailAddress An email address
+   * @return the list of bank accounts
+   */
+  List<BankAccount> getMyBankAccounts(String emailAddress);
 
 }
