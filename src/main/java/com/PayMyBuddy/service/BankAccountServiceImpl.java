@@ -4,6 +4,7 @@ import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,27 @@ public class BankAccountServiceImpl implements BankAccountService {
       logger.error("Error in th method getMyBankAccounts :" + exception.getMessage());
     }
     return bankAccountList;
+  }
+
+  /**
+   * Delete a bank account of one user
+   * 
+   * @param emailAddress An email address
+   * @param iban         An iban
+   * @return the deleted bank account
+   */
+  @Override
+  @Transactional
+  public BankAccount deleteMyBankAccount(String emailAddress, String iban) {
+    logger.debug("in the method deleteMyBankAccount in the class BankAccountServiceImpl");
+    BankAccount bankAccount = null;
+    try {
+      bankAccount = bankAccountRepository.findByEmailAddressAndIban(emailAddress, iban);
+      bankAccountRepository.deleteByEmailAddressAndIban(emailAddress, iban);
+    } catch (Exception exception) {
+      logger.error("Error in the method deleteMyBankAccount :" + exception.getMessage());
+    }
+    return bankAccount;
   }
 
 }

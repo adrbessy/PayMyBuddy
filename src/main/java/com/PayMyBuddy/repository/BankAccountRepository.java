@@ -16,4 +16,8 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Long>
 
   List<BankAccount> findByEmailAddress(String emailAddress);
 
+  void deleteByEmailAddressAndIban(String emailAddress, String iban);
+
+  BankAccount findByEmailAddressAndIban(String emailAddress, String iban);
+
 }

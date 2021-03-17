@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class BankAccountController {
     List<BankAccount> bankAccountsList = new ArrayList<>();
     try {
       logger.info("Get request with the endpoint 'bankAccounts'");
-      bankAccountsList = (List<BankAccount>) bankAccountService.getBankAccounts();
+      bankAccountsList = bankAccountService.getBankAccounts();
       logger.info(
           "response following the GET on the endpoint 'bankAccounts'.");
     } catch (Exception exception) {
@@ -45,6 +46,7 @@ public class BankAccountController {
   /**
    * Read - Get all the bank accounts of one user
    * 
+   * @param emailAddress An email address
    * @return - A List of bank accounts
    */
   @GetMapping("/myBankAccounts")
@@ -52,7 +54,7 @@ public class BankAccountController {
     List<BankAccount> bankAccountsList = new ArrayList<>();
     try {
       logger.info("Get request with the endpoint 'bankAccounts'");
-      bankAccountsList = (List<BankAccount>) bankAccountService.getMyBankAccounts(emailAddress);
+      bankAccountsList = bankAccountService.getMyBankAccounts(emailAddress);
       logger.info(
           "response following the GET on the endpoint 'bankAccounts'.");
     } catch (Exception exception) {
@@ -60,6 +62,28 @@ public class BankAccountController {
           + exception.getMessage());
     }
     return bankAccountsList;
+  }
+
+  /**
+   * Delete - Delete a bank account of one user
+   * 
+   * @param emailAddress An email address
+   * @param iban         An iban
+   * @return - The deleted bank account
+   */
+  @DeleteMapping("/myBankAccount")
+  public BankAccount deleteBankAccount(@RequestParam String emailAddress, @RequestParam String iban) {
+    BankAccount bankAccount = null;
+    try {
+      logger.info("Delete request with the endpoint 'myBankAccount'");
+      bankAccount = bankAccountService.deleteMyBankAccount(emailAddress, iban);
+      logger.info(
+          "response following the DELETE on the endpoint 'myBankAccount'.");
+    } catch (Exception exception) {
+      logger.error("Error in the BankAccountController in the method deleteBankAccount :"
+          + exception.getMessage());
+    }
+    return bankAccount;
   }
 
   /**

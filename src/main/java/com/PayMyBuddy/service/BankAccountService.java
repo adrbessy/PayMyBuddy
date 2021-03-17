@@ -37,4 +37,13 @@ public interface BankAccountService {
    */
   List<BankAccount> getMyBankAccounts(String emailAddress);
 
+  /**
+   * Delete a bank account of one user
+   * 
+   * @param emailAddress An email address
+   * @param iban         An iban
+   * @return the deleted bank account
+   */
+  BankAccount deleteMyBankAccount(String emailAddress, String iban);
+
 }
