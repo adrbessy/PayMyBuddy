@@ -50,9 +50,15 @@ public class FriendServiceImpl implements FriendService {
    * @return all friend relationships
    */
   @Override
-  public Iterable<Friend> getFriendRelationships() {
+  public List<Friend> getFriendRelationships() {
     logger.debug("in the method getFriendRelationships in the class FriendServiceImpl");
-    return friendRepository.findAll();
+    List<Friend> friendList = new ArrayList<>();
+    try {
+      friendList = (List<Friend>) friendRepository.findAll();
+    } catch (Exception exception) {
+      logger.error("Error in the method getFriendRelationships :" + exception.getMessage());
+    }
+    return friendList;
   }
 
   /**
@@ -65,12 +71,18 @@ public class FriendServiceImpl implements FriendService {
   @Override
   public boolean friendRelationshipExist(String emailAddress_user1, String emailAddress_user2) {
     logger.debug("in the method friendRelationshipExist in the class FriendServiceImpl");
-    boolean existingRelationshipSens1 = friendRepository.existsByEmailAddressUser1AndEmailAddressUser2(
-        emailAddress_user1,
-        emailAddress_user2);
-    boolean existingRelationshipSens2 = friendRepository.existsByEmailAddressUser1AndEmailAddressUser2(
-        emailAddress_user2,
-        emailAddress_user1);
+    boolean existingRelationshipSens1 = false;
+    boolean existingRelationshipSens2 = false;
+    try {
+      existingRelationshipSens1 = friendRepository.existsByEmailAddressUser1AndEmailAddressUser2(
+          emailAddress_user1,
+          emailAddress_user2);
+      existingRelationshipSens2 = friendRepository.existsByEmailAddressUser1AndEmailAddressUser2(
+          emailAddress_user2,
+          emailAddress_user1);
+    } catch (Exception exception) {
+      logger.error("Error in the method friendRelationshipExist :" + exception.getMessage());
+    }
     if (existingRelationshipSens1 || existingRelationshipSens2) {
       return true;
     } else {
@@ -86,8 +98,12 @@ public class FriendServiceImpl implements FriendService {
   @Override
   public void deleteFriendRelationships(String emailAddress) {
     logger.debug("in the method deleteFriendRelationships in the class FriendServiceImpl");
-    friendRepository.deleteFriendByEmailAddressUser1(emailAddress);
-    friendRepository.deleteFriendByEmailAddressUser2(emailAddress);
+    try {
+      friendRepository.deleteFriendByEmailAddressUser1(emailAddress);
+      friendRepository.deleteFriendByEmailAddressUser2(emailAddress);
+    } catch (Exception exception) {
+      logger.error("Error in the method deleteFriendRelationships :" + exception.getMessage());
+    }
   }
 
   /**
@@ -100,21 +116,26 @@ public class FriendServiceImpl implements FriendService {
   @Override
   public List<UserAccountDto> getFriendsOfOneUser(String emailAddress) {
     logger.debug("in the method getFriendsOfOneUser in the class FriendServiceImpl");
-    List<String> emailList = new ArrayList<>();
-    List<Friend> friendList1 = friendRepository.findByEmailAddressUser1(emailAddress);
-    friendList1.forEach(friendIterator -> {
-      emailList.add(friendIterator.getEmailAddressUser2());
-    });
-    List<Friend> friendList2 = friendRepository.findByEmailAddressUser2(emailAddress);
-    friendList2.forEach(friendIterator -> {
-      emailList.add(friendIterator.getEmailAddressUser1());
-    });
-    List<UserAccount> userList = new ArrayList<>();
-    emailList.forEach(stationIterator -> {
-      // we retrieve the list of stations corresponding to the stationNumber
-      userList.add(userAccountRepository.findDistinctByEmailAddress(stationIterator));
-    });
-    List<UserAccountDto> userAccountDtoList = mapService.convertToUserAccountDtoList(userList);
+    List<UserAccountDto> userAccountDtoList = new ArrayList<>();
+    try {
+      List<String> emailList = new ArrayList<>();
+      List<Friend> friendList1 = friendRepository.findByEmailAddressUser1(emailAddress);
+      friendList1.forEach(friendIterator -> {
+        emailList.add(friendIterator.getEmailAddressUser2());
+      });
+      List<Friend> friendList2 = friendRepository.findByEmailAddressUser2(emailAddress);
+      friendList2.forEach(friendIterator -> {
+        emailList.add(friendIterator.getEmailAddressUser1());
+      });
+      List<UserAccount> userList = new ArrayList<>();
+      emailList.forEach(stationIterator -> {
+        // we retrieve the list of stations corresponding to the stationNumber
+        userList.add(userAccountRepository.findDistinctByEmailAddress(stationIterator));
+      });
+      userAccountDtoList = mapService.convertToUserAccountDtoList(userList);
+    } catch (Exception exception) {
+      logger.error("Error in the method getFriendsOfOneUser :" + exception.getMessage());
+    }
     return userAccountDtoList;
   }
 

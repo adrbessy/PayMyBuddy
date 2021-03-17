@@ -23,12 +23,16 @@ public class MapService {
   public List<UserAccountDto> convertToUserAccountDtoList(List<UserAccount> userAccountList) {
     logger.debug("in the method convertToUserAccountDtoList in the class MapService");
     List<UserAccountDto> userAccountDtoList = new ArrayList<>();
-    userAccountList.forEach(personIterator -> {
-      UserAccountDto userAccountDto = new UserAccountDto(personIterator.getEmailAddress(),
-          personIterator.getFirstName(),
-          personIterator.getName());
-      userAccountDtoList.add(userAccountDto);
-    });
+    try {
+      userAccountList.forEach(personIterator -> {
+        UserAccountDto userAccountDto = new UserAccountDto(personIterator.getEmailAddress(),
+            personIterator.getFirstName(),
+            personIterator.getName());
+        userAccountDtoList.add(userAccountDto);
+      });
+    } catch (Exception exception) {
+      logger.error("Error in the method convertToUserAccountDtoList :" + exception.getMessage());
+    }
     return userAccountDtoList;
   }
 

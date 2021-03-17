@@ -3,6 +3,8 @@ package com.PayMyBuddy.service;
 import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -42,9 +44,15 @@ public class UserAccountServiceImpl implements UserAccountService {
    * @return all user accounts
    */
   @Override
-  public Iterable<UserAccount> getUserAccounts() {
+  public List<UserAccount> getUserAccounts() {
     logger.debug("in the method getUserAccounts in the class UserAccountServiceImpl");
-    return userAccountRepository.findAll();
+    List<UserAccount> userAccountList = new ArrayList<>();
+    try {
+      userAccountList = (List<UserAccount>) userAccountRepository.findAll();
+    } catch (Exception exception) {
+      logger.error("Error in the method getUserAccounts :" + exception.getMessage());
+    }
+    return userAccountList;
   }
 
   /**
@@ -83,19 +91,32 @@ public class UserAccountServiceImpl implements UserAccountService {
   @Override
   public boolean userAccountEmailExist(String emailAddress) {
     logger.debug("in the method userAccountEmailExist in the class UserAccountServiceImpl");
-    return userAccountRepository.existsByEmailAddress(emailAddress);
+    boolean userAccountEmailExist = false;
+    try {
+      userAccountEmailExist = userAccountRepository.existsByEmailAddress(emailAddress);
+    } catch (Exception exception) {
+      logger.error("Error in the method userAccountEmailExist :" + exception.getMessage());
+    }
+    return userAccountEmailExist;
   }
 
   /**
-   * Get a Person from an id
+   * Get a user account from an email address
    * 
-   * @param id The id of the person in the Persons table
-   * @return The person
+   * @param emailAddress The emailAddress of the user account in the UserAccounts
+   *                     table
+   * @return The user account
    */
   @Override
   public UserAccount getUserAccount(final String emailAddress) {
     logger.debug("in the method getUserAccount in the class UserAccountServiceImpl");
-    return userAccountRepository.findByEmailAddress(emailAddress);
+    UserAccount userAccount = null;
+    try {
+      userAccount = userAccountRepository.findByEmailAddress(emailAddress);
+    } catch (Exception exception) {
+      logger.error("Error in the method getUserAccount :" + exception.getMessage());
+    }
+    return userAccount;
   }
 
   /**
@@ -107,7 +128,11 @@ public class UserAccountServiceImpl implements UserAccountService {
   @Override
   public void deleteUserAccount(String emailAddress) {
     logger.debug("in the method deleteUserAccount in the class UserAccountServiceImpl");
-    userAccountRepository.deleteUserAccountByEmailAddress(emailAddress);
+    try {
+      userAccountRepository.deleteUserAccountByEmailAddress(emailAddress);
+    } catch (Exception exception) {
+      logger.error("Error in the method deleteUserAccount :" + exception.getMessage());
+    }
   }
 
   /**
@@ -118,9 +143,14 @@ public class UserAccountServiceImpl implements UserAccountService {
    */
   @Override
   public UserAccount encryptPassword(UserAccount userAccount) {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String encodedPassword = encoder.encode(userAccount.getPassword());
-    userAccount.setPassword(encodedPassword);
+    logger.debug("in the method encryptPassword in the class UserAccountServiceImpl");
+    try {
+      BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+      String encodedPassword = encoder.encode(userAccount.getPassword());
+      userAccount.setPassword(encodedPassword);
+    } catch (Exception exception) {
+      logger.error("Error in the method encryptPassword :" + exception.getMessage());
+    }
     return userAccount;
   }
 
@@ -133,8 +163,15 @@ public class UserAccountServiceImpl implements UserAccountService {
    */
   @Override
   public boolean checkPassword(String inputPassword, String encryptedPassword) {
+    boolean checkPassword = false;
+    logger.debug("in the method checkPassword in the class UserAccountServiceImpl");
     BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-    return passwordEncryptor.checkPassword(inputPassword, encryptedPassword);
+    try {
+      checkPassword = passwordEncryptor.checkPassword(inputPassword, encryptedPassword);
+    } catch (Exception exception) {
+      logger.error("Error in the method checkPassword :" + exception.getMessage());
+    }
+    return checkPassword;
   }
 
 
@@ -147,9 +184,15 @@ public class UserAccountServiceImpl implements UserAccountService {
    */
   @Override
   public String usersExist(String emailAddress_user1, String emailAddress_user2) {
-    logger.debug("in the method friendsExist in the class FriendServiceImpl");
-    boolean existingEmail1 = userAccountRepository.existsByEmailAddress(emailAddress_user1);
-    boolean existingEmail2 = userAccountRepository.existsByEmailAddress(emailAddress_user2);
+    logger.debug("in the method usersExist in the class UserAccountServiceImpl");
+    boolean existingEmail1 = false;
+    boolean existingEmail2 = false;
+    try {
+      existingEmail1 = userAccountRepository.existsByEmailAddress(emailAddress_user1);
+      existingEmail2 = userAccountRepository.existsByEmailAddress(emailAddress_user2);
+    } catch (Exception exception) {
+      logger.error("Error in the method usersExist :" + exception.getMessage());
+    }
     if (existingEmail1 && existingEmail2) {
       return "yes";
     }

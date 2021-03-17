@@ -5,6 +5,7 @@ import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,26 +55,43 @@ public class TransactionServiceImpl implements TransactionService {
       friendTransaction.setMyDate(new Date());
       saveTransaction(friendTransaction);
     } catch (Exception exception) {
-      logger.error("Error when we try to make the transaction :" + exception.getMessage());
+      logger.error("Error when we try to make the friend transaction :" + exception.getMessage());
     }
     return friendTransaction;
   }
 
-  private Transaction saveTransaction(Transaction friendTransaction) {
+  /**
+   * Save a transaction
+   * 
+   * @param transaction A transaction to save
+   * @return the saved transaction
+   */
+  private Transaction saveTransaction(Transaction transaction) {
     logger.debug("in the method saveTransaction in the class TransactionServiceImpl");
     Transaction savedTransaction = null;
     try {
-      savedTransaction = transactionRepository.save(friendTransaction);
+      savedTransaction = transactionRepository.save(transaction);
     } catch (Exception exception) {
-      logger.error("Error when we try to save a friend transaction :" + exception.getMessage());
+      logger.error("Error when we try to save a transaction :" + exception.getMessage());
     }
     return savedTransaction;
   }
 
+  /**
+   * Get all the transactions
+   * 
+   * @return a List of all the transactions
+   */
   @Override
   public List<Transaction> getTransactions() {
     logger.debug("in the method getTransactions in the class TransactionServiceImpl");
-    return (List<Transaction>) transactionRepository.findAll();
+    List<Transaction> transactionList = new ArrayList<>();
+    try {
+      transactionList = (List<Transaction>) transactionRepository.findAll();
+    } catch (Exception exception) {
+      logger.error("Error in the method getTransactions :" + exception.getMessage());
+    }
+    return transactionList;
   }
 
   /**
@@ -132,10 +150,16 @@ public class TransactionServiceImpl implements TransactionService {
    */
   @Override
   public List<Transaction> getTransactionsOfOneUser(String emailAddress) {
-    List<Transaction> transactionList1 = transactionRepository.findByEmailAddressEmitter(emailAddress);
-    List<Transaction> transactionList2 = transactionRepository.findByEmailAddressReceiver(emailAddress);
-    List<Transaction> transactionList = Stream.concat(transactionList1.stream(), transactionList2.stream())
-        .collect(Collectors.toList());
+    logger.debug("in the method getTransactionsOfOneUser in the class TransactionServiceImpl");
+    List<Transaction> transactionList = new ArrayList<>();
+    try {
+      List<Transaction> transactionList1 = transactionRepository.findByEmailAddressEmitter(emailAddress);
+      List<Transaction> transactionList2 = transactionRepository.findByEmailAddressReceiver(emailAddress);
+      transactionList = Stream.concat(transactionList1.stream(), transactionList2.stream())
+          .collect(Collectors.toList());
+    } catch (Exception exception) {
+      logger.error("Error in the method getTransactionsOfOneUser :" + exception.getMessage());
+    }
     return transactionList;
   }
 
