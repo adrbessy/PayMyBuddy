@@ -18,4 +18,6 @@ public interface FriendRepository extends CrudRepository<Friend, Long> {
 
   List<Friend> findByEmailAddressUser2(String emailAddress);
 
+  void deleteFriendByEmailAddressUser1AndEmailAddressUser2(String emailAddress, String emailAddressToDelete);
+
 }

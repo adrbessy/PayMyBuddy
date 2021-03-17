@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +68,30 @@ public class FriendController {
           + exception.getMessage());
     }
     return userAccountDtoList;
+  }
+
+  /**
+   * DELETE - Delete a friend relationship of one user
+   * 
+   * @param emailAddress The email address of the user
+   * @param emailAddress The email address of the friend to delete
+   * @return - The deleted friend relationship
+   */
+  @DeleteMapping("/myFriend")
+  public UserAccountDto deleteMyFriend(@RequestParam String emailAddress,
+      @RequestParam String emailAddressToDelete) {
+    UserAccountDto userAccountDto = null;
+    try {
+      logger.info("DELETE request with the endpoint 'myFriend' with the given email " + emailAddress
+          + "and the email fo the friend to delete :" + emailAddressToDelete);
+      userAccountDto = friendService.deleteFriendOfOneUser(emailAddress, emailAddressToDelete);
+      logger.info(
+          "response following the DELETE on the endpoint 'myFriend'.");
+    } catch (Exception exception) {
+      logger.error("Error in the FriendController in the method deleteMyFriend :"
+          + exception.getMessage());
+    }
+    return userAccountDto;
   }
 
   /**

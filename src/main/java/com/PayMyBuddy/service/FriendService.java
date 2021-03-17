@@ -46,4 +46,14 @@ public interface FriendService {
    */
   public List<UserAccountDto> getFriendsOfOneUser(String emailAddress);
 
+  /**
+   * Delete a friend relationship of one user
+   * 
+   * @param emailAddress
+   * @param emailAddressToDelete
+   * 
+   * @return the deleted friend
+   */
+  public UserAccountDto deleteFriendOfOneUser(String emailAddress, String emailAddressToDelete);
+
 }

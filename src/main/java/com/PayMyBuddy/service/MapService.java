@@ -36,4 +36,23 @@ public class MapService {
     return userAccountDtoList;
   }
 
+  /**
+   * Get a user with the following attributes: FirstName, LastName, email address
+   * 
+   * @param user A user
+   * @return A user
+   */
+  public UserAccountDto convertToUserAccountDto(UserAccount userAccount) {
+    logger.debug("in the method convertToUserAccountDto in the class MapService");
+    UserAccountDto userAccountDto = null;
+    try {
+      userAccountDto = new UserAccountDto(userAccount.getEmailAddress(),
+          userAccount.getFirstName(),
+          userAccount.getName());
+    } catch (Exception exception) {
+      logger.error("Error in the method convertToUserAccountDto :" + exception.getMessage());
+    }
+    return userAccountDto;
+  }
+
 }

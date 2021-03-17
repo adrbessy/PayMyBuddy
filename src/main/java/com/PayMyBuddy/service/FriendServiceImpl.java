@@ -7,6 +7,7 @@ import com.PayMyBuddy.repository.FriendRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class FriendServiceImpl implements FriendService {
 
   @Autowired
   private MapService mapService;
+
+  @Autowired
+  private UserAccountService userAccountService;
 
   @Autowired
   private FriendRepository friendRepository;
@@ -137,6 +141,30 @@ public class FriendServiceImpl implements FriendService {
       logger.error("Error in the method getFriendsOfOneUser :" + exception.getMessage());
     }
     return userAccountDtoList;
+  }
+
+  /**
+   * Delete a friend relationship of one user
+   * 
+   * @param emailAddress
+   * @param emailAddressToDelete
+   * 
+   * @return the deleted friend
+   */
+  @Override
+  @Transactional
+  public UserAccountDto deleteFriendOfOneUser(String emailAddress, String emailAddressToDelete) {
+    logger.debug("in the method deleteFriendOfOneUser in the class FriendServiceImpl");
+    UserAccountDto userAccountDto = null;
+    try {
+      friendRepository.deleteFriendByEmailAddressUser1AndEmailAddressUser2(emailAddress, emailAddressToDelete);
+      friendRepository.deleteFriendByEmailAddressUser1AndEmailAddressUser2(emailAddressToDelete, emailAddress);
+      UserAccount userAccount = userAccountService.getUserAccount(emailAddressToDelete);
+      userAccountDto = mapService.convertToUserAccountDto(userAccount);
+    } catch (Exception exception) {
+      logger.error("Error in the method deleteFriendOfOneUser :" + exception.getMessage());
+    }
+    return userAccountDto;
   }
 
 }
