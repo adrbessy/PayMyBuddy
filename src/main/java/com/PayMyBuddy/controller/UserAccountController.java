@@ -4,6 +4,8 @@ import com.PayMyBuddy.exceptions.IsForbiddenException;
 import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.service.UserAccountService;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,18 @@ public class UserAccountController {
    * @return - An Iterable object of userAccounts full filled
    */
   @GetMapping("/userAccounts")
-  public Iterable<UserAccount> getUserAccounts() {
-    return userAccountService.getUserAccounts();
+  public List<UserAccount> getUserAccounts() {
+    List<UserAccount> userAccountList = new ArrayList<>();
+    try {
+      logger.info("Get request with the endpoint 'userAccounts'");
+      userAccountList = (List<UserAccount>) userAccountService.getUserAccounts();
+      logger.info(
+          "response following the GET on the endpoint 'userAccounts'.");
+    } catch (Exception exception) {
+      logger.error("Error in the UserAccountController in the method getUserAccounts :"
+          + exception.getMessage());
+    }
+    return userAccountList;
   }
 
   /**

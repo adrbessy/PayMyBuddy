@@ -7,6 +7,7 @@ import com.PayMyBuddy.service.BankAccountService;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
 import com.PayMyBuddy.service.UserAccountService;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,8 +39,18 @@ public class TransactionController {
    * @return - An Iterable object of userAccounts full filled
    */
   @GetMapping("/transactions")
-  public Iterable<Transaction> getTransactions() {
-    return transactionService.getTransactions();
+  public List<Transaction> getTransactions() {
+    List<Transaction> transactionList = new ArrayList<>();
+    try {
+      logger.info("Get request with the endpoint 'transactions'");
+      transactionList = transactionService.getTransactions();
+      logger.info(
+          "response following the GET on the endpoint 'transactions'.");
+    } catch (Exception exception) {
+      logger.error("Error in the TransactionController in the method getTransactions :"
+          + exception.getMessage());
+    }
+    return transactionList;
   }
 
   /**
@@ -50,7 +61,17 @@ public class TransactionController {
    */
   @GetMapping("/myTransactions")
   public List<Transaction> getMyTransactions(@RequestParam String emailAddress) {
-    return transactionService.getTransactionsOfOneUser(emailAddress);
+    List<Transaction> myTransactionList = new ArrayList<>();
+    try {
+      logger.info("Get request with the endpoint 'myTransactions'");
+      myTransactionList = transactionService.getTransactionsOfOneUser(emailAddress);
+      logger.info(
+          "response following the GET on the endpoint 'myTransactions'.");
+    } catch (Exception exception) {
+      logger.error("Error in the TransactionController in the method getMyTransactions :"
+          + exception.getMessage());
+    }
+    return myTransactionList;
   }
 
   /**

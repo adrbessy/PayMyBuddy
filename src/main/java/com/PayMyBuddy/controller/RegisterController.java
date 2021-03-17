@@ -18,6 +18,11 @@ public class RegisterController {
   @Autowired
   private UserAccountController userAccountController;
 
+  /**
+   * Retrieve the model to sign up
+   * 
+   * @return - The name of the html page
+   */
   @GetMapping("/register")
   public String register(Model model) {
     logger.info(
@@ -35,9 +40,14 @@ public class RegisterController {
    */
   @PostMapping("/saveUserAccount")
   public String createUserAccount(UserAccount userAccount) {
-    logger.info(
-        "POST request of the endpoint 'saveUserAccount'");
-    UserAccount newUserAccount = userAccountController.createUserAccount(userAccount);
+    try {
+      logger.info(
+          "POST request of the endpoint 'saveUserAccount'");
+      userAccountController.createUserAccount(userAccount);
+    } catch (Exception exception) {
+      logger.error("Error in the RegisterController in the method createUserAccount :"
+          + exception.getMessage());
+    }
     return "register_success";
 
   }

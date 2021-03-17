@@ -2,6 +2,7 @@ package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +27,15 @@ public class BankAccountServiceImpl implements BankAccountService {
   @Override
   public boolean bankAccountExist(String emailAddressReceiver, Long idBankAccount) {
     logger.debug("in the method bankAccountExist in the class BankAccountServiceImpl");
-    return bankAccountRepository.existsByEmailAddressAndId(
-        emailAddressReceiver,
-        idBankAccount);
+    boolean bankAccountExist = false;
+    try {
+      bankAccountExist = bankAccountRepository.existsByEmailAddressAndId(
+          emailAddressReceiver,
+          idBankAccount);
+    } catch (Exception exception) {
+      logger.error("Error in the method bankAccountExist :" + exception.getMessage());
+    }
+    return bankAccountExist;
   }
 
   /**
@@ -39,7 +46,13 @@ public class BankAccountServiceImpl implements BankAccountService {
   @Override
   public List<BankAccount> getBankAccounts() {
     logger.debug("in the method getBankAccounts in the class BankAccountServiceImpl");
-    return (List<BankAccount>) bankAccountRepository.findAll();
+    List<BankAccount> bankAccountList = new ArrayList<>();
+    try {
+      bankAccountList = (List<BankAccount>) bankAccountRepository.findAll();
+    } catch (Exception exception) {
+      logger.error("Error in the method getBankAccounts :" + exception.getMessage());
+    }
+    return bankAccountList;
   }
 
   /**

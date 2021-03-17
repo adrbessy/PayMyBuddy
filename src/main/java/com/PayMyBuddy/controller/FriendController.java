@@ -6,6 +6,7 @@ import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.model.UserAccountDto;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.UserAccountService;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,9 +34,18 @@ public class FriendController {
    * @return - An Iterable object of friend relationships full filled
    */
   @GetMapping("/friends")
-  public Iterable<Friend> getFriends() {
-    logger.info("GET request with the endpoint 'friends'");
-    return friendService.getFriendRelationships();
+  public List<Friend> getFriends() {
+    List<Friend> friendsList = new ArrayList<>();
+    try {
+      logger.info("GET request with the endpoint 'friends'");
+      friendsList = (List<Friend>) friendService.getFriendRelationships();
+      logger.info(
+          "response following the GET on the endpoint 'friends'.");
+    } catch (Exception exception) {
+      logger.error("Error in the FriendController in the method getFriends :"
+          + exception.getMessage());
+    }
+    return friendsList;
   }
 
   /**
@@ -45,9 +55,18 @@ public class FriendController {
    * @return - A List of his friend relationships
    */
   @GetMapping("/myFriends")
-  public List<UserAccountDto> getFriends(@RequestParam String emailAddress) {
-    logger.info("GET request with the endpoint 'myFriends' with the given email " + emailAddress);
-    return friendService.getFriendsOfOneUser(emailAddress);
+  public List<UserAccountDto> getMyFriends(@RequestParam String emailAddress) {
+    List<UserAccountDto> userAccountDtoList = new ArrayList<>();
+    try {
+      logger.info("GET request with the endpoint 'myFriends' with the given email " + emailAddress);
+      userAccountDtoList = friendService.getFriendsOfOneUser(emailAddress);
+      logger.info(
+          "response following the GET on the endpoint 'myFriends'.");
+    } catch (Exception exception) {
+      logger.error("Error in the FriendController in the method getMyFriends :"
+          + exception.getMessage());
+    }
+    return userAccountDtoList;
   }
 
   /**
