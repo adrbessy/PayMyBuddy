@@ -44,6 +44,24 @@ public class UserAccountController {
     return userAccountList;
   }
 
+
+  /**
+   * Read - Get an user account
+   * 
+   * @return - A user account
+   */
+  /*
+   * @GetMapping("/userAccount") public UserAccount getUserAccounts(@RequestBody
+   * UserAccount userAccount) { List<UserAccount> userAccountList = new
+   * ArrayList<>(); try {
+   * logger.info("Get request with the endpoint 'userAccounts'"); userAccountList
+   * = (List<UserAccount>) userAccountService.getUserAccounts(); logger.info(
+   * "response following the GET on the endpoint 'userAccounts'."); } catch
+   * (Exception exception) { logger.
+   * error("Error in the UserAccountController in the method getUserAccounts :" +
+   * exception.getMessage()); } return userAccountList; }
+   */
+
   /**
    * Add a new user account
    * 

@@ -11,15 +11,18 @@ import com.PayMyBuddy.service.UserAccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = TransactionController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class TransactionControllerTest {
 
   @Autowired
@@ -42,16 +45,19 @@ public class TransactionControllerTest {
   private Transaction transactionToBankAccount;
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testGetTransactions() throws Exception {
     mockMvc.perform(get("/transactions")).andExpect(status().isOk());
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testGetMyTransactions() throws Exception {
     mockMvc.perform(get("/myTransactions?emailAddress=adrien@mail.fr")).andExpect(status().isOk());
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateFriendTransaction() throws Exception {
     friendTransaction = new Transaction();
 
@@ -68,6 +74,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateFriendTransactionRelationshipNotExist() throws Exception {
     friendTransaction = new Transaction();
 
@@ -81,6 +88,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateFriendTransactionNotEnoughMoney() throws Exception {
     friendTransaction = new Transaction();
 
@@ -96,6 +104,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateMoneyDeposit() throws Exception {
     moneyDeposit = new Transaction();
 
@@ -109,6 +118,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateMoneyDepositUserAccountDoesntExist() throws Exception {
     moneyDeposit = new Transaction();
 
@@ -121,6 +131,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateTransactionToBankAccount() throws Exception {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
@@ -141,6 +152,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateTransactionToBankAccountEmailDoesntExist() throws Exception {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
@@ -155,6 +167,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateTransactionToBankAccountBankAccountDoesntExist() throws Exception {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
@@ -171,6 +184,7 @@ public class TransactionControllerTest {
   }
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testCreateTransactionToBankAccountNotEnoughMoney() throws Exception {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);

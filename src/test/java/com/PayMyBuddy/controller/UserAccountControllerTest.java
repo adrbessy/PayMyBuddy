@@ -8,15 +8,18 @@ import com.PayMyBuddy.service.UserAccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = UserAccountController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class UserAccountControllerTest {
 
   @Autowired
@@ -28,11 +31,13 @@ public class UserAccountControllerTest {
   private UserAccount userAccount;
   private UserAccount userAccount2;
 
+  @WithMockUser(value = "springuser")
   @Test
   public void testGetUserAccounts() throws Exception {
     mockMvc.perform(get("/userAccounts")).andExpect(status().isOk());
   }
 
+  @WithMockUser(value = "springuser")
   @Test
   public void testCreateUserAccount() throws Exception {
     userAccount = new UserAccount();
@@ -49,6 +54,7 @@ public class UserAccountControllerTest {
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
   }
 
+  @WithMockUser(value = "springuser")
   @Test
   public void testCreateUserAccountIfNameIsNull() throws Exception {
     userAccount = new UserAccount();
@@ -65,6 +71,7 @@ public class UserAccountControllerTest {
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isForbidden());
   }
 
+  @WithMockUser(value = "springuser")
   @Test
   public void testUpdateUserAccount() throws Exception {
     userAccount = new UserAccount();
@@ -90,6 +97,7 @@ public class UserAccountControllerTest {
     this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
   }
 
+  @WithMockUser(value = "springuser")
   @Test
   public void testUpdateUserAccountIfUserDoesntExist() throws Exception {
     userAccount = new UserAccount();

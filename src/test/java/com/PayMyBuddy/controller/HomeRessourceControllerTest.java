@@ -18,6 +18,7 @@ public class HomeRessourceControllerTest {
   private MockMvc mockMvc;
 
   @Test
+  @WithMockUser(roles = "ADMIN")
   public void testHome() throws Exception {
     mockMvc.perform(get("/"))
         .andExpect(status().isOk())
@@ -25,14 +26,14 @@ public class HomeRessourceControllerTest {
   }
 
   @Test
-  @WithMockUser(username = "adrien@mail.fr", password = "pass1", roles = "USER")
+  @WithMockUser(roles = "ADMIN")
   public void testUser() throws Exception {
     mockMvc.perform(get("/user"))
         .andExpect(status().isOk()).andExpect(view().name("user"));
   }
 
   @Test
-  @WithMockUser(username = "springadmin", password = "spring123", roles = "ADMIN")
+  @WithMockUser(roles = "ADMIN")
   public void testAdmin() throws Exception {
     mockMvc.perform(get("/admin"))
         .andExpect(status().isOk()).andExpect(view().name("admin"));

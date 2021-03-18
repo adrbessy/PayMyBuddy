@@ -16,14 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  /*
-   * @Autowired private DataSource dataSource;
-   */
-
-
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     // super.configure(auth);
+
 
     auth.inMemoryAuthentication()
         .withUser("springuser").password(passwordEncoder().encode("spring123")).roles("USER").and()
@@ -37,9 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf().disable();
 
     http.authorizeRequests()
-        // .antMatchers("/admin").hasRole("ADMIN")
-        // .antMatchers("/user").hasAnyRole("ADMIN", "USER")
-        // .antMatchers("/").permitAll()
         .antMatchers("/user").authenticated()
         .anyRequest().permitAll()
         .and()
