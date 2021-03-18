@@ -25,10 +25,15 @@ public class RegisterController {
    */
   @GetMapping("/register")
   public String register(Model model) {
-    logger.info(
-        "GET request of the endpoint 'register'");
-    UserAccount user = new UserAccount();
-    model.addAttribute("userAccount", user);
+    try {
+      logger.info(
+          "GET request of the endpoint 'register'");
+      UserAccount user = new UserAccount();
+      model.addAttribute("userAccount", user);
+    } catch (Exception exception) {
+      logger.error("Error in the RegisterController in the method register :"
+          + exception.getMessage());
+    }
     return "signup_form";
   }
 

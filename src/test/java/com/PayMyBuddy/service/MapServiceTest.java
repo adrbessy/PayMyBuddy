@@ -27,10 +27,21 @@ public class MapServiceTest {
         userAccount2.getName());
     userAccountDtoList.add(userAccountDto);
 
-    // when(bankAccountRepositoryMock.save(bankAccount)).thenReturn(bankAccount);
-
     List<UserAccountDto> result = mapService.convertToUserAccountDtoList(userList);
     assertThat(result).isEqualTo(userAccountDtoList);
+  }
+
+  @Test
+  public void testConvertToUserAccountDto() {
+    UserAccount userAccount2 = new UserAccount();
+    userAccount2.setEmailAddress("marie@mail.fr");
+
+    UserAccountDto userAccountDto = new UserAccountDto(userAccount2.getEmailAddress(),
+        userAccount2.getFirstName(),
+        userAccount2.getName());
+
+    UserAccountDto result = mapService.convertToUserAccountDto(userAccount2);
+    assertThat(result).isEqualTo(userAccountDto);
   }
 
 }
