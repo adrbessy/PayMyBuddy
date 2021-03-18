@@ -2,6 +2,7 @@ package com.PayMyBuddy.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
@@ -53,7 +54,7 @@ public class BankAccountServiceTest {
 
     when(bankAccountRepositoryMock.findAll()).thenReturn(bankAccountList);
 
-    List<BankAccount> result = (List<BankAccount>) bankAccountService.getBankAccounts();
+    List<BankAccount> result = bankAccountService.getBankAccounts();
     assertThat(result).isEqualTo(bankAccountList);
   }
 
@@ -69,6 +70,59 @@ public class BankAccountServiceTest {
 
     BankAccount result = bankAccountService.saveBankAccount(bankAccount);
     assertThat(result).isEqualTo(bankAccount);
+  }
+
+  /**
+   * test to get my bank accounts.
+   * 
+   */
+  @Test
+  public void testGetMyBankAccounts() {
+    String emailAddress = "adrien@mail.fr";
+    bankAccount = new BankAccount();
+    List<BankAccount> bankAccountList = new ArrayList<>();
+    bankAccountList.add(bankAccount);
+
+    when(bankAccountRepositoryMock.findByEmailAddress(emailAddress)).thenReturn(bankAccountList);
+
+    List<BankAccount> result = bankAccountService.getMyBankAccounts(emailAddress);
+    assertThat(result).isEqualTo(bankAccountList);
+  }
+
+  /**
+   * test to delete a bank account.
+   * 
+   */
+  @Test
+  public void testDeleteBankAccount() {
+    String emailAddress = "adrien@mail.fr";
+    String iban = "FR13465165651246";
+    bankAccount = new BankAccount();
+    List<BankAccount> bankAccountList = new ArrayList<>();
+    bankAccountList.add(bankAccount);
+
+    when(bankAccountRepositoryMock.findByEmailAddressAndIban(emailAddress, iban)).thenReturn(bankAccount);
+    doNothing().when(bankAccountRepositoryMock).deleteByEmailAddressAndIban(emailAddress, iban);
+
+    BankAccount result = bankAccountService.deleteMyBankAccount(emailAddress, iban);
+    assertThat(result).isEqualTo(bankAccount);
+  }
+
+  /**
+   * test to check if the bank account exists.
+   * 
+   */
+  @Test
+  public void testBankAccountEmailAddressIbanExist() {
+    String emailAddress = "adrien@mail.fr";
+    String iban = "FR13465165651246";
+
+    when(bankAccountRepositoryMock.existsByEmailAddressAndIban(
+        emailAddress,
+        iban)).thenReturn(true);
+
+    boolean result = bankAccountService.bankAccountEmailAddressIbanExist(emailAddress, iban);
+    assertThat(result).isEqualTo(true);
   }
 
 }

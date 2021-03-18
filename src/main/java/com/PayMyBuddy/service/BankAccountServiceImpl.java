@@ -113,6 +113,13 @@ public class BankAccountServiceImpl implements BankAccountService {
     return bankAccount;
   }
 
+  /**
+   * Check if the bank account exists.
+   * 
+   * @param emailAddressReceiver The given email
+   * @param iban                 the given iban
+   * @return true if the association of both exist, otherwise returns false
+   */
   @Override
   public boolean bankAccountEmailAddressIbanExist(String emailAddress, String iban) {
     logger.debug("in the method bankAccountEmailAddressIbanExist in the class BankAccountServiceImpl");

@@ -31,6 +31,9 @@ public class FriendServiceTest {
   private MapService mapServiceMock;
 
   @MockBean
+  private UserAccountService userAccountServiceMock;
+
+  @MockBean
   private FriendRepository friendRepositoryMock;
 
   @MockBean
@@ -72,6 +75,10 @@ public class FriendServiceTest {
     assertThat(result).isEqualTo(it);
   }
 
+  /**
+   * test to get all friends of one user.
+   * 
+   */
   @Test
   public void testGetFriendsOfOneUser() {
     String emailAddress = "adrien@mail.fr";
@@ -106,6 +113,10 @@ public class FriendServiceTest {
     assertThat(result).isEqualTo(userAccountDtoList);
   }
 
+  /**
+   * test to check if a friend relationship exists.
+   * 
+   */
   @Test
   public void testFriendRelationshipExist() {
     String emailAddress_user1 = "adrien@mail.fr";
@@ -122,6 +133,10 @@ public class FriendServiceTest {
     assertTrue(result);
   }
 
+  /**
+   * test to check if a friend relationship doesn't exist.
+   * 
+   */
   @Test
   public void testFriendRelationshipDOESNTExist() {
     String emailAddress_user1 = "adrien@mail.fr";
@@ -138,6 +153,10 @@ public class FriendServiceTest {
     assertFalse(result);
   }
 
+  /**
+   * test to delete all the friend relationships of one user.
+   * 
+   */
   @Test
   public void testDeleteFriendRelationships() {
     String emailAddress = "adrien@mail.fr";
@@ -150,6 +169,28 @@ public class FriendServiceTest {
         Mockito.times(1)).deleteFriendByEmailAddressUser1(emailAddress);
     verify(friendRepositoryMock,
         Mockito.times(1)).deleteFriendByEmailAddressUser2(emailAddress);
+  }
+
+  /**
+   * test to delete a friend relationships of one user.
+   * 
+   */
+  @Test
+  public void testDeleteFriendOfOneUser() {
+    String emailAddress = "adrien@mail.fr";
+    String emailAddressToDelete = "archibald@mail.fr";
+    UserAccount userAccount = new UserAccount();
+    UserAccountDto userAccountDto = new UserAccountDto("", "", "");
+
+    doNothing().when(friendRepositoryMock).deleteFriendByEmailAddressUser1AndEmailAddressUser2(emailAddress,
+        emailAddressToDelete);
+    doNothing().when(friendRepositoryMock).deleteFriendByEmailAddressUser1AndEmailAddressUser2(emailAddressToDelete,
+        emailAddress);
+    when(userAccountServiceMock.getUserAccount(emailAddressToDelete)).thenReturn(userAccount);
+    when(mapServiceMock.convertToUserAccountDto(userAccount)).thenReturn(userAccountDto);
+
+    UserAccountDto result = friendService.deleteFriendOfOneUser(emailAddress, emailAddressToDelete);
+    assertThat(result).isEqualTo(userAccountDto);
   }
 
 }
