@@ -2,6 +2,7 @@ package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
@@ -29,6 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Autowired
   private UserAccountService userAccountService;
+
+  @Autowired
+  private MapService mapService;
 
 
   /**
@@ -149,18 +153,20 @@ public class TransactionServiceImpl implements TransactionService {
    * @return a list of the transactions of one user
    */
   @Override
-  public List<Transaction> getTransactionsOfOneUser(String emailAddress) {
+  public List<TransactionDto> getTransactionsOfOneUser(String emailAddress) {
     logger.debug("in the method getTransactionsOfOneUser in the class TransactionServiceImpl");
     List<Transaction> transactionList = new ArrayList<>();
+    List<TransactionDto> transactionDtoList = new ArrayList<>();
     try {
       List<Transaction> transactionList1 = transactionRepository.findByEmailAddressEmitter(emailAddress);
       List<Transaction> transactionList2 = transactionRepository.findByEmailAddressReceiver(emailAddress);
       transactionList = Stream.concat(transactionList1.stream(), transactionList2.stream())
           .collect(Collectors.toList());
+      transactionDtoList = mapService.convertToTransactionDtoList(emailAddress, transactionList);
     } catch (Exception exception) {
       logger.error("Error in the method getTransactionsOfOneUser :" + exception.getMessage());
     }
-    return transactionList;
+    return transactionDtoList;
   }
 
 }

@@ -1,5 +1,7 @@
 package com.PayMyBuddy.service;
 
+import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
 import java.util.ArrayList;
@@ -34,6 +36,54 @@ public class MapService {
       logger.error("Error in the method convertToUserAccountDtoList :" + exception.getMessage());
     }
     return userAccountDtoList;
+  }
+
+  /**
+   * Get a list of transactions with the following attributes: connection,
+   * description, amount
+   * 
+   * @param userList A list of users
+   * @return A List of users
+   */
+  public List<TransactionDto> convertToTransactionDtoList(String emailAddress, List<Transaction> transactionList) {
+    logger.debug("in the method convertToTransactionDtoList in the class MapService");
+    List<TransactionDto> transactionDtoList = new ArrayList<>();
+    try {
+      transactionList.forEach(transactionIterator -> {
+        if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
+            && transactionIterator.idBankAccount == null) {
+          TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressReceiver(),
+              "- EMITTED TRANSACTION - " + transactionIterator.getDescription(),
+              "-" + transactionIterator.getAmount());
+          transactionDtoList.add(transactionDto);
+        }
+        if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
+            && transactionIterator.idBankAccount == null) {
+          TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressReceiver(),
+              "- RECEIVED TRANSACTION - " + transactionIterator.getDescription(),
+              "+" + transactionIterator.getAmount());
+          transactionDtoList.add(transactionDto);
+        }
+        if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
+            && transactionIterator.idBankAccount != null) {
+          TransactionDto transactionDto = new TransactionDto(
+              "Deposit on my bank account number : " + transactionIterator.getIdBankAccount(),
+              "- EMITTED TRANSACTION - " + transactionIterator.getDescription(),
+              "-" + transactionIterator.getAmount());
+          transactionDtoList.add(transactionDto);
+        }
+        if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
+            && transactionIterator.idBankAccount != null) {
+          TransactionDto transactionDto = new TransactionDto("Money deposit",
+              "- RECEIVED TRANSACTION - " + transactionIterator.getDescription(),
+              "+" + transactionIterator.getAmount());
+          transactionDtoList.add(transactionDto);
+        }
+      });
+    } catch (Exception exception) {
+      logger.error("Error in the method convertToUserAccountDtoList :" + exception.getMessage());
+    }
+    return transactionDtoList;
   }
 
   /**

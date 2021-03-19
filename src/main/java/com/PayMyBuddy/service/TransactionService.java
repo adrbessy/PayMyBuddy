@@ -1,6 +1,7 @@
 package com.PayMyBuddy.service;
 
 import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.model.TransactionDto;
 import java.util.List;
 
 public interface TransactionService {
@@ -44,6 +45,6 @@ public interface TransactionService {
    * 
    * @return a list of the transactions of one user
    */
-  List<Transaction> getTransactionsOfOneUser(String emailAddress);
+  List<TransactionDto> getTransactionsOfOneUser(String emailAddress);
 
 }

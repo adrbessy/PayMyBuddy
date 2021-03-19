@@ -3,6 +3,7 @@ package com.PayMyBuddy.controller;
 import com.PayMyBuddy.exceptions.IsForbiddenException;
 import com.PayMyBuddy.exceptions.NonexistentException;
 import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.service.BankAccountService;
 import com.PayMyBuddy.service.FriendService;
 import com.PayMyBuddy.service.TransactionService;
@@ -60,8 +61,8 @@ public class TransactionController {
    * @return - A List of transactions
    */
   @GetMapping("/myTransactions")
-  public List<Transaction> getMyTransactions(@RequestParam String emailAddress) {
-    List<Transaction> myTransactionList = new ArrayList<>();
+  public List<TransactionDto> getMyTransactions(@RequestParam String emailAddress) {
+    List<TransactionDto> myTransactionList = new ArrayList<>();
     try {
       logger.info("Get request with the endpoint 'myTransactions'");
       myTransactionList = transactionService.getTransactionsOfOneUser(emailAddress);

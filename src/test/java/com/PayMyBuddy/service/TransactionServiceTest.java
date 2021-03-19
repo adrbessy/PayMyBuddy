@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import com.PayMyBuddy.constants.Tax;
 import com.PayMyBuddy.model.Transaction;
+import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.BankAccountRepository;
 import com.PayMyBuddy.repository.TransactionRepository;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,9 @@ public class TransactionServiceTest {
 
   @Autowired
   private UserAccountService userAccountService;
+
+  @MockBean
+  private MapService mapServiceMock;
 
   @MockBean
   private UserAccountRepository userAccountRepositoryMock;
@@ -128,14 +130,14 @@ public class TransactionServiceTest {
     transaction2.setEmailAddressReceiver(emailAddress);
     List<Transaction> transactionList21 = new ArrayList<>();
     transactionList21.add(transaction2);
-    List<Transaction> transactionListConcatenate = Stream.concat(transactionList1.stream(), transactionList21.stream())
-        .collect(Collectors.toList());
+    List<TransactionDto> transactionDtoList = new ArrayList<>();
 
     when(transactionRepositoryMock.findByEmailAddressEmitter(emailAddress)).thenReturn(transactionList1);
     when(transactionRepositoryMock.findByEmailAddressReceiver(emailAddress)).thenReturn(transactionList21);
+    when(mapServiceMock.convertToTransactionDtoList(emailAddress, transactionList1)).thenReturn(transactionDtoList);
 
-    List<Transaction> result = transactionService.getTransactionsOfOneUser(emailAddress);
-    assertThat(result).isEqualTo(transactionListConcatenate);
+    List<TransactionDto> result = transactionService.getTransactionsOfOneUser(emailAddress);
+    assertThat(result).isEqualTo(transactionDtoList);
   }
 
   @Test

@@ -11,39 +11,42 @@
 <div class="container text-center">
     <div>
         <form th:action="@{/logout}" method="post">
-            <p>
-                Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
-            </p>
             <input type="submit" value="Sign Out" />
         </form>
     </div>
     <div>
         <h1>Pay My Buddy</h1>
+        <h2>My Transactions</h2>
+        <h3><a th:href="@{/user}">HOME</a></h3>
         <h3><a th:href="@{/contact}">My friends</a></h3>
-        <h3><a th:href="@{/transac}">My transactions</a></h3>
-        <!-- 
+
+		<h3>My balance</h3>
+		<b th:text="${userAccount.amount}">balance</b>
+
         <div class="table-responsive">
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
-						<th>Prénom</th>
-						<th>Nom</th>
+						<th>Connections</th>
+						<th>Description</th>
+						<th>Amount</th>
 					</tr>
 				</thead>
 				
 				<tbody>
-					<tr th:if="${employees.empty}">
-						<td colspan="3">Aucun employée en base de données</td>
+					<tr th:if="${transactions.empty}">
+						<td colspan="3">You didn't process any transactions yet.</td>
 					</tr>
-					<tr th:each="employee: ${employees}">
-						<td><span th:text="${employee.firstName}"> Prénom </span></td>
-						<td><span th:text="${employee.lastName}"> Nom </span></td>
+					<tr th:each="transaction: ${transactions}">
+						<td><span th:text="${transaction.connection}"> Connection </span></td>
+						<td><span th:text="${transaction.description}"> Description </span></td>
+						<td><span th:text="${transaction.amount}"> Amount </span></td>
 					</tr>
 				</tbody>
 				
 			</table>
 		</div>
-		-->
+
     </div>
      
 </div>

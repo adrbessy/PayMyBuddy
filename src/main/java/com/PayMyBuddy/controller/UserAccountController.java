@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,17 +51,22 @@ public class UserAccountController {
    * 
    * @return - A user account
    */
-  /*
-   * @GetMapping("/userAccount") public UserAccount getUserAccounts(@RequestBody
-   * UserAccount userAccount) { List<UserAccount> userAccountList = new
-   * ArrayList<>(); try {
-   * logger.info("Get request with the endpoint 'userAccounts'"); userAccountList
-   * = (List<UserAccount>) userAccountService.getUserAccounts(); logger.info(
-   * "response following the GET on the endpoint 'userAccounts'."); } catch
-   * (Exception exception) { logger.
-   * error("Error in the UserAccountController in the method getUserAccounts :" +
-   * exception.getMessage()); } return userAccountList; }
-   */
+
+  @GetMapping("/myUserAccount")
+  public UserAccount getMyUserAccount(@RequestParam String emailAddress) {
+    UserAccount userAccount = null;
+    try {
+      logger.info("Get request with the endpoint 'myUserAccount'");
+      userAccount = userAccountService.getUserAccount(emailAddress);
+      logger.info(
+          "response following the GET on the endpoint 'myUserAccount'.");
+    } catch (Exception exception) {
+      logger.error("Error in the UserAccountController in the method getMyUserAccount :" +
+          exception.getMessage());
+    }
+    return userAccount;
+  }
+
 
   /**
    * Add a new user account
