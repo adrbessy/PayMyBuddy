@@ -35,9 +35,9 @@ public class HomeResourceController {
    * @return - The name of the html page
    */
   @GetMapping("/user")
-  public String user(Model model) {
-    List<UserAccount> userList = userAccountController.getUserAccounts();
-    model.addAttribute("user", userList);
+  public String user(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
+    UserAccount userAccount = userAccountController.getMyUserAccount(username);
+    model.addAttribute("userAccount", userAccount);
     return "user";
   }
 

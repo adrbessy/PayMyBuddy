@@ -50,17 +50,21 @@ public class MapService {
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     try {
       transactionList.forEach(transactionIterator -> {
+        String description = transactionIterator.getDescription();
+        if (description == null) {
+          description = "";
+        }
         if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
             && transactionIterator.idBankAccount == null) {
           TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressReceiver(),
-              "- EMITTED TRANSACTION - " + transactionIterator.getDescription(),
+              "- EMITTED TRANSACTION - " + description,
               "-" + transactionIterator.getAmount());
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
             && transactionIterator.idBankAccount == null) {
-          TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressReceiver(),
-              "- RECEIVED TRANSACTION - " + transactionIterator.getDescription(),
+          TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressEmitter(),
+              "- RECEIVED TRANSACTION - " + description,
               "+" + transactionIterator.getAmount());
           transactionDtoList.add(transactionDto);
         }
@@ -68,14 +72,14 @@ public class MapService {
             && transactionIterator.idBankAccount != null) {
           TransactionDto transactionDto = new TransactionDto(
               "Deposit on my bank account number : " + transactionIterator.getIdBankAccount(),
-              "- EMITTED TRANSACTION - " + transactionIterator.getDescription(),
+              "- EMITTED TRANSACTION - " + description,
               "-" + transactionIterator.getAmount());
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
             && transactionIterator.idBankAccount != null) {
           TransactionDto transactionDto = new TransactionDto("Money deposit",
-              "- RECEIVED TRANSACTION - " + transactionIterator.getDescription(),
+              "- RECEIVED TRANSACTION - " + description,
               "+" + transactionIterator.getAmount());
           transactionDtoList.add(transactionDto);
         }
