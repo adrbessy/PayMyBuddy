@@ -37,7 +37,7 @@ public class HomeResourceController {
   @GetMapping("/user")
   public String user(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
-    model.addAttribute("userAccount", userAccount);
+    model.addAttribute("user", userAccount);
     return "user";
   }
 
