@@ -61,7 +61,7 @@ public class HomeResourceController {
     List<TransactionDto> transactionList = transactionController.getMyTransactions(username);
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
     model.addAttribute("transactions", transactionList);
-    model.addAttribute("userAccount", userAccount);
+    model.addAttribute("user", userAccount);
     return "transaction";
   }
 
