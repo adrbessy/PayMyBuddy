@@ -44,8 +44,16 @@ public class FriendServiceTest {
 
   @BeforeEach
   private void setUp() {
+    /*
+     * friendrelationship = new Friend("someone@mail.fr", "someoneElse@mail.fr");
+     * friendrelationship2 = new Friend("someone@mail.fr", "someoneElse@mail.fr");
+     */
     friendrelationship = new Friend();
+    friendrelationship.setEmailAddressUser1("someone@mail.fr");
+    friendrelationship.setEmailAddressUser2("someoneElse@mail.fr");
     friendrelationship2 = new Friend();
+    friendrelationship2.setEmailAddressUser1("someone@mail.fr");
+    friendrelationship2.setEmailAddressUser2("someoneElse@mail.fr");
   }
 
   /**

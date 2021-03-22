@@ -47,7 +47,7 @@ public class FriendControllerTest {
 
   @Test
   public void testCreateUserAccount() throws Exception {
-    friend = new Friend();
+    Friend friend = new Friend();
     friend.setEmailAddressUser1("someone@mail.fr");
     friend.setEmailAddressUser2("someoneElse@mail.fr");
 
@@ -66,7 +66,7 @@ public class FriendControllerTest {
 
   @Test
   public void testCreateUserAccountIfUsersDontExist() throws Exception {
-    friend = new Friend();
+    Friend friend = new Friend();
     friend.setEmailAddressUser1("someone@mail.fr");
     friend.setEmailAddressUser2("someoneElse@mail.fr");
 
@@ -82,7 +82,8 @@ public class FriendControllerTest {
 
   @Test
   public void testCreateUserAccountIfRelationshipsAlreadyExist() throws Exception {
-    friend = new Friend();
+    // friend = new Friend("someone@mail.fr", "someoneElse@mail.fr");
+    Friend friend = new Friend();
     friend.setEmailAddressUser1("someone@mail.fr");
     friend.setEmailAddressUser2("someoneElse@mail.fr");
 

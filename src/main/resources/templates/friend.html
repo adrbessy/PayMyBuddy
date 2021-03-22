@@ -26,6 +26,7 @@
 					<tr>
 						<th>First name</th>
 						<th>Name</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				
@@ -36,10 +37,27 @@
 					<tr th:each="friend: ${friends}">
 						<td><span th:text="${friend.firstName}"> First name </span></td>
 						<td><span th:text="${friend.name}"> Name </span></td>
+						<td>
+							<a th:href="@{/deleteFriend(emailAddress=${friend.emailAddress})}"><button class="btn btn-danger">Supprimer</button></a>						
+						</td>
 					</tr>
 				</tbody>
 				
 			</table>
+		</div>
+		<h3 class="h3">Add a new friend</h3>
+		<div>
+			<form method="post"
+				th:action="@{/addFriend}" th:object="${userAccount}">
+				<div class="form-group">
+					<label for="mailInput">Email</label> 
+					<input
+						type="text" th:field="*{emailAddress}" class="form-control" id="mailInput"
+						aria-describedby="mailHelp" placeholder="Type the email address"> <small
+						id="mailHelp" class="form-text text-muted">Type the email address of your friend.</small>
+				</div>
+				<button type="submit" class="btn btn-primary">Add</button>
+			</form>
 		</div>
 
     </div>

@@ -5,11 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "friend")
 @IdClass(Friend.class)
@@ -22,5 +20,10 @@ public class Friend implements Serializable {
 
   @Id
   private String emailAddressUser2;
+  /*
+   * public Friend(String emailAddressUser1, String emailAddressUser2) {
+   * this.emailAddressUser1 = emailAddressUser1; this.emailAddressUser2 =
+   * emailAddressUser2; }
+   */
 
 }
