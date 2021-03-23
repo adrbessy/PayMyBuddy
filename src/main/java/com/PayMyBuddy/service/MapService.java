@@ -5,6 +5,7 @@ import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,14 +59,14 @@ public class MapService {
             && transactionIterator.idBankAccount == null) {
           TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressReceiver(),
               "- EMITTED TRANSACTION - " + description,
-              "-" + transactionIterator.getAmount());
+              "-" + transactionIterator.getAmount(), transactionIterator.getMyDate());
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
             && transactionIterator.idBankAccount == null) {
           TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressEmitter(),
               "- RECEIVED TRANSACTION - " + description,
-              "+" + transactionIterator.getAmount());
+              "+" + transactionIterator.getAmount(), transactionIterator.getMyDate());
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
@@ -73,20 +74,21 @@ public class MapService {
           TransactionDto transactionDto = new TransactionDto(
               "Deposit on my bank account number : " + transactionIterator.getIdBankAccount(),
               "- EMITTED TRANSACTION - " + description,
-              "-" + transactionIterator.getAmount());
+              "-" + transactionIterator.getAmount(), transactionIterator.getMyDate());
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
             && transactionIterator.idBankAccount != null) {
           TransactionDto transactionDto = new TransactionDto("Money deposit",
               "- RECEIVED TRANSACTION - " + description,
-              "+" + transactionIterator.getAmount());
+              "+" + transactionIterator.getAmount(), transactionIterator.getMyDate());
           transactionDtoList.add(transactionDto);
         }
       });
     } catch (Exception exception) {
       logger.error("Error in the method convertToUserAccountDtoList :" + exception.getMessage());
     }
+    Collections.reverse(transactionDtoList);
     return transactionDtoList;
   }
 

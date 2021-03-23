@@ -44,7 +44,7 @@ public class MapServiceTest {
     transactionList.add(transaction);
     TransactionDto transactionDto = new TransactionDto(transaction.getEmailAddressReceiver(),
         "- EMITTED TRANSACTION - " + description,
-        "-" + transaction.getAmount());
+        "-" + transaction.getAmount(), null);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 
@@ -63,7 +63,7 @@ public class MapServiceTest {
     transactionList.add(transaction);
     TransactionDto transactionDto = new TransactionDto(transaction.getEmailAddressEmitter(),
         "- RECEIVED TRANSACTION - " + description,
-        "+" + transaction.getAmount());
+        "+" + transaction.getAmount(), null);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 
@@ -84,7 +84,7 @@ public class MapServiceTest {
     TransactionDto transactionDto = new TransactionDto(
         "Deposit on my bank account number : " + transaction.getIdBankAccount(),
         "- EMITTED TRANSACTION - " + description,
-        "-" + transaction.getAmount());
+        "-" + transaction.getAmount(), null);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 
@@ -105,7 +105,7 @@ public class MapServiceTest {
     TransactionDto transactionDto = new TransactionDto(
         "Money deposit",
         "- RECEIVED TRANSACTION - " + description,
-        "+" + transaction.getAmount());
+        "+" + transaction.getAmount(), null);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 

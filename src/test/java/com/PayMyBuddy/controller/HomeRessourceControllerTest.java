@@ -83,7 +83,7 @@ public class HomeRessourceControllerTest {
     userAccount.setName("Bessy");
     double amount = 800.0;
     userAccount.setAmount(amount);
-    transactionDto = new TransactionDto("isabelle@mail.fr", "for a present", "50");
+    transactionDto = new TransactionDto("isabelle@mail.fr", "for a present", "50", null);
     List<TransactionDto> transactionList = new ArrayList<>();
     transactionList.add(transactionDto);
 

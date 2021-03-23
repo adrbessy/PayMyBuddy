@@ -9,8 +9,6 @@ import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -155,15 +153,20 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   public List<TransactionDto> getTransactionsOfOneUser(String emailAddress) {
     logger.debug("in the method getTransactionsOfOneUser in the class TransactionServiceImpl");
-    List<Transaction> transactionList = new ArrayList<>();
+    List<Transaction> myTransactions = new ArrayList<>();
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     try {
-      List<Transaction> transactionList1 = transactionRepository.findByEmailAddressEmitter(emailAddress);
-      List<Transaction> transactionList2 = transactionRepository.findByEmailAddressReceiver(emailAddress);
-      transactionList = Stream.concat(transactionList1.stream(), transactionList2.stream())
-          .collect(Collectors.toList());
-      transactionDtoList = mapService.convertToTransactionDtoList(emailAddress, transactionList);
-    } catch (Exception exception) {
+      List<Transaction> allTransactions = getTransactions();
+      allTransactions.forEach(transactionIterator -> {
+        if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
+            || emailAddress.equals(transactionIterator.getEmailAddressReceiver())) {
+          myTransactions.add(transactionIterator);
+        }
+      });
+      transactionDtoList = mapService.convertToTransactionDtoList(emailAddress, myTransactions);
+    } catch (
+
+    Exception exception) {
       logger.error("Error in the method getTransactionsOfOneUser :" + exception.getMessage());
     }
     return transactionDtoList;

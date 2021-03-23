@@ -1,6 +1,7 @@
 package com.PayMyBuddy.controller;
 
 import com.PayMyBuddy.model.Friend;
+import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
@@ -67,9 +68,25 @@ public class HomeResourceController {
   public String transac(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
     List<TransactionDto> transactionList = transactionController.getMyTransactions(username);
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
+    List<UserAccountDto> friendList = friendController.getMyFriends(username);
+    Transaction newTransaction = new Transaction();
     model.addAttribute("transactions", transactionList);
-    model.addAttribute("user", userAccount);
+    model.addAttribute("userAccount", userAccount);
+    model.addAttribute("friends", friendList);
+    model.addAttribute("newTransaction", newTransaction);
     return "transaction";
+  }
+
+  /**
+   * 
+   * @return - The name of the html transaction page
+   */
+  @PostMapping("/makeTransaction")
+  public ModelAndView maketransac(@ModelAttribute Transaction newTransaction,
+      @CurrentSecurityContext(expression = "authentication?.name") String username) {
+    newTransaction.setEmailAddressEmitter(username);
+    transactionController.createFriendTransaction(newTransaction);
+    return new ModelAndView("redirect:/transac");
   }
 
   /**

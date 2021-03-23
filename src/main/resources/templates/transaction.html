@@ -20,14 +20,25 @@
         <h3><a th:href="@{/user}">HOME</a></h3>
         <h3><a th:href="@{/contact}">My friends</a></h3>
 
-		<h3>My balance</h3>
-		<b th:text="${user.amount}">Amount</b>
+		<form method="post" th:action="@{/makeTransaction}" th:object="${newTransaction}">
+		   <p>
+		      <select th:field="*{emailAddressReceiver}">
+			    <option th:each="friend: ${friends}" th:text="${friend.emailAddress}" th:value="${friend.emailAddress}">Email Address</option>
+			</select>
+		   </p>
+		   <input th:field="*{amount}" type="number" />
+		   <button type="submit" class="btn btn-primary">Pay</button>
+		</form>
+
+		<h4>My balance</h4>
+		<b th:text="${userAccount.amount}">Amount</b>
 
         <div class="table-responsive">
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
-						<th>Connections</th>
+						<th>Date</th>
+						<th>Connection</th>
 						<th>Description</th>
 						<th>Amount</th>
 					</tr>
@@ -38,6 +49,7 @@
 						<td colspan="3">You didn't process any transactions yet.</td>
 					</tr>
 					<tr th:each="transaction: ${transactions}">
+						<td><span th:text="${transaction.MyDate}"> Date </span></td>
 						<td><span th:text="${transaction.connection}"> Connection </span></td>
 						<td><span th:text="${transaction.description}"> Description </span></td>
 						<td><span th:text="${transaction.amount}"> Amount </span></td>
