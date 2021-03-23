@@ -4,6 +4,7 @@ import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,24 +50,26 @@ public class MapService {
   public List<TransactionDto> convertToTransactionDtoList(String emailAddress, List<Transaction> transactionList) {
     logger.debug("in the method convertToTransactionDtoList in the class MapService");
     List<TransactionDto> transactionDtoList = new ArrayList<>();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     try {
       transactionList.forEach(transactionIterator -> {
         String description = transactionIterator.getDescription();
         if (description == null) {
           description = "";
         }
+        String myDate = sdf.format(transactionIterator.getMyDate());
         if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
             && transactionIterator.idBankAccount == null) {
           TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressReceiver(),
               "- EMITTED TRANSACTION - " + description,
-              "-" + transactionIterator.getAmount(), transactionIterator.getMyDate());
+              "-" + transactionIterator.getAmount(), myDate);
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
             && transactionIterator.idBankAccount == null) {
           TransactionDto transactionDto = new TransactionDto(transactionIterator.getEmailAddressEmitter(),
               "- RECEIVED TRANSACTION - " + description,
-              "+" + transactionIterator.getAmount(), transactionIterator.getMyDate());
+              "+" + transactionIterator.getAmount(), myDate);
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressEmitter())
@@ -74,14 +77,14 @@ public class MapService {
           TransactionDto transactionDto = new TransactionDto(
               "Deposit on my bank account number : " + transactionIterator.getIdBankAccount(),
               "- EMITTED TRANSACTION - " + description,
-              "-" + transactionIterator.getAmount(), transactionIterator.getMyDate());
+              "-" + transactionIterator.getAmount(), myDate);
           transactionDtoList.add(transactionDto);
         }
         if (emailAddress.equals(transactionIterator.getEmailAddressReceiver())
             && transactionIterator.idBankAccount != null) {
           TransactionDto transactionDto = new TransactionDto("Money deposit",
               "- RECEIVED TRANSACTION - " + description,
-              "+" + transactionIterator.getAmount(), transactionIterator.getMyDate());
+              "+" + transactionIterator.getAmount(), myDate);
           transactionDtoList.add(transactionDto);
         }
       });

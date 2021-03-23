@@ -5,7 +5,9 @@ import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +42,14 @@ public class MapServiceTest {
     transaction.setEmailAddressEmitter("marie@mail.fr");
     transaction.setEmailAddressReceiver("adrien@mail.fr");
     transaction.setAmount(50);
+    transaction.setMyDate(new Date());
     String description = "";
     transactionList.add(transaction);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String myDate = sdf.format(transaction.getMyDate());
     TransactionDto transactionDto = new TransactionDto(transaction.getEmailAddressReceiver(),
         "- EMITTED TRANSACTION - " + description,
-        "-" + transaction.getAmount(), null);
+        "-" + transaction.getAmount(), myDate);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 
@@ -59,11 +64,14 @@ public class MapServiceTest {
     transaction.setEmailAddressEmitter("marie@mail.fr");
     transaction.setEmailAddressReceiver("adrien@mail.fr");
     transaction.setAmount(50);
+    transaction.setMyDate(new Date());
     String description = "";
     transactionList.add(transaction);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String myDate = sdf.format(transaction.getMyDate());
     TransactionDto transactionDto = new TransactionDto(transaction.getEmailAddressEmitter(),
         "- RECEIVED TRANSACTION - " + description,
-        "+" + transaction.getAmount(), null);
+        "+" + transaction.getAmount(), myDate);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 
@@ -79,12 +87,15 @@ public class MapServiceTest {
     transaction.setEmailAddressReceiver(null);
     transaction.setIdBankAccount((long) 1);
     transaction.setAmount(50);
+    transaction.setMyDate(new Date());
     String description = "";
     transactionList.add(transaction);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String myDate = sdf.format(transaction.getMyDate());
     TransactionDto transactionDto = new TransactionDto(
         "Deposit on my bank account number : " + transaction.getIdBankAccount(),
         "- EMITTED TRANSACTION - " + description,
-        "-" + transaction.getAmount(), null);
+        "-" + transaction.getAmount(), myDate);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 
@@ -100,12 +111,15 @@ public class MapServiceTest {
     transaction.setEmailAddressEmitter(null);
     transaction.setIdBankAccount((long) 1);
     transaction.setAmount(50);
+    transaction.setMyDate(new Date());
     String description = "";
     transactionList.add(transaction);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String myDate = sdf.format(transaction.getMyDate());
     TransactionDto transactionDto = new TransactionDto(
         "Money deposit",
         "- RECEIVED TRANSACTION - " + description,
-        "+" + transaction.getAmount(), null);
+        "+" + transaction.getAmount(), myDate);
     List<TransactionDto> transactionDtoList = new ArrayList<>();
     transactionDtoList.add(transactionDto);
 

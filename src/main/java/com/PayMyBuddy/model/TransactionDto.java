@@ -1,7 +1,5 @@
 package com.PayMyBuddy.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,16 +17,11 @@ public class TransactionDto {
 
   String myDate;
 
-  public TransactionDto(String connection, String description, String amount, Date myDate) {
+  public TransactionDto(String connection, String description, String amount, String myDate) {
     this.connection = connection;
     this.description = description;
     this.amount = amount;
-    this.myDate = setDate(myDate);
-  }
-
-  public String setDate(Date myDate) {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    return sdf.format(myDate);
+    this.myDate = myDate;
   }
 
 }
