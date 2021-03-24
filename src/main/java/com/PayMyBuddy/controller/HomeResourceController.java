@@ -1,5 +1,6 @@
 package com.PayMyBuddy.controller;
 
+import com.PayMyBuddy.model.BankAccount;
 import com.PayMyBuddy.model.Friend;
 import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
@@ -25,7 +26,8 @@ public class HomeResourceController {
   private FriendController friendController;
   @Autowired
   private TransactionController transactionController;
-
+  @Autowired
+  private BankAccountController bankAccountController;
 
   /**
    * 
@@ -51,6 +53,41 @@ public class HomeResourceController {
    * 
    * @return - The name of the html page
    */
+  @GetMapping("/profile")
+  public String profile(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
+    List<BankAccount> myBankAccounts = bankAccountController.getMyBankAccounts(username);
+    BankAccount newBankAccount = new BankAccount();
+    model.addAttribute("myBankAccounts", myBankAccounts);
+    model.addAttribute("newBankAccount", newBankAccount);
+    return "profile";
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
+  @PostMapping("/addNewBankAccount")
+  public ModelAndView addNewBankAccount(@ModelAttribute BankAccount bankAccount,
+      @CurrentSecurityContext(expression = "authentication?.name") String username) {
+    bankAccount.setEmailAddress(username);
+    bankAccountController.createBankAccount(bankAccount);
+    return new ModelAndView("redirect:/profile");
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
+  @GetMapping("/deleteBankAccount")
+  public ModelAndView deleteBankAccount(@RequestParam String emailAddress, @RequestParam String iban) {
+    bankAccountController.deleteBankAccount(emailAddress, iban);
+    return new ModelAndView("redirect:/profile");
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
   @GetMapping("/contact")
   public String contact(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
     List<UserAccountDto> friendList = friendController.getMyFriends(username);
@@ -69,11 +106,13 @@ public class HomeResourceController {
     List<TransactionDto> transactionList = transactionController.getMyTransactions(username);
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
     List<UserAccountDto> friendList = friendController.getMyFriends(username);
+    List<BankAccount> myBankAccounts = bankAccountController.getMyBankAccounts(username);
     Transaction newTransaction = new Transaction();
     model.addAttribute("transactions", transactionList);
     model.addAttribute("userAccount", userAccount);
     model.addAttribute("friends", friendList);
     model.addAttribute("newTransaction", newTransaction);
+    model.addAttribute("myBankAccounts", myBankAccounts);
     return "transaction";
   }
 
@@ -91,6 +130,18 @@ public class HomeResourceController {
 
   /**
    * 
+   * @return - The name of the html transaction page
+   */
+  @PostMapping("/ToBankAccount")
+  public ModelAndView toBankAccount(@ModelAttribute Transaction newTransaction,
+      @CurrentSecurityContext(expression = "authentication?.name") String username) {
+    newTransaction.setEmailAddressEmitter(username);
+    transactionController.createTransactionToBankAccount(newTransaction);
+    return new ModelAndView("redirect:/transac");
+  }
+
+  /**
+   * 
    * @return - The name of the html page
    */
   @GetMapping("/admin")
@@ -103,7 +154,7 @@ public class HomeResourceController {
    * @return - The name of the html page
    */
   @GetMapping("/deleteFriend")
-  public ModelAndView deleteEmployee(@RequestParam String emailAddress,
+  public ModelAndView deleteFriend(@RequestParam String emailAddress,
       @CurrentSecurityContext(expression = "authentication?.name") String username) {
     friendController.deleteMyFriend(username, emailAddress);
     return new ModelAndView("redirect:/contact");

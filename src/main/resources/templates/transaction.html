@@ -9,24 +9,55 @@
 </head>
 <body>
 <div class="container text-center">
-    <div>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out" />
-        </form>
-    </div>
+
     <div>
         <h1>Pay My Buddy</h1>
-        <h2>My Transactions</h2>
-        <h3><a th:href="@{/user}">HOME</a></h3>
-        <h3><a th:href="@{/contact}">My friends</a></h3>
 
+		<nav>
+        	<ul>
+		        <li><a th:href="@{/user}">Home</a></li>
+		        <li><a th:href="@{/transac}">Transfer</a></li>
+				<li><a th:href="@{/profile}">Profile</a></li>
+				<li><a th:href="@{/contact}">Contact</a></li>
+				<li><a th:href="@{/logout}">Log off</a></li>
+        	</ul>
+        </nav>
+	        
+		</div>
+			<h3 class="h3">Transaction to a friend</h3>
+		<div>
 		<form method="post" th:action="@{/makeTransaction}" th:object="${newTransaction}">
 		   <p>
 		      <select th:field="*{emailAddressReceiver}">
 			    <option th:each="friend: ${friends}" th:text="${friend.emailAddress}" th:value="${friend.emailAddress}">Email Address</option>
 			</select>
 		   </p>
-		   <input th:field="*{amount}" type="number" />
+		   <input th:field="*{amount}" type="number" step="0.01" />
+		   <div class="form-group">
+					<label for="mailInput">Description</label> 
+					<input
+						type="text" th:field="*{description}" class="form-control" id="descriptionInput"
+						aria-describedby="description" placeholder="Type the reason of your transaction">
+				</div>
+		   <button type="submit" class="btn btn-primary">Pay</button>
+		</form>
+		
+		</div>
+			<h3 class="h3">Transaction to one of your bank account</h3>
+		<div>
+		<form method="post" th:action="@{/ToBankAccount}" th:object="${newTransaction}">
+		   <p>
+		      <select th:field="*{idBankAccount}">
+			    <option th:each="myBankAccount: ${myBankAccounts}" th:text="${myBankAccount.id}" th:value="${myBankAccount.id}">bank account id</option>
+			</select>
+		   </p>
+		   <input th:field="*{amount}" type="number" step="0.01" />
+		   <div class="form-group">
+					<label for="mailInput">Description</label> 
+					<input
+						type="text" th:field="*{description}" class="form-control" id="descriptionInput"
+						aria-describedby="description" placeholder="Type the reason of your transaction">
+				</div>
 		   <button type="submit" class="btn btn-primary">Pay</button>
 		</form>
 
