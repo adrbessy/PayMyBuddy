@@ -20,10 +20,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     // super.configure(auth);
 
-
     auth.inMemoryAuthentication()
-        .withUser("springuser").password(passwordEncoder().encode("spring123")).roles("USER").and()
-        .withUser("springadmin").password(passwordEncoder().encode("admin123")).roles("USER", "ADMIN");
+        .withUser("adrien@mail.fr").password(passwordEncoder().encode("admin123")).roles("USER", "ADMIN");
 
     auth.authenticationProvider(authenticationProvider());
   }
@@ -33,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf().disable();
 
     http.authorizeRequests()
+        .antMatchers("/admin").hasRole("ADMIN")
         .antMatchers("/user").authenticated()
         .anyRequest().permitAll()
         .and()

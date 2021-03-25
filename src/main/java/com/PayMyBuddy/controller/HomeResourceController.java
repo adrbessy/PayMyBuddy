@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomeResourceController {
@@ -47,6 +48,50 @@ public class HomeResourceController {
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
     model.addAttribute("user", userAccount);
     return "user";
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
+  @GetMapping("/admin")
+  public String admin(Model model) {
+    List<UserAccount> userAccounts = userAccountController.getUserAccounts();
+    Transaction newTransaction = new Transaction();
+    model.addAttribute("userAccounts", userAccounts);
+    model.addAttribute("newTransaction", newTransaction);
+    return "admin";
+  }
+
+  /**
+   * 
+   * @return - The name of the html transaction page
+   */
+  @PostMapping("/deposit")
+  public ModelAndView deposit(@ModelAttribute Transaction newTransaction, RedirectAttributes redirectAttributes) {
+    transactionController.createMoneyDeposit(newTransaction);
+    List<TransactionDto> transactionList = transactionController
+        .getMyTransactions(newTransaction.getEmailAddressReceiver());
+    redirectAttributes.addFlashAttribute("username", newTransaction.getEmailAddressReceiver());
+    redirectAttributes.addFlashAttribute("transactionList", transactionList);
+    return new ModelAndView("redirect:/admin_user");
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
+  @GetMapping("/admin_user")
+  public String adminUser(Model model, @ModelAttribute("transactionList") List<TransactionDto> transactionList,
+      @ModelAttribute("username") String username) {
+    List<UserAccount> userAccounts = userAccountController.getUserAccounts();
+    Transaction newTransaction = new Transaction();
+    UserAccount userAccount = userAccountController.getMyUserAccount(username);
+    model.addAttribute("userAccounts", userAccounts);
+    model.addAttribute("newTransaction", newTransaction);
+    model.addAttribute("transactionList", transactionList);
+    model.addAttribute("userAccount", userAccount);
+    return "admin_user";
   }
 
   /**
@@ -138,15 +183,6 @@ public class HomeResourceController {
     newTransaction.setEmailAddressEmitter(username);
     transactionController.createTransactionToBankAccount(newTransaction);
     return new ModelAndView("redirect:/transac");
-  }
-
-  /**
-   * 
-   * @return - The name of the html page
-   */
-  @GetMapping("/admin")
-  public String admin() {
-    return "admin";
   }
 
   /**

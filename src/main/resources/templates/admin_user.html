@@ -35,6 +35,37 @@
 		   <button type="submit" class="btn btn-primary">Pay</button>
 		</form>
     </div>
+    
+    <h3 th:text="${userAccount.emailAddress}">username</h3>
+    
+    <h4>The balance</h4>
+	<b th:text="${userAccount.amount}">Amount</b>
+    
+    <div class="table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Connection</th>
+						<th>Description</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:if="${transactionList.empty}">
+						<td colspan="3">You didn't process any transactions yet.</td>
+					</tr>
+					<tr th:each="transaction: ${transactionList}">
+						<td><span th:text="${transaction.MyDate}"> Date </span></td>
+						<td><span th:text="${transaction.connection}"> Connection </span></td>
+						<td><span th:text="${transaction.description}"> Description </span></td>
+						<td><span th:text="${transaction.amount}"> Amount </span></td>
+					</tr>
+				</tbody>
+				
+			</table>
+		</div>
      
 	</div>
 </body>

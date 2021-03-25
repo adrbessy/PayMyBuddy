@@ -164,12 +164,11 @@ public class TransactionServiceImpl implements TransactionService {
         }
       });
       transactionDtoList = mapService.convertToTransactionDtoList(emailAddress, myTransactions);
-    } catch (
-
-    Exception exception) {
+    } catch (Exception exception) {
       logger.error("Error in the method getTransactionsOfOneUser :" + exception.getMessage());
     }
     return transactionDtoList;
   }
+
 
 }
