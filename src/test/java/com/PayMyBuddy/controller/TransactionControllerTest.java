@@ -60,6 +60,7 @@ public class TransactionControllerTest {
   @WithMockUser(roles = "ADMIN")
   public void testCreateFriendTransaction() throws Exception {
     friendTransaction = new Transaction();
+    friendTransaction.setAmount(50);
 
     when(friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
         friendTransaction.getEmailAddressReceiver())).thenReturn(true);
@@ -77,6 +78,7 @@ public class TransactionControllerTest {
   @WithMockUser(roles = "ADMIN")
   public void testCreateFriendTransactionRelationshipNotExist() throws Exception {
     friendTransaction = new Transaction();
+    friendTransaction.setAmount(50);
 
     when(friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
         friendTransaction.getEmailAddressReceiver())).thenReturn(false);
@@ -91,6 +93,7 @@ public class TransactionControllerTest {
   @WithMockUser(roles = "ADMIN")
   public void testCreateFriendTransactionNotEnoughMoney() throws Exception {
     friendTransaction = new Transaction();
+    friendTransaction.setAmount(50);
 
     when(friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
         friendTransaction.getEmailAddressReceiver())).thenReturn(true);
@@ -107,6 +110,7 @@ public class TransactionControllerTest {
   @WithMockUser(roles = "ADMIN")
   public void testCreateMoneyDeposit() throws Exception {
     moneyDeposit = new Transaction();
+    moneyDeposit.setAmount(50);
 
     when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(true);
     when(transactionService.makeMoneyDeposit(moneyDeposit)).thenReturn(moneyDeposit);
@@ -121,6 +125,7 @@ public class TransactionControllerTest {
   @WithMockUser(roles = "ADMIN")
   public void testCreateMoneyDepositUserAccountDoesntExist() throws Exception {
     moneyDeposit = new Transaction();
+    moneyDeposit.setAmount(50);
 
     when(userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver())).thenReturn(false);
 
@@ -136,6 +141,7 @@ public class TransactionControllerTest {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+    transactionToBankAccount.setAmount(50);
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
     when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
@@ -157,6 +163,7 @@ public class TransactionControllerTest {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+    transactionToBankAccount.setAmount(50);
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(false);
 
@@ -172,6 +179,7 @@ public class TransactionControllerTest {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+    transactionToBankAccount.setAmount(50);
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
     when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
@@ -189,6 +197,7 @@ public class TransactionControllerTest {
     transactionToBankAccount = new Transaction();
     transactionToBankAccount.setIdBankAccount((long) 1);
     transactionToBankAccount.setEmailAddressEmitter("adrien@mail.fr");
+    transactionToBankAccount.setAmount(50);
 
     when(userAccountService.userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter())).thenReturn(true);
     when(bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),

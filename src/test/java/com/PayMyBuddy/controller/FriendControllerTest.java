@@ -33,7 +33,6 @@ public class FriendControllerTest {
   @MockBean
   private UserAccountService userAccountServiceMock;
 
-  private Friend friend;
 
   @Test
   public void testGetFriends() throws Exception {
