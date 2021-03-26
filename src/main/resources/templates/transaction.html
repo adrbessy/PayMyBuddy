@@ -55,6 +55,7 @@
 		   <div class="row">
 			   <div class="col">
 			      <select th:field="*{idBankAccount}">
+			      <option value="select" selected="selected"> Select A Bank Account </option>
 				    <option th:each="myBankAccount: ${myBankAccounts}" th:text="${myBankAccount.id}" th:value="${myBankAccount.id}">bank account id</option>
 					</select>
 				</div>
@@ -65,7 +66,7 @@
 			   		<div class="form-group">
 						<input
 							type="text" th:field="*{description}" class="form-control" id="descriptionInput"
-							aria-describedby="description" placeholder="Type the reason of your transaction">
+							aria-describedby="description" placeholder="Type a description">
 					</div>
 				</div>
 				<div class="col">

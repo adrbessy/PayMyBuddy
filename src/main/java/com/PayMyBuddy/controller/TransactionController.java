@@ -88,21 +88,28 @@ public class TransactionController {
     boolean checkIfEnoughMoney = false;
     try {
       logger.info("Post request with the endpoint 'friendTransaction'");
-      existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
-          friendTransaction.getEmailAddressReceiver());
-      if (existingFriendRelationship) {
-        checkIfEnoughMoney = userAccountService.checkEnoughMoney(friendTransaction.getEmailAddressEmitter(),
-            friendTransaction.getAmount());
-        if (checkIfEnoughMoney) {
-          newFriendTransaction = transactionService.makeFriendTransaction(friendTransaction);
-          logger.info(
-              "response following the Post on the endpoint 'friendTransaction' with the given friendTransaction : {"
-                  + friendTransaction.toString() + "}");
+      if (friendTransaction.getAmount() > 0) {
+        existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
+            friendTransaction.getEmailAddressReceiver());
+        if (existingFriendRelationship) {
+          checkIfEnoughMoney = userAccountService.checkEnoughMoney(friendTransaction.getEmailAddressEmitter(),
+              friendTransaction.getAmount());
+          if (checkIfEnoughMoney) {
+            newFriendTransaction = transactionService.makeFriendTransaction(friendTransaction);
+            logger.info(
+                "response following the Post on the endpoint 'friendTransaction' with the given friendTransaction : {"
+                    + friendTransaction.toString() + "}");
+          }
         }
       }
     } catch (Exception exception) {
       logger.error("Error in the TransactionController in the method createFriendTransaction :"
           + exception.getMessage());
+    }
+    if (friendTransaction.getAmount() <= 0) {
+      logger.error("The transferred amount must be superior to zero.");
+      throw new IsForbiddenException(
+          "The transferred amount must be superior to zero.");
     }
     if (existingFriendRelationship == false) {
       logger.error("The friend relationship between " + friendTransaction.getEmailAddressEmitter() + " and "
@@ -131,16 +138,23 @@ public class TransactionController {
     boolean existingUserAccount = false;
     try {
       logger.info("Post request with the endpoint 'moneyDeposit'");
-      existingUserAccount = userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver());
-      if (existingUserAccount) {
-        newMoneyDeposit = transactionService.makeMoneyDeposit(moneyDeposit);
-        logger.info(
-            "response following the Post on the endpoint 'moneyDeposit' with the given moneyDeposit : {"
-                + moneyDeposit.toString() + "}");
+      if (moneyDeposit.getAmount() > 0) {
+        existingUserAccount = userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver());
+        if (existingUserAccount) {
+          newMoneyDeposit = transactionService.makeMoneyDeposit(moneyDeposit);
+          logger.info(
+              "response following the Post on the endpoint 'moneyDeposit' with the given moneyDeposit : {"
+                  + moneyDeposit.toString() + "}");
+        }
       }
     } catch (Exception exception) {
       logger.error("Error in the TransactionController in the method createMoneyDeposit :"
           + exception.getMessage());
+    }
+    if (moneyDeposit.getAmount() <= 0) {
+      logger.error("The transferred amount must be superior to zero.");
+      throw new IsForbiddenException(
+          "The transferred amount must be superior to zero.");
     }
     if (existingUserAccount == false) {
       logger.error("The user account "
@@ -166,25 +180,32 @@ public class TransactionController {
     boolean checkIfEnoughMoney = false;
     try {
       logger.info("Post request with the endpoint 'TransactionToBankAccount'");
-      existingUserAccount = userAccountService
-          .userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter());
-      if (existingUserAccount) {
-        existingBankAccount = bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
-            transactionToBankAccount.getIdBankAccount());
-        if (existingBankAccount) {
-          checkIfEnoughMoney = userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
-              transactionToBankAccount.getAmount());
-          if (checkIfEnoughMoney) {
-            newTransactionToBankAccount = transactionService.makeTransactionToBankAccount(transactionToBankAccount);
-            logger.info(
-                "response following the Post on the endpoint 'transactionToBankAccount' with the given transactionToBankAccount : {"
-                    + transactionToBankAccount.toString() + "}");
+      if (transactionToBankAccount.getAmount() > 0) {
+        existingUserAccount = userAccountService
+            .userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter());
+        if (existingUserAccount) {
+          existingBankAccount = bankAccountService.bankAccountExist(transactionToBankAccount.getEmailAddressEmitter(),
+              transactionToBankAccount.getIdBankAccount());
+          if (existingBankAccount) {
+            checkIfEnoughMoney = userAccountService.checkEnoughMoney(transactionToBankAccount.getEmailAddressEmitter(),
+                transactionToBankAccount.getAmount());
+            if (checkIfEnoughMoney) {
+              newTransactionToBankAccount = transactionService.makeTransactionToBankAccount(transactionToBankAccount);
+              logger.info(
+                  "response following the Post on the endpoint 'transactionToBankAccount' with the given transactionToBankAccount : {"
+                      + transactionToBankAccount.toString() + "}");
+            }
           }
         }
       }
     } catch (Exception exception) {
       logger.error("Error in the TransactionController in the method createTransactionToBankAccount :"
           + exception.getMessage());
+    }
+    if (transactionToBankAccount.getAmount() <= 0) {
+      logger.error("The transferred amount must be superior to zero.");
+      throw new IsForbiddenException(
+          "The transferred amount must be superior to zero.");
     }
     if (existingUserAccount == false) {
       logger.error("The user account "
