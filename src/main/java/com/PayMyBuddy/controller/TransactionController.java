@@ -88,7 +88,7 @@ public class TransactionController {
     boolean checkIfEnoughMoney = false;
     try {
       logger.info("Post request with the endpoint 'friendTransaction'");
-      if (friendTransaction.getAmount() > 0) {
+      if (friendTransaction.getAmount() > 0 && friendTransaction.getAmount() <= 999999.99) {
         existingFriendRelationship = friendService.friendRelationshipExist(friendTransaction.getEmailAddressEmitter(),
             friendTransaction.getEmailAddressReceiver());
         if (existingFriendRelationship) {
@@ -106,10 +106,10 @@ public class TransactionController {
       logger.error("Error in the TransactionController in the method createFriendTransaction :"
           + exception.getMessage());
     }
-    if (friendTransaction.getAmount() <= 0) {
-      logger.error("The transferred amount must be superior to zero.");
+    if (friendTransaction.getAmount() <= 0 || friendTransaction.getAmount() > 999999.99) {
+      logger.error("The transferred amount must be superior to zero and inferior to 999999,99.");
       throw new IsForbiddenException(
-          "The transferred amount must be superior to zero.");
+          "The transferred amount must be superior to zero and inferior to 999999,99.");
     }
     if (existingFriendRelationship == false) {
       logger.error("The friend relationship between " + friendTransaction.getEmailAddressEmitter() + " and "
@@ -138,7 +138,7 @@ public class TransactionController {
     boolean existingUserAccount = false;
     try {
       logger.info("Post request with the endpoint 'moneyDeposit'");
-      if (moneyDeposit.getAmount() > 0) {
+      if (moneyDeposit.getAmount() > 0 && moneyDeposit.getAmount() <= 999999.99) {
         existingUserAccount = userAccountService.userAccountEmailExist(moneyDeposit.getEmailAddressReceiver());
         if (existingUserAccount) {
           newMoneyDeposit = transactionService.makeMoneyDeposit(moneyDeposit);
@@ -151,10 +151,10 @@ public class TransactionController {
       logger.error("Error in the TransactionController in the method createMoneyDeposit :"
           + exception.getMessage());
     }
-    if (moneyDeposit.getAmount() <= 0) {
-      logger.error("The transferred amount must be superior to zero.");
+    if (moneyDeposit.getAmount() <= 0 || moneyDeposit.getAmount() > 999999.99) {
+      logger.error("The transferred amount must be superior to zero and inferior to 999999,99.");
       throw new IsForbiddenException(
-          "The transferred amount must be superior to zero.");
+          "The transferred amount must be superior to zero and inferior to 999999,99.");
     }
     if (existingUserAccount == false) {
       logger.error("The user account "
@@ -180,7 +180,7 @@ public class TransactionController {
     boolean checkIfEnoughMoney = false;
     try {
       logger.info("Post request with the endpoint 'TransactionToBankAccount'");
-      if (transactionToBankAccount.getAmount() > 0) {
+      if (transactionToBankAccount.getAmount() > 0 && transactionToBankAccount.getAmount() <= 999999.99) {
         existingUserAccount = userAccountService
             .userAccountEmailExist(transactionToBankAccount.getEmailAddressEmitter());
         if (existingUserAccount) {
@@ -202,10 +202,10 @@ public class TransactionController {
       logger.error("Error in the TransactionController in the method createTransactionToBankAccount :"
           + exception.getMessage());
     }
-    if (transactionToBankAccount.getAmount() <= 0) {
-      logger.error("The transferred amount must be superior to zero.");
+    if (transactionToBankAccount.getAmount() <= 0 || transactionToBankAccount.getAmount() > 999999.99) {
+      logger.error("The transferred amount must be superior to zero and inferior to 999999,99.");
       throw new IsForbiddenException(
-          "The transferred amount must be superior to zero.");
+          "The transferred amount must be superior to zero and inferior to 999999,99.");
     }
     if (existingUserAccount == false) {
       logger.error("The user account "
