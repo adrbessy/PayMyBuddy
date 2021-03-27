@@ -5,9 +5,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import com.PayMyBuddy.model.BankAccount;
+import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -15,8 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -159,27 +165,39 @@ public class HomeRessourceControllerTest {
         .andExpect(status().isOk()).andExpect(view().name("transaction"));
   }
 
-  /*
-   * @Test
-   * 
-   * @WithMockUser(roles = "ADMIN") public void testDeposit() throws Exception {
-   * userAccount = new UserAccount();
-   * userAccount.setEmailAddress("adrien@mail.fr");
-   * userAccount.setPassword("abcde"); userAccount.setFirstName("Adrien");
-   * userAccount.setName("Bessy"); double amount = 800.0;
-   * userAccount.setAmount(amount); transactionDto = new
-   * TransactionDto("isabelle@mail.fr", "for a present", "50", "");
-   * List<TransactionDto> transactionList = new ArrayList<>();
-   * transactionList.add(transactionDto); Transaction transaction = new
-   * Transaction(); transaction.setEmailAddressReceiver("adrien@mail.fr");
-   * 
-   * when(transactionControllerMock.getMyTransactions("adrien@mail.fr"))
-   * .thenReturn(transactionList);
-   * 
-   * MockHttpServletRequestBuilder builder =
-   * MockMvcRequestBuilders.post("/moneyDeposit").flashAttr("newTransaction",
-   * transaction); mockMvc.perform(builder) .andExpect(status().isOk()); }
-   */
+
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testDeposit() throws Exception {
+    userAccount = new UserAccount();
+    userAccount.setEmailAddress("adrien@mail.fr");
+    userAccount.setPassword("abcde");
+    userAccount.setFirstName("Adrien");
+    userAccount.setName("Bessy");
+    List<UserAccount> userAccountList = new ArrayList<>();
+    double amount = 800.0;
+    userAccount.setAmount(amount);
+    transactionDto = new TransactionDto("isabelle@mail.fr", "for a present", "50", "");
+    List<TransactionDto> transactionList = new ArrayList<>();
+    transactionList.add(transactionDto);
+    Transaction transaction = new Transaction();
+    transaction.setEmailAddressReceiver("adrien@mail.fr");
+
+    when(transactionControllerMock.createMoneyDeposit(transaction)).thenReturn(transaction);
+    when(transactionControllerMock.getMyTransactions("adrien@mail.fr"))
+        .thenReturn(transactionList);
+    when(userAccountControllerMock.getUserAccounts())
+        .thenReturn(userAccountList);
+    when(userAccountControllerMock.getMyUserAccount("adrien@mail.fr"))
+        .thenReturn(userAccount);
+
+    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
+        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
+        .content(new ObjectMapper().writeValueAsString(transaction));
+
+    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
 
   @Test
   @WithMockUser(roles = "ADMIN")

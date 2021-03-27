@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomeResourceController {
@@ -68,30 +67,20 @@ public class HomeResourceController {
    * @return - The name of the html transaction page
    */
   @PostMapping("/deposit")
-  public ModelAndView deposit(@ModelAttribute Transaction newTransaction, RedirectAttributes redirectAttributes) {
+  public String deposit(Model model, @ModelAttribute Transaction newTransaction) {
     transactionController.createMoneyDeposit(newTransaction);
     List<TransactionDto> transactionList = transactionController
         .getMyTransactions(newTransaction.getEmailAddressReceiver());
-    redirectAttributes.addFlashAttribute("username", newTransaction.getEmailAddressReceiver());
-    redirectAttributes.addFlashAttribute("transactionList", transactionList);
-    return new ModelAndView("redirect:/admin_user");
-  }
 
-  /**
-   * 
-   * @return - The name of the html page
-   */
-  @GetMapping("/admin_user")
-  public String adminUser(Model model, @ModelAttribute("transactionList") List<TransactionDto> transactionList,
-      @ModelAttribute("username") String username) {
     List<UserAccount> userAccounts = userAccountController.getUserAccounts();
-    Transaction newTransaction = new Transaction();
-    UserAccount userAccount = userAccountController.getMyUserAccount(username);
+    Transaction Transaction = new Transaction();
+    UserAccount userAccount = userAccountController.getMyUserAccount(newTransaction.getEmailAddressReceiver());
     model.addAttribute("userAccounts", userAccounts);
-    model.addAttribute("newTransaction", newTransaction);
+    model.addAttribute("newTransaction", Transaction);
     model.addAttribute("transactionList", transactionList);
     model.addAttribute("userAccount", userAccount);
-    return "admin_user";
+
+    return ("admin_user");
   }
 
   /**
