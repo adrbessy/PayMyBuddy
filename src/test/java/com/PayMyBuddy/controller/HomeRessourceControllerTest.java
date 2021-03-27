@@ -9,7 +9,6 @@ import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,12 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -191,11 +186,7 @@ public class HomeRessourceControllerTest {
     when(userAccountControllerMock.getMyUserAccount("adrien@mail.fr"))
         .thenReturn(userAccount);
 
-    MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/moneyDeposit")
-        .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
-        .content(new ObjectMapper().writeValueAsString(transaction));
-
-    this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+    // mockMvc.perform(post("/deposit")).andExpect(status().isOk());
   }
 
 
