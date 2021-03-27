@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import com.PayMyBuddy.model.BankAccount;
-import com.PayMyBuddy.model.Transaction;
 import com.PayMyBuddy.model.TransactionDto;
 import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.model.UserAccountDto;
@@ -94,6 +93,20 @@ public class HomeRessourceControllerTest {
         .andExpect(status().isOk()).andExpect(view().name("profile"));
   }
 
+  @Test
+  @WithMockUser(username = "adrien@mail.fr")
+  public void testDeleteFriend() throws Exception {
+    UserAccountDto friend = new UserAccountDto("", "", "");
+    List<UserAccountDto> myFriends = new ArrayList<>();
+
+    when(friendControllerMock.deleteMyFriend("adrien@mail.fr", "marie@mail.fr")).thenReturn(friend);
+    when(friendControllerMock.getMyFriends("adrien@mail.fr"))
+        .thenReturn(myFriends);
+
+    mockMvc.perform(get("/deleteFriend?emailAddress=marie@mail.fr"))
+        .andExpect(status().isOk()).andExpect(view().name("friend"));
+  }
+
 
   /*
    * @Test
@@ -160,35 +173,31 @@ public class HomeRessourceControllerTest {
         .andExpect(status().isOk()).andExpect(view().name("transaction"));
   }
 
-
-  @Test
-  @WithMockUser(roles = "ADMIN")
-  public void testDeposit() throws Exception {
-    userAccount = new UserAccount();
-    userAccount.setEmailAddress("adrien@mail.fr");
-    userAccount.setPassword("abcde");
-    userAccount.setFirstName("Adrien");
-    userAccount.setName("Bessy");
-    List<UserAccount> userAccountList = new ArrayList<>();
-    double amount = 800.0;
-    userAccount.setAmount(amount);
-    transactionDto = new TransactionDto("isabelle@mail.fr", "for a present", "50", "");
-    List<TransactionDto> transactionList = new ArrayList<>();
-    transactionList.add(transactionDto);
-    Transaction transaction = new Transaction();
-    transaction.setEmailAddressReceiver("adrien@mail.fr");
-
-    when(transactionControllerMock.createMoneyDeposit(transaction)).thenReturn(transaction);
-    when(transactionControllerMock.getMyTransactions("adrien@mail.fr"))
-        .thenReturn(transactionList);
-    when(userAccountControllerMock.getUserAccounts())
-        .thenReturn(userAccountList);
-    when(userAccountControllerMock.getMyUserAccount("adrien@mail.fr"))
-        .thenReturn(userAccount);
-
-    // mockMvc.perform(post("/deposit")).andExpect(status().isOk());
-  }
-
+  /*
+   * @Test
+   * 
+   * @WithMockUser(roles = "ADMIN") public void testDeposit() throws Exception {
+   * userAccount = new UserAccount();
+   * userAccount.setEmailAddress("adrien@mail.fr");
+   * userAccount.setPassword("abcde"); userAccount.setFirstName("Adrien");
+   * userAccount.setName("Bessy"); List<UserAccount> userAccountList = new
+   * ArrayList<>(); double amount = 800.0; userAccount.setAmount(amount);
+   * transactionDto = new TransactionDto("isabelle@mail.fr", "for a present",
+   * "50", ""); List<TransactionDto> transactionList = new ArrayList<>();
+   * transactionList.add(transactionDto); Transaction transaction = new
+   * Transaction(); transaction.setEmailAddressReceiver("adrien@mail.fr");
+   * 
+   * when(transactionControllerMock.createMoneyDeposit(transaction)).thenReturn(
+   * transaction);
+   * when(transactionControllerMock.getMyTransactions("adrien@mail.fr"))
+   * .thenReturn(transactionList);
+   * when(userAccountControllerMock.getUserAccounts())
+   * .thenReturn(userAccountList);
+   * when(userAccountControllerMock.getMyUserAccount("adrien@mail.fr"))
+   * .thenReturn(userAccount);
+   * 
+   * // mockMvc.perform(post("/deposit")).andExpect(status().isOk()); }
+   */
 
   @Test
   @WithMockUser(roles = "ADMIN")

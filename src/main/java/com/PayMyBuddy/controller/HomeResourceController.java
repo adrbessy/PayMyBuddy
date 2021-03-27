@@ -127,6 +127,21 @@ public class HomeResourceController {
    * 
    * @return - The name of the html page
    */
+  @GetMapping("/deleteFriend")
+  public String deleteFriend(Model model, @RequestParam String emailAddress,
+      @CurrentSecurityContext(expression = "authentication?.name") String username) {
+    friendController.deleteMyFriend(username, emailAddress);
+    List<UserAccountDto> friendList = friendController.getMyFriends(username);
+    UserAccount userAccount = new UserAccount();
+    model.addAttribute("friends", friendList);
+    model.addAttribute("userAccount", userAccount);
+    return "friend";
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
   @GetMapping("/contact")
   public String contact(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
     List<UserAccountDto> friendList = friendController.getMyFriends(username);
@@ -177,17 +192,6 @@ public class HomeResourceController {
     newTransaction.setEmailAddressEmitter(username);
     transactionController.createTransactionToBankAccount(newTransaction);
     return new ModelAndView("redirect:/transac");
-  }
-
-  /**
-   * 
-   * @return - The name of the html page
-   */
-  @GetMapping("/deleteFriend")
-  public ModelAndView deleteFriend(@RequestParam String emailAddress,
-      @CurrentSecurityContext(expression = "authentication?.name") String username) {
-    friendController.deleteMyFriend(username, emailAddress);
-    return new ModelAndView("redirect:/contact");
   }
 
   /**
