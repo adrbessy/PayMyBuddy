@@ -100,7 +100,7 @@ public class FriendControllerTest {
 
   @Test
   @WithMockUser(roles = "ADMIN")
-  public void testDeletefriendRealationship() throws Exception {
+  public void testDeleteDeleteMyFriend() throws Exception {
     String emailAddress = "jean@mail.fr";
     String emailAddress2 = "helene@mail.fr";
     UserAccountDto userAccountDto = new UserAccountDto("helene@mail.fr", "Hélène", "Bessy");

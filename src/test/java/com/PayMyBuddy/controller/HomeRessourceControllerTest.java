@@ -77,20 +77,22 @@ public class HomeRessourceControllerTest {
         .andExpect(status().isOk()).andExpect(view().name("profile"));
   }
 
-  /*
-   * @Test
-   * 
-   * @WithMockUser(username = "adrien@mail.fr") public void
-   * testDeleteBankAccount() throws Exception { BankAccount bankAccount = new
-   * BankAccount();
-   * 
-   * when(bankAccountControllerMock.deleteBankAccount("adrien@mail.fr",
-   * "FR3546565449854")).thenReturn(bankAccount);
-   * 
-   * mockMvc.perform(get(
-   * "/deleteBankAccount?emailAddress=adrien@mail.fr&iban=FR3546565449854"))
-   * .andExpect(status().isOk()).andExpect(view().name("profile")); }
-   */
+
+  @Test
+  @WithMockUser(username = "adrien@mail.fr")
+  public void testDeleteBankAccount() throws Exception {
+    BankAccount bankAccount = new BankAccount();
+    List<BankAccount> myBankAccounts = new ArrayList<>();
+
+    when(bankAccountControllerMock.deleteBankAccount("adrien@mail.fr",
+        "FR3546565449854")).thenReturn(bankAccount);
+    when(bankAccountControllerMock.getMyBankAccounts("adrien@mail.fr"))
+        .thenReturn(myBankAccounts);
+
+    mockMvc.perform(get("/deleteBankAccount?emailAddress=adrien@mail.fr&iban=FR3546565449854"))
+        .andExpect(status().isOk()).andExpect(view().name("profile"));
+  }
+
 
   /*
    * @Test

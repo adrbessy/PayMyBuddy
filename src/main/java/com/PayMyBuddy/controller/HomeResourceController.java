@@ -124,9 +124,14 @@ public class HomeResourceController {
    * @return - The name of the html page
    */
   @GetMapping("/deleteBankAccount")
-  public ModelAndView deleteBankAccount(@RequestParam String emailAddress, @RequestParam String iban) {
+  public String deleteBankAccount(Model model, @RequestParam String emailAddress, @RequestParam String iban,
+      @CurrentSecurityContext(expression = "authentication?.name") String username) {
     bankAccountController.deleteBankAccount(emailAddress, iban);
-    return new ModelAndView("redirect:/profile");
+    List<BankAccount> myBankAccounts = bankAccountController.getMyBankAccounts(username);
+    BankAccount newBankAccount = new BankAccount();
+    model.addAttribute("myBankAccounts", myBankAccounts);
+    model.addAttribute("newBankAccount", newBankAccount);
+    return "profile";
   }
 
   /**
