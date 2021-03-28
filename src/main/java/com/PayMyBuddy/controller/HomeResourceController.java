@@ -42,6 +42,15 @@ public class HomeResourceController {
    * 
    * @return - The name of the html page
    */
+  @GetMapping("/login")
+  public String login() {
+    return "login";
+  }
+
+  /**
+   * 
+   * @return - The name of the html page
+   */
   @GetMapping("/user")
   public String user(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
