@@ -11,8 +11,9 @@
     <div class="container text-center mt-5">
 	    <div class="row justify-content-center">
 	        <form name="f" th:action="@{/login}" method="post" class="col-md-5 border border-5 rounded px-5 py-3">
-	        	<fieldset>
-					<legend class="border rounded bg-success text-white p-3">Pay My Buddy</legend>
+					<div class="form-actions">
+	        			<button type="submit" class="btn bg-success text-white px-4 font-weight-bold">Pay My Buddy</button>
+	        		</div>
 	        		<div th:if="${param.error}" class="alert alert-error">
 	        			Invalid username and password.
 	        		</div>
@@ -31,9 +32,8 @@
 	        		</div>
 	        		<br/>
 	        		<div class="form-actions">
-	        			<button type="submit" class="btn btn-primary px-5">Login</button>
-	        		</div>
-	        	</fieldset>
+	        			<button type="submit" class="btn btn-primary px-5 font-weight-bold">Login</button>
+	        		</div> 	
 	        </form>
         </div>
     </div>  
