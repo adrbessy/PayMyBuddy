@@ -47,10 +47,10 @@
 
 		<form method="post" th:action="@{/makeTransaction}" th:object="${newTransaction}">
 			<div class="row">
-					<h4 class="h4">Send Money</h4>
+					<h5>Send Money</h5>
 			</div>
 			<div class="row">
-					<h4 class="h4">to a friend</h4>
+					<h5>to a friend</h5>
 					<a th:href="@{/contact}" role="button" class="btn btn-primary ml-auto">Add Connection</a>
 			</div>
 		    <div class="row mycustombackground">
@@ -71,14 +71,14 @@
 					</div>
 				</div>
 				<div class="col-sm text-center pt-2">
-			   		<button type="submit" class="btn bg-success text-white">Pay</button>
+			   		<button type="submit" class="btn bg-success text-white px-5">Pay</button>
 			   </div>
 		   </div>
 		</form>
 		<br/>
 		<form method="post" th:action="@{/ToBankAccount}" th:object="${newTransaction}">
 			<div class="row">
-					<h4 class="h4">to one of your bank account</h4>
+					<h5>to one of your bank account</h5>
 					<a th:href="@{/profile}" role="button" class="btn btn-primary ml-auto">Add Connection</a>
 			</div>
 		   <div class="row mycustombackground">
@@ -99,7 +99,7 @@
 					</div>
 				</div>
 				<div class="col-sm text-center pt-2">
-			   		<button type="submit" class="btn bg-success text-white">Pay</button>
+			   		<button type="submit" class="btn bg-success text-white px-5">Pay</button>
 			   </div>
 		   </div>
 		</form>
