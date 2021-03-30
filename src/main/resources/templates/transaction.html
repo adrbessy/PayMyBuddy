@@ -4,15 +4,18 @@
     <meta charset="ISO-8859-1">
     <title>User</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<h1><a class="navbar-brand" href="#">Pay My Buddy</a></h1>
+		<nav class="navbar navbar-expand-lg navbar-light bg-white">
+			<div class="form-actions">
+	        	<button type="submit" class="btn bg-success text-white px-4 font-weight-bold">Pay My Buddy</button>
+	        </div>
 			<div class="collapse navbar-collapse" id="navbarNav">
-        	<ul class="navbar-nav">
+        	<ul class="navbar-nav ml-auto">
 		        <li class="nav-item"><a class="nav-link" th:href="@{/user}">Home</a></li>
 		        <li class="nav-item active"><a class="nav-link" th:href="@{/transac}">Transfer</a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a></li>
@@ -21,6 +24,14 @@
         	</ul>
         	</div>
         </nav>
+
+		    <nav aria-label="breadcrumb">
+		      <ol class="breadcrumb">
+		        <li class="breadcrumb-item"><a th:href="@{/user}">Home</a></li>
+		        <li class="breadcrumb-item active" aria-current="page">Transfer</li>
+		      </ol>
+		    </nav>
+
 	</header>
 	<div class="container text-center">
 		<h3 class="h3">Transaction to a friend</h3>
