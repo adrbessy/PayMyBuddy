@@ -22,7 +22,7 @@ public class BankAccountServiceImpl implements BankAccountService {
    * Check if the given iban exists for the given email.
    * 
    * @param emailAddressReceiver The given email
-   * @param emailAddress_user2   The given email
+   * @param idBankAccount        The bank account id
    * @return true if the association of both exist, otherwise returns false
    */
   @Override
@@ -116,8 +116,8 @@ public class BankAccountServiceImpl implements BankAccountService {
   /**
    * Check if the bank account exists.
    * 
-   * @param emailAddressReceiver The given email
-   * @param iban                 the given iban
+   * @param emailAddress The given email
+   * @param iban         the given iban
    * @return true if the association of both exist, otherwise returns false
    */
   @Override

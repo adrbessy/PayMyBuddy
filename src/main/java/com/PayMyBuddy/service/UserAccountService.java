@@ -73,9 +73,9 @@ public interface UserAccountService {
   /**
    * Check if the user accounts exist.
    * 
-   * @param emailAddress_user1 The given email
-   * @param emailAddress_user2 The given email
-   * @return true if they exist, otherwise returns false
+   * @param emailAddressUser1 The given email
+   * @param emailAddressUser2 The given email
+   * @return A string
    */
   public String usersExist(String emailAddressUser1, String emailAddressUser2);
 

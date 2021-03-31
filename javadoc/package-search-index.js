@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.PayMyBuddy"},{"l":"com.PayMyBuddy.configuration"},{"l":"com.PayMyBuddy.constants"},{"l":"com.PayMyBuddy.controller"},{"l":"com.PayMyBuddy.exceptions"},{"l":"com.PayMyBuddy.model"},{"l":"com.PayMyBuddy.repository"},{"l":"com.PayMyBuddy.service"}]

@@ -40,7 +40,7 @@ public interface FriendService {
   /**
    * Get all friend relationships of one user
    * 
-   * @param emailAddress
+   * @param emailAddress An email address
    * 
    * @return a list of the friend relationships of one user
    */
@@ -49,8 +49,8 @@ public interface FriendService {
   /**
    * Delete a friend relationship of one user
    * 
-   * @param emailAddress
-   * @param emailAddressToDelete
+   * @param emailAddress         An email address
+   * @param emailAddressToDelete The email address of the friend
    * 
    * @return the deleted friend
    */

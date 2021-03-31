@@ -52,6 +52,8 @@ public class UserInterfaceController {
   /**
    * Read - Get an user account and calls the user page
    * 
+   * @param model    A model
+   * @param username The username
    * @return - The name of the html page
    */
   @GetMapping("/user")
@@ -65,6 +67,8 @@ public class UserInterfaceController {
    * Get the information about the bank account of the user and calls the profile
    * page
    * 
+   * @param model    A model
+   * @param username The username
    * @return - The name of the html page
    */
   @GetMapping("/profile")
@@ -77,7 +81,8 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param username    The username
+   * @param bankAccount A bank account object
    * @return - The name of the html page
    */
   @PostMapping("/addNewBankAccount")
@@ -89,7 +94,10 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param model        A model
+   * @param emailAddress The email address
+   * @param iban         An iban
+   * @param username     The username
    * @return - The name of the html page
    */
   @GetMapping("/deleteBankAccount")
@@ -104,7 +112,9 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param model        A model
+   * @param emailAddress The email address
+   * @param username     The username
    * @return - The name of the html page
    */
   @GetMapping("/deleteFriend")
@@ -119,7 +129,8 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param model    A model
+   * @param username The username
    * @return - The name of the html page
    */
   @GetMapping("/contact")
@@ -132,7 +143,8 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param model    A model
+   * @param username The username
    * @return - The name of the html transaction page
    */
   @GetMapping("/transac")
@@ -151,7 +163,8 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param username       The username
+   * @param newTransaction A transaction object
    * @return - The name of the html transaction page
    */
   @PostMapping("/makeTransaction")
@@ -163,7 +176,8 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param username       The username
+   * @param newTransaction A transaction object
    * @return - The name of the html transaction page
    */
   @PostMapping("/ToBankAccount")
@@ -175,7 +189,8 @@ public class UserInterfaceController {
   }
 
   /**
-   * 
+   * @param username    The username
+   * @param userAccount An user account
    * @return - The name of the html page
    */
   @PostMapping("/addFriend")
@@ -191,6 +206,7 @@ public class UserInterfaceController {
   /**
    * Read - Get all user accounts and calls the admin page
    * 
+   * @param model A model
    * @return - The name of the html page
    */
   @GetMapping("/admin")
@@ -207,6 +223,8 @@ public class UserInterfaceController {
    * get the information about the user accounts, get the userAccount of the user
    * that just received money.
    * 
+   * @param model          A model
+   * @param newTransaction A transaction object
    * @return - The name of the html admin-user page
    */
   @PostMapping("/deposit")

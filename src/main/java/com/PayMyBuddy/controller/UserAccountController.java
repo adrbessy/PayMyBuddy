@@ -49,6 +49,7 @@ public class UserAccountController {
   /**
    * Read - Get an user account
    * 
+   * @param emailAddress An email address
    * @return - A user account
    */
 

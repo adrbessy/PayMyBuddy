@@ -21,6 +21,7 @@ public class RegisterController {
   /**
    * Retrieve the model to sign up
    * 
+   * @param model A model
    * @return - The name of the html page
    */
   @GetMapping("/register")

@@ -146,7 +146,7 @@ public class TransactionServiceImpl implements TransactionService {
   /**
    * Get all transactions of one user
    * 
-   * @param emailAddress
+   * @param emailAddress An email address
    * 
    * @return a list of the transactions of one user
    */

@@ -1,0 +1,8 @@
+com.PayMyBuddy
+com.PayMyBuddy.configuration
+com.PayMyBuddy.constants
+com.PayMyBuddy.controller
+com.PayMyBuddy.exceptions
+com.PayMyBuddy.model
+com.PayMyBuddy.repository
+com.PayMyBuddy.service

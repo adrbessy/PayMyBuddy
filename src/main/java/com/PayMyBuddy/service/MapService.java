@@ -21,7 +21,7 @@ public class MapService {
    * Get a list of users with the following attributes: FirstName, LastName, email
    * address
    * 
-   * @param userList A list of users
+   * @param userAccountList A list of users
    * @return A List of users
    */
   public List<UserAccountDto> convertToUserAccountDtoList(List<UserAccount> userAccountList) {
@@ -44,7 +44,8 @@ public class MapService {
    * Get a list of transactions with the following attributes: connection,
    * description, amount
    * 
-   * @param userList A list of users
+   * @param emailAddress    An email address
+   * @param transactionList A list of the transactions
    * @return A List of users
    */
   public List<TransactionDto> convertToTransactionDtoList(String emailAddress, List<Transaction> transactionList) {
@@ -98,7 +99,7 @@ public class MapService {
   /**
    * Get a user with the following attributes: FirstName, LastName, email address
    * 
-   * @param user A user
+   * @param userAccount A user account
    * @return A user
    */
   public UserAccountDto convertToUserAccountDto(UserAccount userAccount) {

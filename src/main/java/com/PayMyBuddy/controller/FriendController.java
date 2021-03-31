@@ -73,8 +73,8 @@ public class FriendController {
   /**
    * Delete - Delete a friend relationship of one user
    * 
-   * @param emailAddress The email address of the user
-   * @param emailAddress The email address of the friend to delete
+   * @param emailAddress         The email address of the user
+   * @param emailAddressToDelete The email address of the friend to delete
    * @return - The deleted friend relationship
    */
   @DeleteMapping("/myFriend")

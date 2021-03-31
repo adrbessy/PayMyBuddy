@@ -129,7 +129,7 @@ public class TransactionController {
   /**
    * Create a transaction from the bank account to the app account
    * 
-   * @param moneyDeposit An Transaction object
+   * @param moneyDeposit A transaction object
    * @return The moneyDeposit object saved
    */
   @PostMapping("/moneyDeposit")
@@ -169,7 +169,7 @@ public class TransactionController {
   /**
    * Create a transaction from the bank account to the app account
    * 
-   * @param moneyDeposit An Transaction object
+   * @param transactionToBankAccount A Transaction object
    * @return The moneyDeposit object saved
    */
   @PostMapping("/transactionToBankAccount")
