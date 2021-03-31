@@ -98,8 +98,6 @@ public class BankAccountServiceTest {
     String emailAddress = "adrien@mail.fr";
     String iban = "FR13465165651246";
     bankAccount = new BankAccount();
-    List<BankAccount> bankAccountList = new ArrayList<>();
-    bankAccountList.add(bankAccount);
 
     when(bankAccountRepositoryMock.findByEmailAddressAndIban(emailAddress, iban)).thenReturn(bankAccount);
     doNothing().when(bankAccountRepositoryMock).deleteByEmailAddressAndIban(emailAddress, iban);

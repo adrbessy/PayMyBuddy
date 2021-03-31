@@ -11,7 +11,7 @@ public class CustomUserDetails implements UserDetails {
    */
   private static final long serialVersionUID = 1L;
 
-  private UserAccount userAccount;
+  private transient UserAccount userAccount;
 
   public CustomUserDetails(UserAccount userAccount) {
     this.userAccount = userAccount;

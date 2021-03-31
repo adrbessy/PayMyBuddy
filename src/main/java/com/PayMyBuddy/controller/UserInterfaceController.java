@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HomeResourceController {
+public class UserInterfaceController {
 
   @Autowired
   private UserAccountController userAccountController;
@@ -30,6 +30,7 @@ public class HomeResourceController {
   private BankAccountController bankAccountController;
 
   /**
+   * Just calls the home page
    * 
    * @return - The name of the html page
    */
@@ -39,6 +40,7 @@ public class HomeResourceController {
   }
 
   /**
+   * Just calls the login page
    * 
    * @return - The name of the html page
    */
@@ -48,6 +50,7 @@ public class HomeResourceController {
   }
 
   /**
+   * Read - Get an user account and calls the user page
    * 
    * @return - The name of the html page
    */
@@ -59,40 +62,8 @@ public class HomeResourceController {
   }
 
   /**
-   * 
-   * @return - The name of the html page
-   */
-  @GetMapping("/admin")
-  public String admin(Model model) {
-    List<UserAccount> userAccounts = userAccountController.getUserAccounts();
-    Transaction newTransaction = new Transaction();
-    model.addAttribute("userAccounts", userAccounts);
-    model.addAttribute("newTransaction", newTransaction);
-    return "admin";
-  }
-
-  /**
-   * 
-   * @return - The name of the html transaction page
-   */
-  @PostMapping("/deposit")
-  public String deposit(Model model, @ModelAttribute Transaction newTransaction) {
-    transactionController.createMoneyDeposit(newTransaction);
-    List<TransactionDto> transactionList = transactionController
-        .getMyTransactions(newTransaction.getEmailAddressReceiver());
-
-    List<UserAccount> userAccounts = userAccountController.getUserAccounts();
-    Transaction Transaction = new Transaction();
-    UserAccount userAccount = userAccountController.getMyUserAccount(newTransaction.getEmailAddressReceiver());
-    model.addAttribute("userAccounts", userAccounts);
-    model.addAttribute("newTransaction", Transaction);
-    model.addAttribute("transactionList", transactionList);
-    model.addAttribute("userAccount", userAccount);
-
-    return ("admin_user");
-  }
-
-  /**
+   * Get the information about the bank account of the user and calls the profile
+   * page
    * 
    * @return - The name of the html page
    */
@@ -215,6 +186,42 @@ public class HomeResourceController {
     friend.setEmailAddressUser2(userAccount.getEmailAddress());
     friendController.createFriend(friend);
     return new ModelAndView("redirect:/contact");
+  }
+
+  /**
+   * Read - Get all user accounts and calls the admin page
+   * 
+   * @return - The name of the html page
+   */
+  @GetMapping("/admin")
+  public String admin(Model model) {
+    List<UserAccount> userAccounts = userAccountController.getUserAccounts();
+    Transaction newTransaction = new Transaction();
+    model.addAttribute("userAccounts", userAccounts);
+    model.addAttribute("newTransaction", newTransaction);
+    return "admin";
+  }
+
+  /**
+   * Deposit money, get all the transactions of the user that just received money,
+   * get the information about the user accounts, get the userAccount of the user
+   * that just received money.
+   * 
+   * @return - The name of the html admin-user page
+   */
+  @PostMapping("/deposit")
+  public String deposit(Model model, @ModelAttribute Transaction newTransaction) {
+    transactionController.createMoneyDeposit(newTransaction);
+    List<TransactionDto> transactionList = transactionController
+        .getMyTransactions(newTransaction.getEmailAddressReceiver());
+    List<UserAccount> userAccounts = userAccountController.getUserAccounts();
+    Transaction Transaction = new Transaction();
+    UserAccount userAccount = userAccountController.getMyUserAccount(newTransaction.getEmailAddressReceiver());
+    model.addAttribute("userAccounts", userAccounts);
+    model.addAttribute("newTransaction", Transaction);
+    model.addAttribute("transactionList", transactionList);
+    model.addAttribute("userAccount", userAccount);
+    return ("admin_user");
   }
 
 }

@@ -1,0 +1,455 @@
+{
+	"info": {
+		"_postman_id": "d2afd6e0-d7a2-40c9-a72e-eab46662f83f",
+		"name": "PayMyBuddy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9003/userAccounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/userAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"userAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/friends",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/friends",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/bankAccounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/bankAccounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"bankAccounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/myFriends?emailAddress=adrien@mail.fr",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/myFriends?emailAddress=adrien@mail.fr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"myFriends"
+					],
+					"query": [
+						{
+							"key": "emailAddress",
+							"value": "adrien@mail.fr"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/myTransactions?emailAddress=isabelle@mail.fr",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/myTransactions?emailAddress=isabelle@mail.fr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"myTransactions"
+					],
+					"query": [
+						{
+							"key": "emailAddress",
+							"value": "isabelle@mail.fr"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/myBankAccounts?emailAddress=isabelle@mail.fr",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/myBankAccounts?emailAddress=isabelle@mail.fr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"myBankAccounts"
+					],
+					"query": [
+						{
+							"key": "emailAddress",
+							"value": "isabelle@mail.fr"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/myUserAccount?emailAddress=adrien@mail.fr",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/myUserAccount?emailAddress=adrien@mail.fr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"myUserAccount"
+					],
+					"query": [
+						{
+							"key": "emailAddress",
+							"value": "adrien@mail.fr"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/userAccount",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "spring123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "springuser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailAddress\": \"thierry@mail.fr\",\n    \"password\": \"aaaaa\",\n    \"firstName\": \"thierry\",\n    \"name\": \"Dubois\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/userAccount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"userAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/friend",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailAddressUser1\": \"helene@mail.fr\",\n    \"emailAddressUser2\": \"adrien@mail.fr\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/friend",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"friend"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/friendTransaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailAddressEmitter\": \"helene@mail.fr\",\n    \"amount\": 105,\n    \"emailAddressReceiver\": \"marie@mail.fr\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/friendTransaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"friendTransaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/bankAccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailAddress\": \"isabelle@mail.fr\",\n    \"iban\": \"FR3410096000501834597468E01\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/bankAccount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"bankAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/moneyDeposit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idBankAccount\": \"1\",\n    \"amount\": 100,\n    \"emailAddressReceiver\": \"isabelle@mail.fr\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/moneyDeposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"moneyDeposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/transactionToBankAccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idBankAccount\": \"1\",\n    \"amount\": 150,\n    \"emailAddressEmitter\": \"isabelle@mail.fr\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/transactionToBankAccount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"transactionToBankAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/userAccount/adrien@mail.fr",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"test2\",\n    \"amount\": \"500\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9003/userAccount/adrien@mail.fr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"userAccount",
+						"adrien@mail.fr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/myFriend?emailAddress=adrien@mail.fr&emailAddressToDelete=helene@mail.fr",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/myFriend?emailAddress=adrien@mail.fr&emailAddressToDelete=helene@mail.fr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"myFriend"
+					],
+					"query": [
+						{
+							"key": "emailAddress",
+							"value": "adrien@mail.fr"
+						},
+						{
+							"key": "emailAddressToDelete",
+							"value": "helene@mail.fr"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9003/myBankAccount?emailAddress=isabelle@mail.fr&iban=FR46541656184548646",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9003/myBankAccount?emailAddress=isabelle@mail.fr&iban=FR46541656184548646",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9003",
+					"path": [
+						"myBankAccount"
+					],
+					"query": [
+						{
+							"key": "emailAddress",
+							"value": "isabelle@mail.fr"
+						},
+						{
+							"key": "iban",
+							"value": "FR46541656184548646"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
