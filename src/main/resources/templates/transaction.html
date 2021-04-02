@@ -99,18 +99,18 @@
 		   </div>
 		</form>
 
-		<h4  class="text-center">My Balance</h4>
+		<h4  class="text-center mt-4">My Balance</h4>
 		<div th:text="${userAccount.amount}" class="text-center">Amount</div>
 		<div class="row">
 			<div style="font-size: large;">My Transactions</div>
 		</div>
-		<table class="table table-striped table-sm" style="border: 2px solid black;">
+		<table id="dtBasicExample" class="table table-striped mb-0" style="border: 2px solid black; padding-left:10px; padding-right:10px;">
 			<thead>
-				<tr class="bg-success" style="color:white;">
-					<th style="padding-top:35px; padding-bottom:35px; text-align: center;">Date</th>
-					<th style="padding-bottom:35px; text-align: center;">Connection</th>
-					<th style="padding-bottom:35px; text-align: center;">Description</th>
-					<th style="padding-bottom:35px; text-align: center;">Amount</th>
+				<tr class="bg-success" style="color:white; margin: 0 !important;">
+					<th style="padding-top:35px; padding-bottom:35px; text-align: center; margin: 0 !important;">Date</th>
+					<th style="padding-bottom:35px; text-align: center; margin: 0 !important;">Connection</th>
+					<th style="padding-bottom:35px; text-align: center; margin: 0 !important;">Description</th>
+					<th style="padding-bottom:35px; text-align: center; margin: 0 !important;">Amount</th>
 				</tr>
 			</thead>
 			
@@ -119,14 +119,34 @@
 					<td colspan="3">You didn't process any transactions yet.</td>
 				</tr>
 				<tr th:each="transaction: ${transactions}">
-					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.MyDate}"> Date </span></td>
-					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.connection}"> Connection </span></td>
-					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.description}"> Description </span></td>
-					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.amount}"> Amount </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center; margin: 0 !important;"><span th:text="${transaction.MyDate}"> Date </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center; margin: 0 !important;"><span th:text="${transaction.connection}"> Connection </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center; margin: 0 !important;"><span th:text="${transaction.description}"> Description </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center; margin: 0 !important;"><span th:text="${transaction.amount}"> Amount </span></td>
 				</tr>
 			</tbody>
-			
 		</table>
+		<nav aria-label="Page navigation example" class="text-center justify-content-center border mt-0">
+		  <ul class="pagination text-center justify-content-center pagination-lg">
+			<li class="page-item">
+		      <a class="page-link" href="#" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		        <span class="sr-only">Previous</span>
+		      </a>
+		    </li>
+		    <li class="page-item"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item"><a class="page-link" href="#">4</a></li>
+		    <li class="page-item"><a class="page-link" href="#">5</a></li>
+		    <li class="page-item">
+		      <a class="page-link" href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		        <span class="sr-only">Next</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
 	</div>
 </body>
 </html>
