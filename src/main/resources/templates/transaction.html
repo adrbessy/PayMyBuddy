@@ -11,7 +11,7 @@
 		  background: #F5F5F5;
 		}
 		.active a{
-		    color: #82B9EC !important;
+		    color: #316CD9 !important;
 		}
 		.breadcrumb-item + .breadcrumb-item::before {
 	       color: #89B0D2;
@@ -22,24 +22,22 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-white">
-			<div class="form-actions">
-	        	<button type="submit" class="btn bg-success text-white px-4 font-weight-bold">Pay My Buddy</button>
-	        </div>
+		<nav class="navbar navbar-expand-lg navbar-light bg-white pl-1 py-0 mr-0">
+       		<button type="submit" style="background-image:linear-gradient(to right, #61B959, #8AC34A); font-size: x-large; margin-top:1px; margin-bottom:1.5px;" class="btn text-white px-3 ml-0 pt-2">Pay My Buddy</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-        	<ul class="navbar-nav ml-auto">
-		        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/user}">Home</a></li>
-		        <li class="nav-item active"><a class="nav-link" th:href="@{/transac}">Transfer</a></li>
-				<li class="nav-item"><a class="nav-link text-dark" th:href="@{/profile}">Profile</a></li>
-				<li class="nav-item"><a class="nav-link text-dark" th:href="@{/contact}">Contact</a></li>
-				<li class="nav-item"><a class="nav-link text-dark" th:href="@{/logout}">Log off</a></li>
-        	</ul>
+	        	<ul class="navbar-nav ml-auto">
+			        <li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%;" th:href="@{/user}">Home</a></li>
+			        <li class="nav-item active"><a class="nav-link" style="font-size: 130%; margin-left:5px;" th:href="@{/transac}">Transfer</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/profile}">Profile</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/contact}">Contact</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/logout}">Log off</a></li>
+	        	</ul>
         	</div>
         </nav>
 		    <nav aria-label="breadcrumb mycustombackground">
-		      <ol class="breadcrumb mycustombackground">
-		        <li class="breadcrumb-item"><a th:href="@{/user}">Home</a></li>
-		        <li class="breadcrumb-item active" aria-current="page">Transfer</li>
+		      <ol class="breadcrumb mycustombackground" style="padding-left:25px; font-size: 125%;">
+		        <li class="breadcrumb-item"><a th:href="@{/user}" style="padding-right:12.5px" >Home</a></li>
+		        <li class="breadcrumb-item active" aria-current="page"><span style="padding-left:12.5px">Transfer</span></li>
 		      </ol>
 		    </nav>
 	</header>
@@ -47,13 +45,10 @@
 
 		<form method="post" th:action="@{/makeTransaction}" th:object="${newTransaction}">
 			<div class="row">
-					<h5>Send Money</h5>
+				<div style="font-size: large;">Send Money to a friend</div>
+				<a th:href="@{/contact}" role="button" class="btn btn-primary ml-auto font-weight-bold px-4">Add Connection</a>
 			</div>
-			<div class="row">
-					<h5>to a friend</h5>
-					<a th:href="@{/contact}" role="button" class="btn btn-primary ml-auto">Add Connection</a>
-			</div>
-		    <div class="row mycustombackground">
+		    <div class="row mycustombackground" style="padding-top:33px; padding-bottom:25px;">
 			    <div class="col-sm text-center pt-2">
 			      	<select th:field="*{emailAddressReceiver}">
 					<option value="3" selected="selected"> Select A Connection </option>
@@ -71,17 +66,17 @@
 					</div>
 				</div>
 				<div class="col-sm text-center pt-2">
-			   		<button type="submit" class="btn bg-success text-white px-5">Pay</button>
+			   		<button type="submit" class="btn bg-success text-white px-5 font-weight-bold">Pay</button>
 			   </div>
 		   </div>
 		</form>
 		<br/>
 		<form method="post" th:action="@{/ToBankAccount}" th:object="${newTransaction}">
 			<div class="row">
-					<h5>to one of your bank account</h5>
-					<a th:href="@{/profile}" role="button" class="btn btn-primary ml-auto">Add Connection</a>
+					<div style="font-size: large;">or to one of your bank accounts</div>
+					<a th:href="@{/profile}" role="button" class="btn btn-primary ml-auto font-weight-bold px-4">Add Connection</a>
 			</div>
-		   <div class="row mycustombackground">
+		   <div class="row mycustombackground" style="padding-top:33px; padding-bottom:25px;">
 			   <div class="col-sm text-center pt-2">
 			      <select th:field="*{idBankAccount}">
 			      <option value="select" selected="selected"> Select A Bank Account </option>
@@ -99,40 +94,39 @@
 					</div>
 				</div>
 				<div class="col-sm text-center pt-2">
-			   		<button type="submit" class="btn bg-success text-white px-5">Pay</button>
+			   		<button type="submit" class="btn bg-success text-white px-5 font-weight-bold">Pay</button>
 			   </div>
 		   </div>
 		</form>
 
-		<h4  class="text-center">My balance</h4>
+		<h4  class="text-center">My Balance</h4>
 		<div th:text="${userAccount.amount}" class="text-center">Amount</div>
-
-        <div class="table-responsive">
-			<table class="table table-striped table-sm">
-				<thead>
-					<tr>
-						<th>Date</th>
-						<th>Connection</th>
-						<th>Description</th>
-						<th>Amount</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<tr th:if="${transactions.empty}">
-						<td colspan="3">You didn't process any transactions yet.</td>
-					</tr>
-					<tr th:each="transaction: ${transactions}">
-						<td><span th:text="${transaction.MyDate}"> Date </span></td>
-						<td><span th:text="${transaction.connection}"> Connection </span></td>
-						<td><span th:text="${transaction.description}"> Description </span></td>
-						<td><span th:text="${transaction.amount}"> Amount </span></td>
-					</tr>
-				</tbody>
-				
-			</table>
+		<div class="row">
+			<div style="font-size: large;">My Transactions</div>
 		</div>
-     
+		<table class="table table-striped table-sm" style="border: 2px solid black;">
+			<thead>
+				<tr class="bg-success" style="color:white;">
+					<th style="padding-top:35px; padding-bottom:35px; text-align: center;">Date</th>
+					<th style="padding-bottom:35px; text-align: center;">Connection</th>
+					<th style="padding-bottom:35px; text-align: center;">Description</th>
+					<th style="padding-bottom:35px; text-align: center;">Amount</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:if="${transactions.empty}">
+					<td colspan="3">You didn't process any transactions yet.</td>
+				</tr>
+				<tr th:each="transaction: ${transactions}">
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.MyDate}"> Date </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.connection}"> Connection </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.description}"> Description </span></td>
+					<td style="padding-top:35px; padding-bottom:35px; text-align: center;"><span th:text="${transaction.amount}"> Amount </span></td>
+				</tr>
+			</tbody>
+			
+		</table>
 	</div>
 </body>
 </html>
