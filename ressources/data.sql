@@ -4,11 +4,11 @@ create database prod;
 
 
 CREATE TABLE public.User_account (
-                email_address VARCHAR(50) DEFAULT 'test@mail.fr' NOT NULL,
-                password VARCHAR(100) DEFAULT 'password' NOT NULL,
-                first_name VARCHAR(100) DEFAULT 'first name' NOT NULL,
-                name VARCHAR(100) DEFAULT 'name' NOT NULL,
-                amount NUMERIC(10,2) DEFAULT 0 NOT NULL,
+                email_address VARCHAR(50) NOT NULL,
+                password VARCHAR(100) NOT NULL,
+                first_name VARCHAR(100) NOT NULL,
+                name VARCHAR(100) NOT NULL,
+                amount NUMERIC(10,2) NOT NULL,
                 CONSTRAINT user_account_pk PRIMARY KEY (email_address)
 );
 
@@ -17,12 +17,12 @@ CREATE SEQUENCE public.transaction_id_seq;
 
 CREATE TABLE public.Transaction (
                 id INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
-                email_address_emitter VARCHAR(50) DEFAULT 'adrien@mail.fr',
+                email_address_emitter VARCHAR(50),
                 my_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 id_bank_account INTEGER, 
-                description VARCHAR DEFAULT 'This is a description',
-                amount NUMERIC(10,2) DEFAULT 5.00 NOT NULL,
-                email_address_receiver VARCHAR(50) DEFAULT 'isabelle@mail.fr',
+                description VARCHAR,
+                amount NUMERIC(10,2) NOT NULL,
+                email_address_receiver VARCHAR(50),
                 CONSTRAINT transaction_pk PRIMARY KEY (id)
 );
 
@@ -31,8 +31,8 @@ ALTER SEQUENCE public.transaction_id_seq OWNED BY public.Transaction.id;
 
 
 CREATE TABLE public.Friend (
-                email_address_user1 VARCHAR(50) DEFAULT 'test@mail.fr' NOT NULL,
-                email_address_user2 VARCHAR(50) DEFAULT 'test@mail.fr' NOT NULL,
+                email_address_user1 VARCHAR(50) NOT NULL,
+                email_address_user2 VARCHAR(50) NOT NULL,
                 CONSTRAINT friend_pk PRIMARY KEY (email_address_user1, email_address_user2)
 );
 
@@ -43,7 +43,7 @@ CREATE SEQUENCE public.bank_account_id_seq;
 CREATE TABLE public.Bank_account (
 				id INTEGER NOT NULL DEFAULT nextval('public.bank_account_id_seq'),
                 iban VARCHAR(34) NOT NULL UNIQUE,
-                email_address VARCHAR(50) DEFAULT 'test@mail.fr' NOT NULL,
+                email_address VARCHAR(50) NOT NULL,
                 CONSTRAINT bank_account_pk PRIMARY KEY (id)
 );
 

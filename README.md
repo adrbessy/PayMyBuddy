@@ -42,12 +42,44 @@ http://localhost:9003/friends
 
 http://localhost:9003/userAccounts
 
+http://localhost:9003/transactions
+
+http://localhost:9003/bankAccounts
+
+http://localhost:9003/myFriends?emailAddress=adrien@mail.fr
+
+http://localhost:9003/myTransactions?emailAddress=isabelle@mail.fr
+
+http://localhost:9003/myBankAccounts?emailAddress=adrien@mail.fr
+
+http://localhost:9003/myUserAccount?emailAddress=anne@mail.fr
+
 
 POST
 
 http://localhost:9003/userAccount
 
 http://localhost:9003/friend
+
+http://localhost:9003/friendTransaction
+
+http://localhost:9003/bankAccount
+
+http://localhost:9003/moneyDeposit
+
+http://localhost:9003/transactionToBankAccount
+
+
+PUT
+
+http://localhost:9003/userAccount/adrien@mail.fr
+
+
+DELETE
+
+http://localhost:9003/myFriend?emailAddress=adrien@mail.fr&emailAddressToDelete=helene@mail.fr
+
+http://localhost:9003/myBankAccount?emailAddress=isabelle@mail.fr&iban=FR46541656184548646
 
 
 ### Testing
