@@ -68,7 +68,9 @@ public interface UserAccountService {
    * @param encryptedPassword The password encrypted
    * @return true if there is a correspondance between both
    */
-  public boolean checkPassword(String inputPassword, String encryptedPassword);
+  /*
+   * public boolean checkPassword(String inputPassword, String encryptedPassword);
+   */
 
   /**
    * Check if the user accounts exist.

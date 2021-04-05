@@ -12,7 +12,6 @@ import com.PayMyBuddy.model.UserAccount;
 import com.PayMyBuddy.repository.UserAccountRepository;
 import java.util.Arrays;
 import java.util.List;
-import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -104,14 +103,14 @@ public class UserAccountServiceTest {
    * password.
    * 
    */
-  @Test
-  public void testCheckPassword() {
-    String inputPassword = "hell";
-    BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-    String encryptedPassword = passwordEncryptor.encryptPassword(inputPassword);
-    assertTrue(userAccountService.checkPassword(inputPassword, encryptedPassword));
-    assertFalse(userAccountService.checkPassword("hello", encryptedPassword));
-  }
+  /*
+   * @Test public void testCheckPassword() { String inputPassword = "hell";
+   * BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+   * String encryptedPassword = passwordEncryptor.encryptPassword(inputPassword);
+   * assertTrue(userAccountService.checkPassword(inputPassword,
+   * encryptedPassword)); assertFalse(userAccountService.checkPassword("hello",
+   * encryptedPassword)); }
+   */
 
   /**
    * test to encrypt password.

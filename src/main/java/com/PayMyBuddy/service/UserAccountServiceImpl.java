@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -161,19 +160,16 @@ public class UserAccountServiceImpl implements UserAccountService {
    * @param encryptedPassword The password encrypted
    * @return true if there is a correspondance between both
    */
-  @Override
-  public boolean checkPassword(String inputPassword, String encryptedPassword) {
-    boolean checkPassword = false;
-    logger.debug("in the method checkPassword in the class UserAccountServiceImpl");
-    BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-    try {
-      checkPassword = passwordEncryptor.checkPassword(inputPassword, encryptedPassword);
-    } catch (Exception exception) {
-      logger.error("Error in the method checkPassword :" + exception.getMessage());
-    }
-    return checkPassword;
-  }
-
+  /*
+   * @Override public boolean checkPassword(String inputPassword, String
+   * encryptedPassword) { boolean checkPassword = false; logger.
+   * debug("in the method checkPassword in the class UserAccountServiceImpl");
+   * BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor(); try
+   * { checkPassword = passwordEncryptor.checkPassword(inputPassword,
+   * encryptedPassword); } catch (Exception exception) {
+   * logger.error("Error in the method checkPassword :" + exception.getMessage());
+   * } return checkPassword; }
+   */
 
   /**
    * Check if the user accounts exist.
