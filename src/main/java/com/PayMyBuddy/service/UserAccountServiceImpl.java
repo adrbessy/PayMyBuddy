@@ -154,24 +154,6 @@ public class UserAccountServiceImpl implements UserAccountService {
   }
 
   /**
-   * Check the validity of the password
-   * 
-   * @param inputPassword     The password entered by the user
-   * @param encryptedPassword The password encrypted
-   * @return true if there is a correspondance between both
-   */
-  /*
-   * @Override public boolean checkPassword(String inputPassword, String
-   * encryptedPassword) { boolean checkPassword = false; logger.
-   * debug("in the method checkPassword in the class UserAccountServiceImpl");
-   * BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor(); try
-   * { checkPassword = passwordEncryptor.checkPassword(inputPassword,
-   * encryptedPassword); } catch (Exception exception) {
-   * logger.error("Error in the method checkPassword :" + exception.getMessage());
-   * } return checkPassword; }
-   */
-
-  /**
    * Check if the user accounts exist.
    * 
    * @param emailAddress_user1 The given email

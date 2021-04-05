@@ -116,9 +116,9 @@ VALUES
 ;
 
 INSERT INTO public.transaction 
-(email_address_emitter, description, amount) 
+(email_address_emitter, email_address_receiver, description, amount) 
 VALUES 
-('adrien@mail.fr','pour le loyer',300)
+('adrien@mail.fr','isabelle@mail.fr','pour le loyer',300)
 ;
 
 INSERT INTO public.bank_account 

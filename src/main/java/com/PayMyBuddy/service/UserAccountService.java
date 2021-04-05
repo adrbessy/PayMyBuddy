@@ -62,17 +62,6 @@ public interface UserAccountService {
   public UserAccount encryptPassword(UserAccount userAccount);
 
   /**
-   * Check the validity of the password
-   * 
-   * @param inputPassword     The password entered by the user
-   * @param encryptedPassword The password encrypted
-   * @return true if there is a correspondance between both
-   */
-  /*
-   * public boolean checkPassword(String inputPassword, String encryptedPassword);
-   */
-
-  /**
    * Check if the user accounts exist.
    * 
    * @param emailAddressUser1 The given email
