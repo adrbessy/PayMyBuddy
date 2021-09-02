@@ -52,7 +52,6 @@ public class UserAccountController {
    * @param emailAddress An email address
    * @return - A user account
    */
-
   @GetMapping("/myUserAccount")
   public UserAccount getMyUserAccount(@RequestParam String emailAddress) {
     UserAccount userAccount = null;
