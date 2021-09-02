@@ -7,12 +7,27 @@
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    <div class="container text-center">
-        <h1>Welcome to Pay My Buddy</h1>
-        <h3><a th:href="@{/register}">Register</a></h3>
-        <h3><a th:href="@{/login}">Login</a></h3>
-    </div>
-     
+
+	<header>
+       	<ul class="nav justify-content-center mt-5">
+       	 	<li class="nav-item"><button type="submit" style="background-image:linear-gradient(to right, #61B959, #8AC34A); font-size: x-large; margin-top:1px; margin-bottom:1.5px;" class="btn text-white px-3 ml-0 pt-2">Pay My Buddy</button></li>
+       		<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:50px;" th:href="@{/register}">Send and Receive</a></li>
+       		<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/register}">Pay with PayMyBuddy</a></li>
+       		<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/register}">PayMyBuddy for Business</a></li>
+	        <li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/register}">Register</a></li>
+	        <li class="nav-item"><a class="nav-link" style="font-size: 130%; margin-left:5px;" th:href="@{/login}">Login</a></li>
+		</ul>
+    </header>
+  	<div class="row justify-content-center mt-5">
+	    <div class="col-4 mt-5">
+	      	<h1 style="margin-left:25px;">Pay friends</h1>
+	    </div>
+	    <div class="col-4">
+	      	<img src="../send_money.png" alt="Image of a person sending money to a friend" class="float-right" >
+	    </div>
+  	</div>
+		
 </body>
 </html>

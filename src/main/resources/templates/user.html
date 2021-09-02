@@ -4,22 +4,34 @@
     <meta charset="ISO-8859-1">
     <title>User</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <style>
+		  /* Your external css file will go here. This is just for testing :) */
+		.mycustombackground{
+		  background: #F5F5F5;
+		}
+		.active a{
+		    color: #316CD9 !important;
+		}
+		.breadcrumb-item + .breadcrumb-item::before {
+	       color: #89B0D2;
+	    }
+	</style> 
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<h1><a class="navbar-brand" href="#">Pay My Buddy</a></h1>
+		<nav class="navbar navbar-expand-lg navbar-light bg-white pl-1 py-0 mr-0">
+       		<button type="submit" style="background-image:linear-gradient(to right, #61B959, #8AC34A); font-size: x-large; margin-top:1px; margin-bottom:1.5px;" class="btn text-white px-3 ml-0 pt-2">Pay My Buddy</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-        	<ul class="navbar-nav">
-		        <li class="nav-item active"><a class="nav-link" th:href="@{/user}">Home</a></li>
-		        <li class="nav-item"><a class="nav-link" th:href="@{/transac}">Transfer</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Log off</a></li>
-        	</ul>
+	        	<ul class="navbar-nav ml-auto">
+			        <li class="nav-item active"><a class="nav-link" style="font-size: 130%;" th:href="@{/user}">Home</a></li>
+			        <li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/transac}">Transfer</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/profile}">Profile</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/contact}">Contact</a></li>
+					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/logout}">Log off</a></li>
+	        	</ul>
         	</div>
         </nav>
 	</header>
