@@ -13,38 +13,41 @@
 
 <body>
 	<div class="container">
-		<div class="row mt-3">
-			<nav class="col navbar navbar-expand-lg navbar-light">
-				<a class="navbar-brand btn text-white px-3 h1" href="/" style="background-image:linear-gradient(to right, #61B959, #8AC34A); margin-top:1px; margin-bottom:1.5px; font-size: 1.5rem;">Pay My Buddy</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				   <span class="navbar-toggler-icon"></span>
-				</button>
-				<div id="navbarContent" class="collapse navbar-collapse">
-			       	<ul class="navbar-nav">
-			       		<li class="nav-item"><a class="nav-link text-dark" th:href="@{/register}">Send and Receive</a></li>
-			       		<li class="nav-item"><a class="nav-link text-dark" th:href="@{/register}">Pay with PayMyBuddy</a></li>
-			       		<li class="nav-item"><a class="nav-link text-dark" th:href="@{/register}">PayMyBuddy for Business</a></li>
-				        <li class="nav-item"><a class="nav-link text-dark" th:href="@{/register}">Register</a></li>
-				        <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
-					</ul>
-				</div>
-		    </nav>
-	    </div>
-	  	<div class="row mt-5">
-		    <div class="col-12 col-md-6 mt-5">
+	
+		<!--Navigation bar-->
+		<div th:replace="nav"></div>
+		<!--end of Navigation bar-->
+	    
+	  	<div class="row">
+		    <div class="col-12 col-md-6 jumbotron">
 		    	<div class="row font-weight-bold" style="font-size: 2.5rem;">
-		      	Fast, safe,<br/>
-		      	social<br/>
-		      	payments
+			      	Fast, safe,<br/>
+			      	social<br/>
+			      	payments
 		      	</div>
-		      	<div class="row">
-		      	Pay. Get paid. Shop. Share. Join more than 70 million people who use the PayMyBuddy app.
+		      	<div class="row mt-2">
+		      		Pay. Get paid. Shop. Share. Join more than 70 million people who use the PayMyBuddy app.
+		      	</div>
+		      	<div class="row font-weight-bold mt-3" style="font-size: 2.5rem;">
+			      	How does it work ?
+		      	</div>
+		      	<div class="row mt-2">
+		      		With PayMyBuddy, send very simply money to your friends.<br/>
+		      		Only one phone number suffices. 
+		      	</div>
+		      	<div class="row mt-2">
+					<a class="btn text-white px-3" th:href="@{/register}" role="button" style="background-image:linear-gradient(to right, #61B959, #8AC34A); margin-top:1px; margin-bottom:1.5px; font-size: 1.5rem;">Subscribe now!</a>
 		      	</div>
 		    </div>
 		    <div class="col-12 col-md-6">
 		      	<img src="../send_money.png" alt="Image of a person sending money to a friend" class="float-right img-fluid" >
 		    </div>
 	  	</div>
+	  	
+		<!--Footer bar-->
+		<div th:replace="footer"></div>
+		<!--end of Footer bar-->
+		
 	</div>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

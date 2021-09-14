@@ -19,8 +19,14 @@
     </style>
 </head>
 <body>
-    <div class="container text-center mt-5">
-	    <div class="row justify-content-center px-5">
+    <div class="container">
+    
+    	<!--Navigation bar-->
+		<div th:replace="nav"></div>
+		<!--end of Navigation bar-->
+    
+    	<hr>
+	    <div class="row justify-content-center px-5 text-center">
 	        <form name="f" th:action="@{/login}" method="post" style="border: 2px solid #BABABA; padding: 5% 2.75%;" class="col-md-4 border-5 rounded pt-4 pb-5">
 					<div class="form-actions">
 	        			<button type="submit" style="background-image:linear-gradient(to right, #61B959, #8AC34A);" class="btn text-white px-3 font-weight-bold">Pay My Buddy</button>
@@ -50,6 +56,12 @@
 	        		</div> 	
 	        </form>
         </div>
+        <hr>
+        
+        <!--Footer bar-->
+		<div th:replace="footer"></div>
+		<!--end of Footer bar-->
+		
     </div>  
 </body>
 </html>
