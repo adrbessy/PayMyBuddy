@@ -22,24 +22,15 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-white pl-1 py-0 mr-0">
-       		<button type="submit" style="background-image:linear-gradient(to right, #61B959, #8AC34A); font-size: x-large; margin-top:1px; margin-bottom:1.5px;" class="btn text-white px-3 ml-0 pt-2">Pay My Buddy</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-	        	<ul class="navbar-nav ml-auto">
-			        <li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%;" th:href="@{/user}">Home</a></li>
-			        <li class="nav-item active"><a class="nav-link" style="font-size: 130%; margin-left:5px;" th:href="@{/transac}">Transfer</a></li>
-					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/profile}">Profile</a></li>
-					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/contact}">Contact</a></li>
-					<li class="nav-item"><a class="nav-link text-dark" style="font-size: 130%; margin-left:5px;" th:href="@{/logout}">Log off</a></li>
-	        	</ul>
-        	</div>
-        </nav>
-		    <nav aria-label="breadcrumb mycustombackground">
-		      <ol class="breadcrumb mycustombackground" style="padding-left:25px; font-size: 125%;">
-		        <li class="breadcrumb-item"><a th:href="@{/user}" style="padding-right:12.5px" >Home</a></li>
-		        <li class="breadcrumb-item active" aria-current="page"><span style="padding-left:12.5px">Transfer</span></li>
-		      </ol>
-		    </nav>
+		<!--Navigation bar-->
+		<div th:replace="userNav"></div>
+		<!--end of Navigation bar-->
+	    <nav aria-label="breadcrumb mycustombackground">
+	      <ol class="breadcrumb mycustombackground" style="padding-left:25px; font-size: 125%;">
+	        <li class="breadcrumb-item"><a th:href="@{/user}" style="padding-right:12.5px" >Home</a></li>
+	        <li class="breadcrumb-item active" aria-current="page"><span style="padding-left:12.5px">Transfer</span></li>
+	      </ol>
+	    </nav>
 	</header>
 	<div class="container">
 

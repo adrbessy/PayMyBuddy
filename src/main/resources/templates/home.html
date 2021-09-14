@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <style>
+		  /* Your external css file will go here. This is just for testing :) */
+		.mycustombackground{
+		  background: #F5F5F5;
+		}
+		.active a{
+		    color: #316CD9 !important;
+		}
+		.breadcrumb-item + .breadcrumb-item::before {
+	       color: #89B0D2;
+	    }
+	</style> 
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<header>
+		<!--Navigation bar-->
+		<div th:replace="userNav"></div>
+		<!--end of Navigation bar-->
+	</header>
+
+	<div class="container text-center">
+	    <div>
+	       <p>
+	           Welcome <b th:text="${user.firstName}">First name</b>
+	       </p>
+	    </div>
+	</div>
+</body>
+</html>

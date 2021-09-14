@@ -56,11 +56,12 @@ public class UserInterfaceController {
    * @param username The username
    * @return - The name of the html page
    */
-  @GetMapping("/user")
+  @GetMapping("/home")
   public String user(Model model, @CurrentSecurityContext(expression = "authentication?.name") String username) {
     UserAccount userAccount = userAccountController.getMyUserAccount(username);
     model.addAttribute("user", userAccount);
-    return "user";
+    model.addAttribute("activePage", "home");
+    return "home";
   }
 
   /**
@@ -77,6 +78,7 @@ public class UserInterfaceController {
     BankAccount newBankAccount = new BankAccount();
     model.addAttribute("myBankAccounts", myBankAccounts);
     model.addAttribute("newBankAccount", newBankAccount);
+    model.addAttribute("activePage", "profile");
     return "profile";
   }
 
@@ -86,10 +88,11 @@ public class UserInterfaceController {
    * @return - The name of the html page
    */
   @PostMapping("/addNewBankAccount")
-  public ModelAndView addNewBankAccount(@ModelAttribute BankAccount bankAccount,
+  public ModelAndView addNewBankAccount(Model model, @ModelAttribute BankAccount bankAccount,
       @CurrentSecurityContext(expression = "authentication?.name") String username) {
     bankAccount.setEmailAddress(username);
     bankAccountController.createBankAccount(bankAccount);
+    model.addAttribute("activePage", "profile");
     return new ModelAndView("redirect:/profile");
   }
 
@@ -108,6 +111,7 @@ public class UserInterfaceController {
     BankAccount newBankAccount = new BankAccount();
     model.addAttribute("myBankAccounts", myBankAccounts);
     model.addAttribute("newBankAccount", newBankAccount);
+    model.addAttribute("activePage", "profile");
     return "profile";
   }
 
@@ -139,6 +143,7 @@ public class UserInterfaceController {
     UserAccount userAccount = new UserAccount();
     model.addAttribute("friends", friendList);
     model.addAttribute("userAccount", userAccount);
+    model.addAttribute("activePage", "contact");
     return "friend";
   }
 
@@ -159,6 +164,7 @@ public class UserInterfaceController {
     model.addAttribute("friends", friendList);
     model.addAttribute("newTransaction", newTransaction);
     model.addAttribute("myBankAccounts", myBankAccounts);
+    model.addAttribute("activePage", "transfer");
     return "transaction";
   }
 
